@@ -1,0 +1,128 @@
+%!TEX root = ../dokumentation.tex
+
+\newcommand{\pdftitel}{Comparison of a Classical RAG Pipeline and an Agent-Based Approach for Intelligent Knowledge Retrieval Across Enterprise Documentation Sources}
+\newcommand{\autor}{Liam Thomson}
+\newcommand{\arbeit}{Bachelorarbeit}
+
+% Seitengröße
+\usepackage{fullpage}
+
+% Zeilenumbruch und mehr
+\usepackage[activate]{microtype}
+
+% Zeichencodierung
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% Zeilenabstand
+\usepackage[onehalfspacing]{setspace}
+
+% Index-Erstellung
+\usepackage{makeidx}
+
+% Language
+\usepackage[english]{babel}
+
+% Quotation marks
+\usepackage[babel]{csquotes}
+
+% Spezielle Tabellenform für Deckblatt
+\usepackage{longtable}
+\setlength{\tabcolsep}{10pt}
+\renewcommand{\arraystretch}{1.5}
+
+% Grafiken
+\usepackage{graphicx}
+
+% Farben
+\usepackage[dvipsnames]{xcolor}
+\definecolor{LinkColor}{rgb}{0,0,0.2}
+\definecolor{ListingBackground}{rgb}{0.92,0.92,0.92}
+
+% Titel, Autor und Datum
+\title{\titel}
+\author{\autor}
+\date{\datum}
+
+% PDF Einstellungen
+\usepackage[%
+	pdftitle={\pdftitel},
+	pdfauthor={\autor},
+	pdfsubject={\arbeit},
+	pdfcreator={pdflatex, LaTeX with KOMA-Script},
+	pdfpagemode=UseOutlines,
+	pdfdisplaydoctitle=true,
+	pdflang=en
+]{hyperref}
+
+\hypersetup{%
+	colorlinks=true,
+	linkcolor=LinkColor,
+	citecolor=LinkColor,
+	filecolor=LinkColor,
+	menucolor=LinkColor,
+	urlcolor=LinkColor,
+	bookmarksnumbered=true
+}
+
+% Literaturverweise nach Harvard
+\usepackage[dcucite]{harvard}
+
+% Schriftart
+\usepackage{palatino}
+
+% Hurenkinder und Schusterjungen verhindern
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+
+% Quellcode
+\usepackage{listings}
+\lstloadlanguages{Python}
+\lstset{%
+	language=Python,
+	stepnumber=1,
+	numbersep=5pt,
+	numberstyle=\tiny,
+	breaklines=true,
+	breakautoindent=true,
+	postbreak=\space,
+	tabsize=2,
+	basicstyle=\ttfamily\footnotesize,
+	showspaces=false,
+	showstringspaces=false,
+	extendedchars=true,
+	captionpos=b,
+	backgroundcolor=\color{ListingBackground}
+}
+
+% Glossar
+\usepackage[
+	nonumberlist,
+	toc,
+]{glossaries}
+
+% Akronyme
+\usepackage[printonlyused,footnote]{acronym}
+
+% Fußnoten
+\usepackage[perpage, hang, multiple, stable]{footmisc}
+
+% Bildpfad
+\graphicspath{{images/}}
+
+\usepackage{bookmark}
+
+\usepackage{float}
+
+\usepackage{array}
+
+\usepackage{booktabs}
+
+\usepackage[right]{eurosym}
+
+\usepackage{wrapfig}
+
+\usepackage{comment}
+\specialcomment{k}{\begingroup\color{red}}{\endgroup}
+%\excludecomment{k}

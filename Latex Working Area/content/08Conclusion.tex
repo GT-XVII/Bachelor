@@ -1,0 +1,34 @@
+%!TEX root = ../dokumentation.tex
+
+\chapter{Conclusion}
+\label{ch:conclusion}
+
+\section{Summary of Findings}
+
+This thesis compared a classical Retrieval-Augmented Generation (RAG) pipeline with a ReAct agent-based system for knowledge retrieval across a heterogeneous enterprise documentation corpus. Both systems were implemented from scratch, shared the same embedding model, chunking strategy, reranker, and LLM, and were evaluated over 90 queries spanning four types — factual, synthesis, ambiguous, and unanswerable — against three simulated enterprise source types.
+
+The RAG pipeline outperformed the agent on every quality metric for which comparison was possible. On factual queries, RAG achieved a context precision of 0.546 and an answer relevancy of 0.792; the agent achieved 0.338 and 0.663 respectively, with 41\% of queries failing to produce any answer. The agent's only structural advantage — explicit, auditable source routing — achieved an accuracy of 73.3\%, confirming that the natural-language tool descriptions provide a workable but imperfect routing signal. This routing capability did not translate into higher answer quality in any measured category.
+
+The latency and cost differences are substantial. The RAG pipeline completed queries in a mean of 2.51 seconds; the agent required 16.33 seconds — 6.5 times longer. Token consumption for the agent was 15.7 times higher than for RAG, producing an estimated cost ratio of 11.2 to~1 over the 90-query evaluation. These figures are structural consequences of the ReAct architecture: each tool call extends the message history, and the model re-processes the full history at each subsequent step, causing input token counts to accumulate faster than linearly with iteration depth.
+
+The complexity rubric assigns RAG a mean score of 4.0 out of 5 and the agent 2.2, reflecting RAG's advantages in debuggability, extensibility, and operational overhead. Adding a new data source to RAG requires two steps; the agent requires five, spanning four files and necessitating revalidation of routing behaviour across all existing tools. These implementation differences compound over the lifetime of a deployed system, where data sources are added incrementally and team members change.
+
+
+\section{Practical Recommendation}
+
+For enterprise teams facing the architectural decision between classical RAG and an agent-based retrieval system, the findings of this evaluation support a clear starting position: implement the classical RAG pipeline first. It is faster to build, easier to debug, substantially cheaper to run, and in this evaluation produced better or equivalent quality on every metric for which a comparison was possible. The additional complexity of the agentic architecture did not produce quality gains that would justify the 11.2$\times$ cost premium or the 6.5$\times$ latency increase in a general-purpose retrieval context.
+
+The agent-based approach warrants serious consideration in three specific circumstances. First, when the enterprise knowledge landscape consists of source types with genuinely non-overlapping terminology and structure — for example, formal regulatory documents alongside internal chat logs — the agent's ability to direct queries to the appropriate source type provides a retrieval quality floor that a unified index may not achieve. Second, when source attribution is a hard requirement — for compliance auditing, citation trails in regulated industries, or escalation routing in automated workflows — the agent's \texttt{sources\_used} trace provides a record that the RAG pipeline cannot. Third, when the query volume is low and per-query cost is secondary to answer completeness — as in expert research assistance rather than bulk information retrieval — the agent's multi-source synthesis capability is worth the additional investment.
+
+In practice, a graduated adoption path reflects the findings most accurately: deploy the RAG pipeline for the initial production system, instrument it with the structured logging developed in this thesis to capture retrieval quality signals, and use those signals to identify the subset of query types where routing failures are causing measurable quality degradation. If that subset is large and consistent, the agent-based architecture becomes a targeted upgrade rather than a wholesale replacement.
+
+
+\section{Future Work}
+
+Three directions offer the highest potential return for building on this evaluation.
+
+\textbf{Real enterprise data validation.} The proxy corpus used in this evaluation — GitHub Issues, Markdown documentation, and CNCF whitepapers — approximates enterprise knowledge systems but cannot reproduce their full complexity: proprietary terminology, access-control fragmentation, inconsistent document quality, and mixed languages. Replicating this evaluation on a live enterprise corpus — with appropriate data governance controls — would test whether the quality and latency relationships observed here hold under those conditions or whether real-world noise substantially changes the comparative picture.
+
+\textbf{Agent iteration budget and query classification.} The 41\% agent failure rate at \texttt{MAX\_ITERATIONS}=15 suggests that a fixed iteration ceiling is an inadequate mechanism for managing the reasoning model's thoroughness. A learned query classifier that predicts expected iteration depth from query features — complexity, query type, source count — could dynamically allocate a per-query budget, preventing exhaustion on simple queries while allowing thorough search on synthesis queries. Alternatively, a partial-answer extraction mechanism that constructs a response from intermediate trace steps before the ceiling is reached would eliminate the empty-answer failure mode without requiring a lower ceiling.
+
+\textbf{Multi-agent coordination.} The present agent implementation uses a single reasoning model that selects and executes tools sequentially. A multi-agent architecture — in which a coordinator agent dispatches parallel sub-agents to each source type and synthesises their results — would reduce latency by parallelising tool calls and decouple retrieval quality from the routing accuracy of a single model. The structured logging developed in this thesis, particularly the per-step \texttt{agent\_trace}, provides a monitoring substrate that a multi-agent system could use for orchestration and quality gating without additional instrumentation.

@@ -1,0 +1,186 @@
+%!TEX root = ../dokumentation.tex
+
+\chapter{Evaluation Results}
+\label{ch:results}
+
+\section{Retrieval and Generation Quality}
+\label{sec:quality}
+
+Table~\ref{tab:quality-main} reports context precision, answer relevancy, BERTScore F1, and ROUGE-L for the two primary query types — factual and synthesis — across both systems. Ambiguous and unanswerable queries are discussed in Section~\ref{sec:robustness} because the absence of well-defined ground-truth strings makes their metric values unreliable for direct comparison.
+
+\begin{table}[ht]
+\centering
+\caption{Quality metrics by system and query type. Faithfulness is reported separately in Table~\ref{tab:faithfulness}. BERTScore uses \texttt{microsoft/deberta-xlarge-mnli} with baseline rescaling; values above zero indicate performance above the baseline model.}
+\label{tab:quality-main}
+\begin{tabular}{llcccc}
+\hline
+\textbf{System} & \textbf{Query type} & \textbf{Context prec.} & \textbf{Ans. relevancy} & \textbf{BERTScore F1} & \textbf{ROUGE-L} \\
+\hline
+RAG   & Factual   & 0.546 & 0.792 & 0.217  & 0.346 \\
+RAG   & Synthesis & 0.730 & 0.679 & 0.128  & 0.176 \\
+Agent & Factual   & 0.338 & 0.663 & $-$0.260 & 0.151 \\
+Agent & Synthesis & 0.315 & 0.547 & $-$0.355 & 0.080 \\
+\hline
+\end{tabular}
+\end{table}
+
+The RAG pipeline outperforms the agent on every reported metric for both query types. The gap is largest for context precision: on synthesis queries, RAG achieves 0.730 against the agent's 0.315, a difference of 0.415 points. On factual queries the gap is smaller but still substantial — 0.546 versus 0.338. Answer relevancy follows the same pattern, with RAG scoring 0.792 on factual queries against the agent's 0.663. BERTScore F1 reinforces these findings: the RAG system scores above the DeBERTa rescaling baseline on both factual and synthesis queries, while the agent scores below baseline for both. ROUGE-L shows the same direction with similar magnitude differences.
+
+A substantial portion of the agent's quality deficit is attributable to query failures. Of the 90 agent queries, 37 reached the maximum iteration limit of 15 and returned an empty answer string. Empty answers are assigned a BERTScore of 0 before rescaling, which yields the observed floor value of $-$1.06 for those queries; the means in Table~\ref{tab:quality-main} include these zero-scored records. For the 53 queries that returned a complete answer, the agent's lexical and semantic similarity scores would be meaningfully higher, though a controlled comparison on answered-only queries is not reported here because it would exclude a systematically harder subset of queries. The failure rate itself is a meaningful quality signal: a system that produces no answer for 41\% of queries imposes a substantial reliability cost relative to the RAG pipeline, which returned an answer for all 90 queries.
+
+\begin{table}[ht]
+\centering
+\caption{Faithfulness by system and query type. Agent faithfulness is unavailable because the RAGAS LLM judge timed out on all 90 agent queries; the agent's longer, multi-paragraph synthesis answers exceeded the judge's time budget. RAG synthesis faithfulness is also unavailable due to isolated timeout errors on that query subset.}
+\label{tab:faithfulness}
+\begin{tabular}{llc}
+\hline
+\textbf{System} & \textbf{Query type} & \textbf{Faithfulness} \\
+\hline
+RAG   & Factual       & 0.853 \\
+RAG   & Ambiguous     & 0.707 \\
+RAG   & Unanswerable  & 0.717 \\
+RAG   & Synthesis     & n/a (timeout) \\
+Agent & All types     & n/a (timeout) \\
+\hline
+\end{tabular}
+\end{table}
+
+The RAG system demonstrates high faithfulness on the query types for which measurement was possible. A score of 0.853 on factual queries indicates that the large majority of claims in the generated answers are directly supported by the retrieved context, which is the expected behaviour of a retrieval-grounded generation system. Faithfulness scores of 0.707 and 0.717 on ambiguous and unanswerable queries respectively are harder to interpret — the model generated an answer even when the correct response was to decline or flag uncertainty, and those answers were still rated as broadly grounded in the provided context. Agent faithfulness remains unmeasured due to evaluation infrastructure constraints, which is itself informative: the agent's reasoning model (\texttt{gpt-oss-120b}) produces substantially longer responses with embedded chain-of-thought, and the RAGAS faithfulness metric — which decomposes the answer into atomic claims and verifies each — exceeded its per-query time budget on every agent response. Whether the agent's answers are more or less faithful than RAG's cannot be determined from this evaluation.
+
+Table~\ref{tab:routing} reports agent-specific metrics. The agent selected the correct source type for 73.3\% of queries across the three applicable query types. Routing accuracy was highest on ambiguous queries (80.0\%), where the underspecified phrasing may have forced the agent to rely more heavily on source type matching rather than surface keyword overlap. Synthesis queries showed the lowest routing accuracy (70.0\%), which is consistent with their cross-source nature: the agent must identify two relevant source types from a single query, and a single wrong tool choice is counted as a routing failure. The mean tool call count per query was not directly extracted from the aggregated results file but can be inferred from the token ratio — the agent consumed 15.7 times as many input tokens as RAG, reflecting the multi-step context accumulation across tool calls.
+
+\begin{table}[ht]
+\centering
+\caption{Agent routing accuracy by query type. Unanswerable queries are excluded because no source type is expected. Correct is defined as: at least one tool call targets the expected source type; for cross-source synthesis queries, both expected source types must appear.}
+\label{tab:routing}
+\begin{tabular}{lccc}
+\hline
+\textbf{Query type} & \textbf{Queries} & \textbf{Correct} & \textbf{Accuracy} \\
+\hline
+Factual    & 30 & 22 & 73.3\% \\
+Synthesis  & 30 & 21 & 70.0\% \\
+Ambiguous  & 15 & 12 & 80.0\% \\
+\hline
+\textbf{Overall} & \textbf{75} & \textbf{55} & \textbf{73.3\%} \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\section{Latency and Cost}
+\label{sec:latency}
+
+Table~\ref{tab:latency} reports response latency statistics across all 90 queries for each system, together with a per-query-type breakdown of the mean. All measurements are wall-clock times captured with \texttt{time.perf\_counter()} on the same M4 workstation over the same AI Refinery API endpoint; hardware and network conditions are therefore identical for both systems.
+
+\begin{table}[ht]
+\centering
+\caption{Response latency (seconds) across all 90 queries per system.}
+\label{tab:latency}
+\begin{tabular}{lcccccc}
+\hline
+\textbf{System} & \textbf{Mean} & \textbf{Median} & \textbf{Std dev} & \textbf{Min} & \textbf{Max} \\
+\hline
+RAG   & 2.51  & 2.03  & 1.17  & 1.05  & 5.84 \\
+Agent & 16.33 & 17.38 & 8.17  & 2.16  & 29.14 \\
+\hline
+\end{tabular}
+\end{table}
+
+The agent is 6.5 times slower than the RAG pipeline by mean latency and 8.6 times slower by median. The agent's standard deviation of 8.17 seconds is also seven times larger than RAG's 1.17 seconds, indicating far greater variability — a property that complicates latency budgeting in production deployments. The RAG pipeline's latency distribution is narrow and predictable: a single FAISS search, one cross-encoder reranking pass, and one LLM call compose the full query path, and each stage is bounded.
+
+Table~\ref{tab:latency-by-type} reveals a particularly sharp divergence on unanswerable queries. The RAG pipeline answers unanswerable queries in 1.52 seconds on average — faster than any other query type — because the retrieval stage surfaces context that is not relevant, the LLM quickly determines that the question cannot be answered, and returns a short declining response. The agent, by contrast, takes 22.85 seconds on average for the same query type. The agent searches exhaustively across multiple tools before concluding that no relevant information exists in any source, spending on average more than five times longer than on factual queries. This behavioural difference has a direct practical consequence: in an enterprise deployment with a steady stream of off-topic queries, the agent incurs disproportionate latency and token costs precisely where the correct answer is the shortest possible.
+
+\begin{table}[ht]
+\centering
+\caption{Mean latency (seconds) by query type and system.}
+\label{tab:latency-by-type}
+\begin{tabular}{lcc}
+\hline
+\textbf{Query type} & \textbf{RAG} & \textbf{Agent} \\
+\hline
+Factual        & 2.07  & 12.56 \\
+Synthesis      & 3.62  & 17.84 \\
+Ambiguous      & 2.15  & 14.34 \\
+Unanswerable   & 1.52  & 22.85 \\
+\hline
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:cost} reports total token consumption and estimated cost for the full 90-query evaluation run. Input and output token counts are sourced directly from the API response objects for the RAG pipeline and from \texttt{get\_openai\_callback()} for the agent, which accumulates tokens across all LLM calls within each ReAct loop. Cost estimates use GPT-4o proxy pricing of \$2.50 per million input tokens and \$10.00 per million output tokens, applied uniformly to both systems; this is an approximation, as AI Refinery pricing is not published externally.
+
+\begin{table}[ht]
+\centering
+\caption{Token consumption and estimated cost for 90 queries. Cost estimates use GPT-4o proxy pricing (\$2.50/M input, \$10.00/M output).}
+\label{tab:cost}
+\begin{tabular}{lrrrr}
+\hline
+\textbf{System} & \textbf{Input tokens} & \textbf{Output tokens} & \textbf{Total tokens} & \textbf{Est. cost (USD)} \\
+\hline
+RAG   & 316,712   & 38,495  & 355,207   & \$1.18  \\
+Agent & 4,966,751 & 82,184  & 5,048,935 & \$13.24 \\
+\hline
+Ratio (Agent/RAG) & $\times$15.7 & $\times$2.1 & $\times$14.2 & $\times$11.2 \\
+\hline
+\end{tabular}
+\end{table}
+
+The agent consumed 15.7 times as many input tokens as the RAG pipeline. This ratio is substantially higher than the latency ratio of 6.5$\times$ because input tokens accumulate quadratically in the ReAct loop: each additional tool call appends the full observation text to the message history, and the model receives the entire growing history at the start of each subsequent agent node. For unanswerable queries, which triggered the longest tool-call sequences, this accumulation is most severe — consistent with both the highest mean latency and the largest per-query token spend for that category. Projected to 1,000 queries, the agent would cost approximately \$147 compared to \$13 for RAG, a difference that would be significant in any enterprise deployment with a substantial query volume.
+
+
+\section{Implementation Complexity and Maintainability}
+\label{sec:complexity}
+
+The complexity rubric defined in Section~4.3.5 assigns scores from~1 (highest complexity) to~5 (lowest complexity) across five criteria. Scores reflect the implementation experience documented in Chapter~5, with objective proxies cited where available. Table~\ref{tab:rubric} presents the scores and their justifications.
+
+\begin{table}[ht]
+\centering
+\caption{Complexity and maintainability rubric. Score~5 = simpler / lower complexity. Objective proxies are cited in parentheses.}
+\label{tab:rubric}
+\begin{tabular}{lp{4.8cm}cc}
+\hline
+\textbf{Criterion} & \textbf{Justification} & \textbf{RAG} & \textbf{Agent} \\
+\hline
+Implementation effort &
+  RAG: 377~LoC across five files. Agent: 563~LoC, a 49\% increase driven by the tool layer and pipeline adaptations for multi-step logging. &
+  4 & 2 \\
+Configurability &
+  RAG \texttt{config.py} exposes 12 tunable parameters. Agent \texttt{config.py} exposes 16, adding per-tool top-k, max iterations, and a longer system prompt requiring source-aware routing instruction. &
+  4 & 3 \\
+Debuggability &
+  RAG has a linear three-stage pipeline; a wrong answer is traceable to a single stage via FAISS scores, rerank scores, or the LLM call. Agent failures involve non-deterministic tool selection, multi-step context accumulation, and the max-iterations failure mode, requiring reconstruction of the full \texttt{agent\_trace}. &
+  5 & 2 \\
+Extensibility &
+  Adding a new source to RAG requires two steps: extend the corpus JSONL and rebuild the unified index. Adding a source to the agent requires five steps: extend the corpus, build a new per-source index, write a new \texttt{@tool} function, register it in \texttt{agent.py}, update the system prompt, and retest routing. &
+  3 & 2 \\
+Operational overhead &
+  RAG requires one runtime service (the LLM API) and one index file. The agent requires the same LLM API plus three index files, LangGraph's StateGraph executor, and the LangChain tool scaffolding — a larger surface area for runtime failures. &
+  4 & 2 \\
+\hline
+\textbf{Unweighted mean} & & \textbf{4.0} & \textbf{2.2} \\
+\hline
+\end{tabular}
+\end{table}
+
+The RAG pipeline scores consistently higher across all five criteria. The largest single-criterion gap is in debuggability: the linear data flow of RAG makes failure attribution straightforward, whereas the agent's multi-step, non-deterministic loop requires end-to-end trace inspection to diagnose a problem. During development, the agent encountered three distinct failure modes not present in the RAG pipeline — routing errors where the agent queried an incorrect source, hallucinated tool names that LangGraph returned as error observations, and the max-iterations boundary — each requiring different diagnostic procedures. The RAG pipeline encountered two failure modes, both traceable to a single misconfiguration in one stage.
+
+The extensibility criterion deserves particular attention in the enterprise context. The five-step process required to add a new data source to the agent is not merely more time-consuming than RAG's two-step equivalent; it also requires a coordinated change across four files and a re-evaluation of routing behaviour, because adding a new tool can alter how the model distributes queries across existing tools. In RAG, all sources share a single index and routing is implicit in retrieval ranking, so a new source requires no change to any code path. This difference scales with the number of source types an enterprise deployment must support.
+
+
+\section{Robustness Observations}
+\label{sec:robustness}
+
+\subsection*{Negative Rejection}
+
+The negative rejection dimension from \citeasnoun{gao2023ragsurvey} concerns the system's ability to decline answering questions whose answer does not exist in the corpus. The RAG pipeline demonstrated a mixed pattern on the 15 unanswerable queries. Answer relevancy averaged 0.0 for that category, indicating the model frequently produced a response that the RAGAS judge found irrelevant to the question — consistent with the system generating a hedged answer citing marginally related context rather than cleanly refusing. Faithfulness was 0.717 for unanswerable queries, suggesting that while the responses were largely grounded in retrieved content, the model did not consistently recognise that the retrieved content was insufficient to answer the question. The agent showed similar behaviour on the queries it completed, but 14 of the 15 unanswerable queries produced empty answers due to max-iterations exhaustion, which prevented meaningful faithfulness or relevancy measurement for that category.
+
+\subsection*{Agent Empty-Answer Failures}
+
+The most significant robustness finding of the evaluation is that 37 of 90 agent queries (41\%) reached the maximum iteration limit of 15 and returned an empty answer string. These failures are concentrated in synthesis and unanswerable categories, where the reasoning model issued the largest numbers of tool calls before concluding — consistent with the mean latency of 22.85 seconds observed for unanswerable queries. Raising \texttt{MAX\_ITERATIONS} from~6 to~15 during the evaluation setup — after the first run revealed a 60\% failure rate — substantially reduced but did not eliminate the failure mode, suggesting that \texttt{gpt-oss-120b}'s thorough multi-step reasoning strategy is structurally mismatched with a fixed iteration ceiling. In production, a higher ceiling or a query classifier that routes to a simpler system when the query is unanswerable would be necessary.
+
+\subsection*{Noise Robustness and Context Precision}
+
+The high context precision score for RAG on synthesis queries (0.730) reflects the unified index's ability to retrieve relevant chunks from multiple documents in a single FAISS pass, with no routing decision required. The agent achieved a substantially lower context precision on the same query type (0.315), driven partly by routing failures — queries where the agent queried only one of two required source types — and partly by the empty-answer failures described above. The 26-point gap in context precision between the two systems on synthesis queries is therefore not attributable to a deficiency in per-tool retrieval quality, which is identical by design, but to the routing layer's inability to consistently identify all relevant source types for multi-source queries.
+
+\subsection*{Evaluation Metric Limitations}
+
+Two evaluation metric limitations affected the completeness of the results. First, as documented in Table~\ref{tab:faithfulness}, RAGAS faithfulness measurement was unavailable for the agent across all query types because the LLM judge timed out on the agent's longer reasoning-model responses. Faithfulness is the metric most directly associated with hallucination risk, and its absence for the agent is a meaningful gap — it prevents any conclusion about whether the agent's synthesis answers are more or less grounded than RAG's. Second, BERTScore values for ambiguous and unanswerable queries reach the rescaled floor of $-$1.06 for both systems, because those query types either lack ground-truth strings (unanswerable) or have ground-truth strings defined relative to the disambiguated interpretation of the query (ambiguous), which the rescaling baseline treats as empty-reference comparisons. Both of these metric gaps are noted as limitations in Section~\ref{sec:limitations}.

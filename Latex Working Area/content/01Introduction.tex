@@ -1,0 +1,64 @@
+%!TEX root = ../dokumentation.tex
+
+\chapter{Introduction}
+\label{ch:introduction}
+
+\section{The Enterprise Knowledge Problem}
+
+Knowledge in large organisations is rarely located in one place. Relevant information is typically distributed across issue trackers, collaborative wikis, document repositories, and local file systems — each with its own search interface, data model, and access pattern. When a team member needs a precise, context-aware answer to an operational or client-related question, locating that answer requires either navigating multiple systems in sequence or relying on the tacit knowledge of a colleague who has already done so. This dependency on individual expertise creates fragility: when key contributors are unavailable, institutional knowledge becomes effectively inaccessible.
+
+The problem is compounded by the structural diversity of enterprise sources. Issue tracker entries — such as Jira tickets — are short, structured, and dominated by metadata fields: status, assignee, priority, and linked items. Collaborative wiki pages — such as Confluence articles — are longer, discursive, and typically organised by project or function. Whitepapers and policy documents stored in SharePoint or similar repositories are formally structured but may span dozens of pages, with the most relevant passage buried in a single subsection. A retrieval system that performs well on one of these source types does not necessarily perform well on the others, because the retrieval semantics, document length distribution, and appropriate context window differ substantially between them.
+
+The aggregate cost of this fragmentation is well-recognised in practice. Time spent locating information rather than acting on it reduces operational efficiency; answers derived from incomplete retrieval produce decisions based on partial evidence; and the accumulation of tacit knowledge in individuals rather than in shared, queryable systems represents a structural risk for organisations with high staff turnover or geographically distributed teams. Automated knowledge retrieval systems, if they can operate reliably across heterogeneous sources, offer a direct remedy to each of these failure modes.
+
+
+\section{Motivation for a Fresh Implementation}
+
+Prior enterprise RAG deployments have addressed the knowledge retrieval problem by ingesting corporate knowledge objects, segmenting them into fixed-size text chunks, converting those chunks into dense vector embeddings, and storing them in a searchable index. At query time, a user's question is embedded and matched against the stored vectors; the most similar segments are passed to a large language model (LLM) as context, and a natural-language answer is generated in response. This pattern is well-established and has been applied in internal Accenture projects that provided the motivating context for this thesis.
+
+Such deployments demonstrate that semantic retrieval over enterprise knowledge sources is technically feasible and useful in an operational context. Evaluation of these systems also surfaces a set of structural limitations that motivate the present thesis directly. Chunking strategy — the method by which documents are divided into retrievable segments — proved difficult to calibrate: segments that were too short lost the surrounding context necessary for coherent answers, while segments that were too long introduced irrelevant content into the retrieval signal. Source-specific retrieval quality varied significantly, with issue tracker entries and wiki pages responding differently to the same embedding and retrieval configuration despite nominally belonging to the same index. The setup and maintenance burden was non-trivial, and extending the system to additional data sources required manual reconfiguration of the ingestion pipeline for each new source type.
+
+These limitations are not specific to any single implementation; they are recognised failure modes of classical RAG pipelines applied to heterogeneous source collections \cite{gao2023ragsurvey}. A fixed retrieval pipeline — one that applies the same chunking, embedding, and retrieval strategy uniformly across all source types — may be structurally ill-suited to environments where source documents differ substantially in length, format, and information density. This structural mismatch is the central motivation for examining an agent-based alternative.
+
+
+\section{Two Paradigms Under Comparison}
+
+Retrieval-Augmented Generation addresses the knowledge limitation of LLMs by supplementing generation with externally retrieved content. In a classical RAG pipeline, a query is encoded as a vector, matched against a pre-built index of document embeddings, and the most relevant chunks are provided to the LLM as context for generating an answer. The approach grounds language model outputs in external knowledge, reducing factual hallucination and enabling knowledge updates without model retraining \cite{lewis2020rag}. Classical RAG follows a fixed sequential structure: the retrieval step always occurs, always queries the same index, and always returns a fixed number of chunks, regardless of the query's nature, complexity, or appropriate source.
+
+Agent-based systems represent a different paradigm. Rather than following a predetermined retrieval pipeline, an LLM-based agent reasons explicitly about what information is needed, selects the appropriate tool or data source to query, executes that query, observes the result, and iterates until the query is satisfactorily resolved \cite{yao2023react}. In a multi-source enterprise context, this means the agent can route a question about a software defect to an issue tracker retriever, a question about a deployment procedure to a documentation retriever, and a question about organisational standards to a PDF retriever — all within the same reasoning loop. Source routing, task decomposition, and iterative retrieval become explicit, observable steps in the agent's decision process rather than implicit assumptions baked into a fixed pipeline.
+
+The two paradigms differ substantially in their design philosophy and expected performance characteristics. Classical RAG optimises for simplicity and predictability: a single retrieval step, a fixed context window, and a deterministic pipeline that is straightforward to deploy and monitor. Agent-based retrieval optimises for adaptability: dynamic source selection, multi-step reasoning, and the ability to refine a retrieval strategy based on intermediate observations. Whether this adaptability produces measurably better answers — and at what cost in latency, token usage, and implementation effort — is the central empirical question this thesis addresses.
+
+
+\section{Research Questions}
+
+Four research questions structure the comparative evaluation:
+
+\begin{enumerate}
+
+  \item \textit{How does a classical RAG pipeline compare to an agent-based approach in terms of latency, cost, and retrieval performance in enterprise environments?}
+
+  This question establishes the baseline empirical comparison. Latency and cost are the primary operational constraints in enterprise deployment; retrieval performance — measured through context relevance, answer faithfulness, and answer relevance — determines whether either system is fit for the task at all. Without this foundation, comparisons of architectural sophistication are not grounded in observable outcomes.
+
+  \item \textit{To what extent does an agent-based system improve source selection and answer quality compared to RAG?}
+
+  Source selection accuracy — whether the system queries the appropriate document type for a given question — is a capability that agent-based systems are specifically designed to support but that classical RAG pipelines, by design, cannot implement. This question tests whether that architectural advantage translates into measurable quality gains, particularly on queries that span multiple source types or require iterative retrieval.
+
+  \item \textit{What are the differences in implementation complexity and maintainability between both approaches?}
+
+  A system that produces marginally better answers but requires substantially more effort to build, configure, and extend may not represent the right architectural choice for the majority of enterprise teams. By making implementation complexity an explicit evaluation dimension — assessed through code volume, configuration depth, and the effort required to onboard a new data source — this question ensures that the comparison is practically actionable.
+
+  \item \textit{Under which conditions is each approach preferable in practice?}
+
+  The first three questions yield comparative measurements across individual dimensions; the fourth synthesises them into a conditional recommendation. Given a specific combination of corpus characteristics, query complexity distribution, team expertise, and resource constraints, which architecture is the more appropriate choice? This question is the applied output of the thesis and its primary contribution to practitioners facing this architectural decision.
+
+\end{enumerate}
+
+
+\section{Scope and Delimitations}
+
+This thesis focuses on the comparative evaluation of two retrieval architectures — a classical RAG pipeline and a ReAct-based agent — applied to a shared corpus of enterprise-proxy documents. Both systems are implemented as functional research prototypes and evaluated under identical conditions; the findings are intended to inform architectural decisions, not to constitute a production deployment recommendation.
+
+Several topics fall outside the scope of this work. Production hardening — including security, access control, rate limiting, and audit logging — is not addressed; both systems are evaluated in a controlled, single-user experimental environment. User studies and human evaluation of answer quality are excluded; evaluation relies on automated metrics supplemented by LLM-as-judge scoring, a methodology validated by \citeasnoun{es2023ragas} as sufficiently correlated with human judgements for comparative evaluation purposes. Multi-agent coordination — systems in which multiple specialist agents collaborate on a single query — is beyond the scope of the implementation; the agent system uses a single reasoning loop with multiple tools. Fine-tuning of either the LLM or the embedding model on enterprise-specific data is not performed; both systems rely on general-purpose pre-trained models.
+
+The document corpus consists of three open, publicly available source types: GitHub Issues, Markdown documentation, and PDF whitepapers. These are selected as structural proxies for the enterprise source types — Jira tickets, Confluence wiki pages, and SharePoint documents — that characterise the enterprise knowledge retrieval problem. This proxy design enables reproducible academic evaluation without requiring proprietary data access. It introduces a generalisability limitation, which is addressed in Chapter~\ref{ch:discussion}.

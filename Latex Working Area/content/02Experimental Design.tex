@@ -1,0 +1,865 @@
+%!TEX root = ../dokumentation.tex
+
+\chapter{Experimental Design}
+
+% Scope of the Experimental Design (revised)
+\section{Scope of the Experimental Design}
+
+This chapter describes the data construction, feature extraction, and experimental setup developed for the EventAlpha study. It provides a coherent account of how raw financial and news data are transformed into a structured modelling dataset, and how this dataset is used in the subsequent predictive analysis.
+
+In contrast to a purely implementation-focused description, the emphasis is placed on the methodological decisions that define the empirical setting. These include the definition of the observation window, the construction of firm–event pairs, the design of feature representations, the definition of prediction targets, and the evaluation protocol.
+
+While implementation details are included where necessary for reproducibility, the primary goal of this chapter is to document the experimental design that underlies the modelling results presented in the following chapter.
+
+\section{Data Collection}
+
+The dataset used in this thesis is constructed through a multi-stage pipeline that combines equity universe definitions, market price data, large-scale news event extraction, article-level content retrieval, and short-horizon market reaction measurements. The overall objective is to create temporally aligned observations in which a firm-specific news event can be related to subsequent stock price behaviour.
+
+The pipeline begins with the definition of the stock universe and the collection of daily price series for those securities. It then incorporates firm-specific news mentions obtained from the Global Database of Events, Language, and Tone (GDELT), followed by article scraping to retrieve textual content from selected sources. In the final stage, intraday price data are used to measure short-term reactions after publication. Together, these steps form the empirical basis for the later evaluation of both baseline sentiment signals and more feature-rich event representations.
+
+\section{Final Analytical Dataset and Evaluation Setup}
+
+This section summarises the final dataset and modelling configuration used throughout the empirical evaluation before the chapter turns to the lower-level implementation details of the individual pipeline stages.
+
+\subsection{Sample Construction and Attrition}
+
+The starting point of the dataset is the full GDELT 2 GKG stream for 2025. This initial pool contains on the order of one million article-level records. The sample is reduced in two main stages.
+
+First, the dataset is restricted to January 2025 and  a predefined set of 22 financially relevant whitelist domains. This step removes a large portion of general news and low-relevance sources.
+
+Second, a full scraping pass is executed on the January 2025 subset of these domains. Due to domain-specific access restrictions, parsing limitations, and consent mechanisms, only 12 of the 22 domains yield usable article content under the implemented retrieval strategy.
+
+After filtering for successful extraction of both headline and body text, the final dataset consists of 3{,}816 usable article--firm observations for the S\&P 100 universe in January 2025. Each observation corresponds to a unique (article, firm) pair with a single assigned company.
+
+\subsection{Prediction Targets}
+
+The modelling task focuses on short-horizon daily price reactions. Two return targets are defined:
+\begin{itemize}
+    \item 1-day return: from same-day close to next-day close
+    \item 2-day return: from same-day close to day-2 close
+\end{itemize}
+
+For classification, these continuous returns are converted into directional labels using a threshold of $\pm 0.1\%$, with small movements excluded as noise.
+
+\subsection{Feature Representations}
+
+Two main textual representations are considered:
+\begin{itemize}
+    \item \textbf{Headline-only baseline}: a single sentiment signal derived from the article headline
+    \item \textbf{Feature-rich representation}: a multidimensional LLM-derived event vector including direction, magnitude, novelty, uncertainty, event type, and time horizon
+\end{itemize}
+
+In addition, two modelling variants are evaluated:
+\begin{itemize}
+    \item \textbf{Identity-aware}: includes \texttt{symbol} and \texttt{company\_name}
+    \item \textbf{Identity-free}: excludes firm identifiers to focus on generalisable event features
+\end{itemize}
+
+\subsection{Train--Test Splits}
+
+Two time-aware evaluation strategies are used:
+\begin{itemize}
+    \item \textbf{Time-ordered 80/20 split}: earliest 80\% of observations for training, latest 20\% for testing
+    \item \textbf{Last-5-days split}: final five trading days held out as a strict out-of-sample test set
+\end{itemize}
+
+\subsection{Evaluation Metrics}
+
+Model performance is assessed using:
+\begin{itemize}
+    \item Classification: accuracy, macro F1-score, weighted F1-score
+    \item Regression: MAE, RMSE, and $R^2$
+\end{itemize}
+
+This unified setup ensures that all models are evaluated on the same dataset, with consistent targets, feature definitions, and validation procedures. It therefore provides a coherent basis for comparing headline-based sentiment signals with richer LLM-derived event representations.
+
+\subsection{S\&P 100 Universe}
+
+The starting point of the dataset construction is the definition of the equity universe. For this study, the S\&P 100 is used as the target universe. The choice of this index is motivated by three considerations. First, its constituents represent large-cap U.S. companies with high market relevance and extensive news coverage. Second, the liquidity of these securities makes them suitable for short-horizon return analysis. Third, the use of a fixed and widely recognised benchmark universe improves reproducibility and interpretability.
+
+A key methodological requirement is that the universe should be defined consistently with the observation period. Rather than relying on a contemporary list of index members that may reflect later additions or removals, the constituent set is retrieved as of a fixed historical cutoff date. This reduces look-ahead bias and ensures that the stock universe corresponds to the intended temporal setting of the study.
+
+To obtain this point-in-time universe, a script queries the Wikipedia API for the revision of the ``S\&P 100'' page that was current at or before 31 December 2025. The rendered HTML of that historical revision is then parsed, and the components table is extracted programmatically. The implementation also uses local caching and retry logic with exponential backoff in order to increase robustness and reproducibility. A simplified excerpt of the procedure is shown in Listing~\ref{lst:sp100_asof}.
+
+\begin{lstlisting}[language=Python, caption={Retrieving the S\&P 100 constituent list as of 31 December 2025}, label={lst:sp100_asof}]
+WIKI_PAGE_TITLE = "S&P 100"
+API = "https://en.wikipedia.org/w/api.php"
+ASOF_ISO = "2025-12-31T23:59:59Z"
+
+params_rev = {
+    "action": "query",
+    "format": "json",
+    "prop": "revisions",
+    "titles": page_title,
+    "redirects": 1,
+    "rvlimit": 1,
+    "rvdir": "older",
+    "rvstart": asof_dt.strftime("%Y-%m-%dT%H:%M:%SZ"),
+    "rvprop": "ids|timestamp",
+}
+
+params_html = {
+    "action": "parse",
+    "format": "json",
+    "oldid": revid,
+    "prop": "text",
+    "formatversion": 2,
+}
+\end{lstlisting}
+
+After the relevant table is identified, the symbol column is normalised and exported as a structured CSV file. This output forms the reference universe for subsequent joins with daily and intraday price data as well as with firm-level event observations. The resulting universe definition therefore acts as the backbone of the full pipeline.
+
+\subsection{Stock Universe Daily Price Data}
+
+After defining the equity universe, daily stock price data are collected for all securities included in the sample. These data provide the longitudinal market structure required for later event alignment, descriptive analysis, and return calculation. In the present study, daily OHLCV data are retrieved from Stooq for the period from 1 January 2021 to 31 December 2025.
+
+The purpose of this dataset is threefold. First, it provides a consistent historical record of market prices for all firms in the selected universe. Second, it supports the later construction of return based variables and other price derived features. Third, it establishes the daily market context within which news driven firm events can later be interpreted. Even though the main short horizon reaction analysis relies on intraday observations, daily data remain necessary as a stable and comprehensive baseline panel.
+
+The download process begins by loading the stock universe from a precomputed universe file. An optional membership filter is then applied in order to remove securities that do not satisfy the intended index membership condition. This step is included as a safeguard against noise in upstream universe construction and helps ensure that only relevant securities are retained in the final panel.
+
+For each ticker, the script converts the symbol into Stooq's expected naming format. This includes lowercasing the ticker, replacing dots in share class notation with an alternative separator, and appending the U.S. market suffix. The script then issues an HTTP request to the Stooq daily data endpoint, parses the returned CSV file, converts the date column into a standard datetime format, and restricts the observations to the predefined sample period. A compact excerpt of the implementation is shown in Listing~\ref{lst:stooq_daily_prices}.
+
+\begin{lstlisting}[language=Python, caption={Downloading daily OHLCV data from Stooq}, label={lst:stooq_daily_prices}]
+def to_stooq_symbol(ticker: str) -> str:
+    t = ticker.strip().lower().replace(".", "-")
+    if not t.endswith(".us"):
+        t = f"{t}.us"
+    return t
+
+def stooq_url(stooq_symbol: str) -> str:
+    return f"https://stooq.com/q/d/l/?s={stooq_symbol}&i=d"
+
+def parse_stooq_csv(csv_text: str) -> pd.DataFrame:
+    from io import StringIO
+    df = pd.read_csv(StringIO(csv_text))
+    if df.empty or "Date" not in df.columns:
+        return pd.DataFrame()
+    df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+    df = df.dropna(subset=["Date"]).sort_values("Date")
+    return df
+\end{lstlisting}
+
+To improve robustness and reproducibility, the pipeline includes several practical safeguards. Previously downloaded symbol files are reused when possible, which reduces unnecessary requests and supports restartability. In cases where a download fails, the script retries the request several times before recording the failure in a separate error log. This is particularly important in a large universe setting, where transient network issues or isolated source level failures should not interrupt the full collection process.
+
+Once all individual symbol files have been processed, the per stock datasets are merged into a combined panel and sorted by symbol and date. The resulting table contains the standard OHLCV variables, together with the stock symbol, and is exported in both CSV and Parquet format. This dual output design supports both transparency and efficient downstream processing, since CSV is convenient for inspection while Parquet is more suitable for larger scale analytical workflows.
+
+A simplified excerpt of the main loop is shown in Listing~\ref{lst:stooq_main_loop}. It illustrates the iterative download logic, the use of local caching, and the final construction of the combined panel.
+
+\begin{lstlisting}[language=Python, caption={Main loop for symbol wise retrieval and panel construction}, label={lst:stooq_main_loop}]
+for ticker in tickers:
+    out_path = os.path.join(OUT_DIR_SINGLE, f"{ticker}.csv")
+
+    if os.path.exists(out_path):
+        cached = pd.read_csv(out_path)
+        if "date" in cached.columns:
+            cached["date"] = pd.to_datetime(cached["date"], errors="coerce")
+            cached = cached.dropna(subset=["date"])
+            if not cached.empty:
+                frames.append(cached.assign(symbol=ticker))
+                continue
+
+    stooq_sym = to_stooq_symbol(ticker)
+    url = stooq_url(stooq_sym)
+
+    csv_text = fetch_csv(url)
+    df = parse_stooq_csv(csv_text)
+    df = clip_dates(df, start_date, end_date)
+
+    if not df.empty:
+        df = df.rename(columns={
+            "Date": "date",
+            "Open": "open",
+            "High": "high",
+            "Low": "low",
+            "Close": "close",
+            "Volume": "volume",
+        })
+        df.to_csv(out_path, index=False)
+        frames.append(df.assign(symbol=ticker))
+\end{lstlisting}
+Methodologically, this stage does not yet involve any predictive modelling decisions. Its function is to provide a clean and standardised market data layer that can later be joined with article level and firm event observations. The daily panel is therefore best understood as an infrastructural component of the broader EventAlpha pipeline. It ensures that each firm in the study is represented by a consistent historical price series and thereby supports both later feature construction and the eventual evaluation of news based prediction signals.
+
+\subsection{GDELT Firm Mentions}
+
+After the stock universe and the corresponding market data have been defined, the next step is to construct firm specific news mention observations from GDELT. In this study, the Global Database of Events, Language, and Tone is not accessed through the rolling document API, but through the raw GDELT 2 GKG files. This design choice is important because the raw Global Knowledge Graph files provide large scale historical coverage and allow reproducible backfilling over a fixed observation window.
+
+The purpose of this stage is to transform GDELT's article level records into structured firm mention observations that can later be linked to scraped article content and market reactions. Rather than treating each news article as a generic document, the pipeline identifies whether a given article mentions one or more firms from the target universe. The output is therefore a firm article mapping with timestamps and source metadata, not merely a collection of URLs.
+
+A key methodological decision is that the matching procedure relies on the structured organisation fields contained in the GKG files rather than on unrestricted full text matching. More specifically, the script parses the \texttt{Organizations} and \texttt{V2Organizations} fields and compares the extracted entities against a controlled set of company specific name variants. This reduces noise relative to naive substring matching and improves precision when linking articles to firms.
+
+To support entity matching, each firm in the universe is represented by a small set of canonical variants derived from its company name. These include the normalised company name, a version without common corporate suffixes, and optionally the ticker symbol. Corporate suffixes such as ``Inc.'', ``Corporation'', ``Ltd'', or ``Holdings'' are stripped in order to obtain a more stable matching form. A simplified excerpt of this preprocessing logic is shown in Listing~\ref{lst:gdelt_variants}.
+
+\begin{lstlisting}[language=Python, caption={Construction of company name variants for GDELT matching}, label={lst:gdelt_variants}]
+def strip_corp_suffix(name: str) -> str:
+    parts = [p for p in name.replace(",", " ").split() if p]
+    while parts and parts[-1].lower().strip(".") in CORP_SUFFIXES:
+        parts.pop()
+    return " ".join(parts).strip()
+
+def company_variants(symbol: str, company_name: str, include_ticker: bool) -> List[str]:
+    name = normalize_company_name(company_name)
+    core = strip_corp_suffix(name)
+
+    variants: List[str] = []
+    if core:
+        variants.append(core)
+    if name and name != core:
+        variants.append(name)
+
+    if name.lower().endswith(" inc"):
+        variants.append(f"{name}.")
+
+    sym = (symbol or "").upper().strip()
+    if include_ticker and sym and len(sym) >= 2:
+        variants.append(sym)
+
+    return variants
+\end{lstlisting}
+
+In addition to company matching, the pipeline applies a source outlet filter based on GDELT's domain to country cross reference dataset. In the present configuration, only articles from U.S. source outlets are retained. This is implemented by mapping article domains to source countries and restricting the sample to domains classified as originating from the United States. The goal of this filter is to reduce cross national heterogeneity in outlet characteristics and to maintain a more coherent media sample for the downstream financial analysis.
+
+The collection itself proceeds by downloading the GDELT master file list, selecting all GKG files within the requested date window, and processing them sequentially. Each file corresponds to a 15 minute batch. For every record, the pipeline extracts the batch timestamp from the GKG record identifier, retrieves the document URL, derives the outlet domain, applies the source country filter, and then compares the extracted organisation entities against the prepared company variant dictionary. If a match is found, a firm mention row is created.
+
+The resulting mention level dataset contains the fields \texttt{dt\_utc}, \texttt{date}, \texttt{symbol}, \texttt{company\_name}, \texttt{url}, \texttt{domain}, \texttt{source\_country}, \texttt{gdelt\_gkg\_file}, and \texttt{query\_variant}. This design preserves both the temporal information and the provenance of each match. A compact representation of the matching logic is shown in Listing~\ref{lst:gdelt_match_logic}.
+
+\begin{lstlisting}[language=Python, caption={Matching GKG organisation entities to the firm universe}, label={lst:gdelt_match_logic}]
+org_entities = extract_org_entities_from_gkg(cols)
+if not org_entities:
+    continue
+
+matched_symbols: Set[str] = set()
+matched_variant: Optional[str] = None
+
+for e in org_entities:
+    key = normalize_entity(e).lower()
+    syms = variant_to_symbols.get(key)
+    if syms:
+        matched_symbols.update(syms)
+        if matched_variant is None:
+            matched_variant = e
+
+for sym in matched_symbols:
+    cname, vars_ = variant_map[sym]
+    mention_rows.append(
+        {
+            "dt_utc": dt.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "date": date_iso,
+            "symbol": sym,
+            "company_name": cname,
+            "url": url,
+            "domain": dom,
+            "source_country": cc,
+            "gdelt_gkg_file": mf.file_url,
+            "query_variant": matched_variant or "",
+        }
+    )
+\end{lstlisting}
+
+Because this backfill process involves a large number of GKG files, the script includes several engineering measures to ensure reproducibility and fault tolerance. It supports checkpoints for already processed files, periodic flushing of matched rows to partitioned Parquet output, retry logic for failed downloads, and structured JSONL error logs. These features are not merely implementation details, but part of the experimental design insofar as they make the data construction process restartable and transparent.
+
+In addition to the mention level dataset, the pipeline can also produce an optional firm day aggregate. In this representation, all mention observations for a given firm and date are collapsed into a daily count variable. The output contains the fields \texttt{date}, \texttt{symbol}, \texttt{company\_name}, and \texttt{mention\_count}. This daily representation is not a replacement for the mention level data, but a useful complementary view that can support descriptive analysis and later firm day modelling.
+
+A simplified excerpt of the aggregation logic is given in Listing~\ref{lst:gdelt_daily_agg}.
+
+\begin{lstlisting}[language=Python, caption={Optional construction of firm day mention counts}, label={lst:gdelt_daily_agg}]
+if args.write_daily:
+    daily_counts[(sym, date_iso)] = daily_counts.get((sym, date_iso), 0) + 1
+
+rows = []
+for (sym, date_iso), cnt in daily_counts.items():
+    cname, _ = variant_map[sym]
+    rows.append(
+        {"date": date_iso, "symbol": sym, "company_name": cname, "mention_count": int(cnt)}
+    )
+\end{lstlisting}
+
+Methodologically, this stage creates the first true event candidate layer of the EventAlpha pipeline. It narrows the vast GDELT news stream to a universe specific set of structured firm mentions, while preserving timestamps, outlet information, and traceability to the original GKG source files. The resulting data are still noisy and do not yet represent final analytical events, but they form the essential basis for subsequent filtering, article scraping, deduplication, and eventual construction of market reaction observations.
+
+\subsection{Article Scraping}
+
+The GDELT firm mention stage provides article URLs and source metadata, but it does not reliably provide the full article text required for richer downstream event representation. For this reason, a dedicated article scraping stage is introduced in order to retrieve article titles and body text. This step is methodologically important because the baseline model can operate on headlines alone, whereas the feature rich event representation requires substantially more textual context.
+
+In the revised pipeline, the scraping stage is restricted to January 2025 and no longer starts from a previously reduced event subset. Instead, all distinct article URLs from that month are taken directly from the article index, provided that their source domain belongs to the predefined whitelist of 22 financially relevant domains. In other words, the procedure first identifies the full January 2025 article universe for the selected domains and then attempts to download every available target. This produces a broader and less selectively prefiltered scraping input than the earlier version of the pipeline.
+
+Each scraping target is identified by a persistent \texttt{url\_hash} and linked back to the original \texttt{articles} table in order to recover the article URL and source domain. The scraper writes its results into a dedicated SQLite output table, \texttt{article\_content\_jan\_2025\_scrapeable\_domains}, which stores for each article the original URL, source domain, final redirect URL, extracted title, extracted body text, fetch status, HTTP status code, body length, retrieval timestamp, and any error message encountered during processing. This makes the scraping stage not only a text acquisition step, but also an auditable quality control layer within the larger EventAlpha pipeline.
+
+The extraction procedure follows a rule based HTML parsing strategy. After downloading a page, the script first removes scripts, styles, navigation elements, forms, and other clearly irrelevant containers. It also removes common consent and privacy overlays, including cookie banners, modal dialogs, and other noise containers, using a set of predefined selectors and text patterns. This is necessary because such elements often dominate the HTML structure of modern news websites and can otherwise corrupt both title extraction and body parsing.
+
+The cleaned document is then parsed for candidate titles and body paragraphs. Title extraction prioritises metadata fields such as \texttt{og:title} and \texttt{twitter:title}, followed by the HTML \texttt{title} element and the main heading. Body extraction searches a series of likely article containers such as \texttt{article}, \texttt{main}, and known article body class names, and then scores candidate paragraphs according to length, punctuation, and the presence of linguistically plausible news content. Short, repetitive, or policy related fragments are filtered out. A simplified excerpt of the extraction logic is shown in Listing~\ref{lst:article_extract_logic}.
+
+\begin{lstlisting}[language=Python, caption={Simplified title and body extraction logic for scraped articles}, label={lst:article_extract_logic}]
+def extract_title(soup: BeautifulSoup) -> str:
+    candidates = []
+
+    for attrs in [{"property": "og:title"}, {"name": "twitter:title"}]:
+        tag = soup.find("meta", attrs=attrs)
+        if tag and tag.get("content"):
+            candidates.append(clean_text(tag["content"]))
+
+    if soup.title and soup.title.string:
+        candidates.append(clean_text(soup.title.string))
+
+    h1 = soup.find("h1")
+    if h1:
+        candidates.append(clean_text(h1.get_text(" ", strip=True)))
+
+    return candidates[0] if candidates else ""
+
+def extract_body(soup: BeautifulSoup) -> str:
+    remove_noise_containers(soup)
+
+    selectors = [
+        "article", "[role='main']", "main", "[itemprop='articleBody']",
+        ".article-content", ".article-body", ".story-body", ".entry-content"
+    ]
+
+    for selector in selectors:
+        node = soup.select_one(selector)
+        if node:
+            paragraphs = extract_candidate_paragraphs(node)
+            if len(paragraphs) >= 3:
+                return clean_body_text("\n\n".join(paragraphs[:30]))
+
+    paragraphs = extract_candidate_paragraphs(soup)
+    return clean_body_text("\n\n".join(paragraphs[:30]))
+\end{lstlisting}
+
+Before retrieval, URLs are sanitised in order to remove problematic query parameters associated with privacy, consent, mobile, print, popup, and similar noncanonical variants. Requests are then issued with browser like headers in order to improve compatibility with publisher websites. Retrieved pages are only processed further if they return a successful status code and an HTML based content type. The scraper also explicitly checks for consent interstitials and related redirection patterns, for example on Yahoo related consent hosts, and records such cases separately instead of treating them as successful article downloads.
+
+The scraping loop is designed for incremental and fault tolerant execution. Articles that have already been processed successfully are not downloaded again, while rows previously marked with recoverable failure states such as \texttt{request\_error}, \texttt{consent\_interstitial}, \texttt{empty\_extract}, or \texttt{parse\_error} may be retried. Results are written back into the SQLite output table through an upsert mechanism, which ensures that repeated runs update existing records rather than duplicating them. A simplified excerpt of the retrieval and persistence logic is shown in Listing~\ref{lst:article_scrape_loop}.
+
+\begin{lstlisting}[language=Python, caption={Simplified article retrieval and persistence loop}, label={lst:article_scrape_loop}]
+response = fetch_url(url)
+final_url = response.url
+http_status = response.status_code
+
+if is_consent_interstitial(final_url, response.text):
+    fetch_status = "consent_interstitial"
+elif response.status_code != 200:
+    fetch_status = "http_error"
+elif "html" not in response.headers.get("Content-Type", "").lower():
+    fetch_status = "non_html"
+else:
+    soup = BeautifulSoup(response.text, "html.parser")
+    title = extract_title(soup)
+    body = extract_body(soup)
+
+    if title or body:
+        fetch_status = "success"
+    else:
+        fetch_status = "empty_extract"
+
+upsert_article_content(
+    conn=conn,
+    url_hash=url_hash,
+    url=url,
+    domain=domain,
+    final_url=final_url,
+    title=title,
+    body=body,
+    fetch_status=fetch_status,
+    http_status=http_status,
+    fetched_at_utc=fetched_at_utc,
+    error_message=error_message,
+)
+\end{lstlisting}
+
+A further practical feature of the revised scraper is its domain aware execution logic. Targets are grouped by source domain and processed concurrently, but selected domains are throttled more aggressively in order to reduce request pressure. If a domain begins to return HTTP 429 responses or repeatedly redirects to a consent interstitial, the scraper skips the remaining pending URLs for that domain during the current run. This behaviour reflects the empirical observation that some publishers are accessible with lightweight HTML requests, whereas others are only partially accessible or effectively blocked under the same retrieval strategy.
+
+In the January 2025 experiment, this approach produced a scraping universe of more than 8{,}000 article URLs across the 22 whitelisted domains. However, the retrieval results showed clear domain specific differences. Only 12 of these domains yielded usable article text under the implemented retrieval setup, while the remaining domains failed because of rate limits, consent walls, parsing problems, or other publisher specific restrictions. After the full retrieval attempt, 3{,}816 articles were successfully downloaded with both headline and body text. This final subset therefore represents the technically accessible portion of the January whitelist universe rather than an arbitrary manual reduction.
+
+This has two methodological implications. First, the text enriched article sample is no longer defined by an ex ante filtering step, but by ex post technical accessibility under a reproducible request based scraping procedure. Second, the resulting subset remains source dependent, because extraction success varies systematically across domains. This introduces a source level selection effect that should be acknowledged when interpreting downstream results. At the same time, retaining only observations with successfully extracted title and body text improves overall text quality and avoids contaminating later stages with empty, policy dominated, or structurally malformed pages.
+
+Overall, the article scraping stage serves as the bridge between structured GDELT based article indexing and later event level text analysis. It enriches the January 2025 article universe from the selected 22 whitelist domains with actual article titles and body text, records retrieval outcomes transparently, and establishes the technically accessible subset of 12 usable domains for which more detailed textual feature extraction is feasible.
+
+\subsection{Intraday Price Data Collection}
+
+This stage of the EventAlpha pipeline constructs a complete intraday price dataset for the S\&P 100 universe over January 2025. The objective is to obtain a consistent and reusable set of market observations at a 15 minute frequency, which can later be used to align firm level news events with short horizon price movements.
+
+The data collection process retrieves intraday time series for all symbols in the predefined S\&P 100 universe. The symbol list is primarily loaded from a dedicated CSV file and, if unavailable, from a fallback SQLite table. This ensures that the universe definition is fixed and independent of any filtering applied in earlier stages of the pipeline.
+
+Intraday data are requested from the Twelve Data API using a 15 minute interval over the full time range from \texttt{2025 01 01 00:00:00} to \texttt{2025 01 31 23:59:59} in UTC. A simplified excerpt of the request construction is shown in Listing~\ref{lst:intraday_request}.
+
+\begin{lstlisting}[language=Python, caption={Requesting 15 minute intraday bars from Twelve Data}, label={lst:intraday_request}]
+params = {
+    "symbol": symbol,
+    "interval": "15min",
+    "start_date": "2025-01-01 00:00:00",
+    "end_date": "2025-01-31 23:59:59",
+    "timezone": "UTC",
+    "order": "ASC",
+    "format": "JSON",
+    "apikey": API_KEY,
+}
+\end{lstlisting}
+
+The API responses are parsed into a structured format containing timestamped price bars. Each observation includes the fields \texttt{symbol}, \texttt{bar\_dt\_utc}, \texttt{open}, \texttt{high}, \texttt{low}, \texttt{close}, \texttt{volume}, as well as metadata fields for the data source and interval. All timestamps are normalised to UTC in order to ensure consistency with the rest of the dataset.
+
+The parsed data are stored in a dedicated SQLite table named \texttt{sp100\_intraday\_15min\_prices\_jan\_2025}. The table schema is defined with a composite primary key over \texttt{symbol} and \texttt{bar\_dt\_utc}, ensuring that each intraday bar is uniquely identifiable. The table definition is shown in Listing~\ref{lst:intraday_table}.
+
+\begin{lstlisting}[language=Python, caption={SQLite table for intraday price data}, label={lst:intraday_table}]
+CREATE TABLE IF NOT EXISTS sp100_intraday_15min_prices_jan_2025 (
+    symbol TEXT NOT NULL,
+    bar_dt_utc TEXT NOT NULL,
+    open REAL,
+    high REAL,
+    low REAL,
+    close REAL NOT NULL,
+    volume REAL,
+    source TEXT NOT NULL,
+    interval TEXT NOT NULL,
+    PRIMARY KEY (symbol, bar_dt_utc)
+);
+\end{lstlisting}
+
+Data insertion is performed using an upsert strategy. If a record with the same \texttt{symbol} and timestamp already exists, it is updated rather than duplicated. This ensures idempotent behaviour and allows the script to be safely rerun without introducing inconsistencies. The corresponding logic is shown in Listing~\ref{lst:intraday_upsert}.
+
+\begin{lstlisting}[language=Python, caption={Upserting intraday price bars}, label={lst:intraday_upsert}]
+INSERT INTO sp100_intraday_15min_prices_jan_2025 (
+    symbol,
+    bar_dt_utc,
+    open,
+    high,
+    low,
+    close,
+    volume,
+    source,
+    interval
+)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+ON CONFLICT(symbol, bar_dt_utc) DO UPDATE SET
+    open = excluded.open,
+    high = excluded.high,
+    low = excluded.low,
+    close = excluded.close,
+    volume = excluded.volume,
+    source = excluded.source,
+    interval = excluded.interval;
+\end{lstlisting}
+
+A practical constraint of this stage is the usage policy of the Twelve Data API. Although the API supports multiple symbols per request, each symbol is counted as a separate credit. To ensure predictable usage and avoid exceeding rate limits, the implementation processes symbols sequentially. This is controlled through a batch size of one symbol per request.
+
+To comply with the API rate limits, a minimum delay is enforced between consecutive requests. The script limits the request rate to seven calls per minute, which introduces a small buffer below the documented maximum. The rate limiting logic is shown in Listing~\ref{lst:intraday_ratelimit}.
+
+\begin{lstlisting}[language=Python, caption={Rate limiting for API requests}, label={lst:intraday_ratelimit}]
+MAX_CALLS_PER_MINUTE = 7
+MIN_SECONDS_PER_CALL = 60.0 / MAX_CALLS_PER_MINUTE
+
+def wait_for_rate_limit(last_api_call_ts: Optional[float]) -> float:
+    now = time.time()
+    if last_api_call_ts is None:
+        return now
+
+    elapsed = now - last_api_call_ts
+    remaining = MIN_SECONDS_PER_CALL - elapsed
+    if remaining > 0:
+        time.sleep(remaining)
+    return time.time()
+\end{lstlisting}
+
+The result of this stage is a complete intraday price dataset for the S\&P 100 universe at a 15 minute resolution for January 2025. This dataset provides a consistent temporal reference for all subsequent analyses that require alignment between news events and market price movements.
+
+\section{Baseline Model: Sentiment Classification}
+
+The baseline model follows the methodology proposed by Lopez Lira and Tang, which demonstrates that large language models (LLMs) can extract predictive signals from financial news headlines without task-specific fine-tuning. In this approach, each headline is independently classified into a discrete sentiment category using a prompt-based inference setup.
+
+\subsection{Prompt-Based Classification Setup}
+
+For each firm-event observation, the corresponding article headline is passed to an LLM via a structured prompt. The model is instructed to act as a financial expert and to evaluate whether the news is likely to have a positive or negative short-term impact on the associated stock price. The exact prompt used in this study is shown below.
+
+\begin{lstlisting}[language=Python, caption={Prompt used for headline sentiment classification}, label={lst:sentiment_prompt}]
+prompt = f"""Forget all your previous instructions. Pretend you are a financial expert.
+You are a financial expert with stock recommendation experience.
+Answer "YES" if good news, "NO" if bad news, or "UNKNOWN" if uncertain in the first line.
+Then elaborate with one short and concise sentence on the next line.
+Is this headline good or bad for the stock price of {company_name} in the short term?
+Headline: {headline}"""
+\end{lstlisting}
+
+The model is required to produce a structured two-line output. The first line contains a categorical decision (\texttt{YES}, \texttt{NO}, or \texttt{UNKNOWN}), and the second line provides a brief justification. This format ensures consistency across outputs and simplifies downstream parsing.
+
+\subsection{Model Configuration and Inference}
+
+All classifications are performed using the \texttt{openai/gpt-oss-120b} model via the AI Refinery API. The model is executed with a temperature of 0.0 to enforce deterministic behaviour and reduce output variance. For each input, up to three retry attempts are performed in case of transient API or parsing failures.
+
+The classification results are parsed into a structured format consisting of:
+\begin{itemize}
+    \item \textbf{Sentiment label}: \texttt{YES}, \texttt{NO}, or \texttt{UNKNOWN}
+    \item \textbf{Score}: numerical mapping (+1, 0, -1)
+    \item \textbf{Reason}: short textual explanation generated by the model
+\end{itemize}
+
+The mapping from categorical output to numerical score is defined as:
+\[
+\texttt{YES} = +1, \quad \texttt{UNKNOWN} = 0, \quad \texttt{NO} = -1.
+\]
+
+Each classification result is stored together with the corresponding event metadata, including \texttt{url\_hash}, \texttt{symbol}, timestamp, and processing time. A primary key constraint on (\texttt{url\_hash}, \texttt{symbol}, \texttt{model}) ensures that each article–firm combination is processed only once.
+
+\subsection{Dataset Coverage}
+
+The sentiment classification is applied to the subset of articles successfully retrieved during the scraping stage. Specifically, only articles with non-empty headlines and body text are considered, resulting in a final dataset of 3,816 usable observations for January 2025.
+
+To ensure a well-defined mapping between articles and firms, a single firm mention is selected per article. This avoids duplication effects arising from multi-mention articles and enforces a one-to-one relationship between each headline and its associated firm-event observation. As a result, each classified instance corresponds to a unique (article, firm) pair within the defined time window.
+
+\subsection{Role of the Baseline Model}
+
+The prompt-based sentiment classifier serves as a baseline for evaluating the effectiveness of LLM-derived signals in a financial context. By closely following the experimental design of Lopez Lira and Tang, this setup enables direct comparison with existing literature while also providing a reference point for more advanced models incorporating additional context, such as full article body text.
+
+% -- section unchanged --
+\section{Feature-Rich LLM Event Model}
+
+In contrast to the baseline approach, the feature-rich LLM event model is designed to extract a broader and more nuanced representation of the informational content of financial news articles. Rather than reducing each observation to a single sentiment label, this model transforms each article into a structured event record containing multiple attributes that are intended to capture different dimensions of short-term market relevance.
+
+The model operates on the subset of scraped January 2025 articles for which both a headline and a non-empty article body are available. This results in a usable dataset of 3,816 article observations. To ensure a clear mapping between textual input and firm-level metadata, one firm mention is assigned per article, yielding one structured feature record per unique article--firm pair.
+
+\subsection{Structured Feature Extraction}
+
+For each observation, the LLM receives the company name, the article headline, and the article body as input. The model is instructed to return a strictly structured JSON object containing several dimensions of the event that may be relevant for short-term stock price prediction. The exact prompt format used in this study is shown below.
+
+\begin{lstlisting}[language=Python, caption={Prompt used for the feature-rich event extraction model}, label={lst:feature_rich_prompt}]
+prompt = f"""Forget all previous instructions. You are a financial expert specializing in short-term stock price reactions to news.
+
+Your task is to analyze the following news article and extract structured signals relevant for predicting short-term stock price movements.
+
+Return your answer strictly in valid JSON format with the following fields:
+
+{{
+  "direction": "YES | NO | UNKNOWN",
+  "confidence": 0.0,
+  "magnitude": "LOW | MEDIUM | HIGH",
+  "novelty": "NEW | SOMEWHAT_NEW | ALREADY_KNOWN",
+  "uncertainty": "LOW | MEDIUM | HIGH",
+  "event_type": "EARNINGS | M&A | PRODUCT | MACRO | LEGAL | MANAGEMENT | OTHER",
+  "time_horizon": "IMMEDIATE | SHORT_TERM | LONGER_TERM",
+  "reason": "one concise sentence explaining the decision"
+}}
+
+Definitions:
+- direction: Expected short-term stock price impact
+- confidence: Model confidence in the prediction
+- magnitude: Expected strength of the price move
+- novelty: Whether the information is new to the market
+- uncertainty: Ambiguity or lack of clarity in the news
+- event_type: Primary category of the news
+- time_horizon: When the impact is expected to materialize
+
+Now analyze the following:
+
+Company: {company_name}
+
+Headline:
+{headline}
+
+Article body:
+{body}
+"""
+\end{lstlisting}
+
+This prompt extends the baseline formulation by moving from a one-dimensional sentiment decision to a multidimensional event description. The intention is to preserve more of the informational structure contained in financial news and thereby provide richer inputs for subsequent analysis.
+
+\subsection{Extracted Event Dimensions}
+
+The feature-rich model returns the following attributes for each article:
+
+\begin{itemize}
+    \item \textbf{Direction}: categorical estimate of the expected short-term stock price effect (\texttt{YES}, \texttt{NO}, or \texttt{UNKNOWN})
+    \item \textbf{Score}: numerical mapping of the directional output, where \texttt{YES} is mapped to \(+1\), \texttt{UNKNOWN} to \(0\), and \texttt{NO} to \(-1\)
+    \item \textbf{Confidence}: model-assigned confidence level on a continuous scale from 0 to 1
+    \item \textbf{Magnitude}: expected strength of the price reaction (\texttt{LOW}, \texttt{MEDIUM}, \texttt{HIGH})
+    \item \textbf{Novelty}: degree to which the information appears new to the market (\texttt{NEW}, \texttt{SOMEWHAT\_NEW}, \texttt{ALREADY\_KNOWN})
+    \item \textbf{Uncertainty}: degree of ambiguity contained in the article (\texttt{LOW}, \texttt{MEDIUM}, \texttt{HIGH})
+    \item \textbf{Event type}: primary event category (\texttt{EARNINGS}, \texttt{M\&A}, \texttt{PRODUCT}, \texttt{MACRO}, \texttt{LEGAL}, \texttt{MANAGEMENT}, \texttt{OTHER})
+    \item \textbf{Time horizon}: expected timing of the market effect (\texttt{IMMEDIATE}, \texttt{SHORT\_TERM}, \texttt{LONGER\_TERM})
+    \item \textbf{Reason}: one short natural-language explanation generated by the model
+\end{itemize}
+
+Together, these variables define a structured event representation that goes beyond simple polarity classification. In particular, the inclusion of confidence, uncertainty, novelty, and time horizon is intended to distinguish between events that may have the same directional sign but differ substantially in reliability, informativeness, or expected timing of market impact.
+
+\subsection{Model Configuration and Processing}
+
+All inferences are performed using the \texttt{openai/gpt-oss-120b} model via the AI Refinery API. The temperature is set to 0.0 in order to reduce output variability and encourage deterministic behaviour. The model output is parsed as JSON and then validated field by field against predefined admissible categories.
+
+If the model output is missing, malformed, or does not conform to the expected schema, fallback values are assigned. For example, the default direction is set to \texttt{UNKNOWN}, the score to \(0\), the magnitude to \texttt{LOW}, the novelty to \texttt{ALREADY\_KNOWN}, the uncertainty to \texttt{HIGH}, the event type to \texttt{OTHER}, and the time horizon to \texttt{SHORT\_TERM}. This validation step ensures that every processed observation yields a complete and machine-readable record.
+
+To keep the inference input bounded and consistent across observations, the article body is truncated before submission to the model. In the present implementation, only the first 1,500 characters of the scraped body text are passed to the prompt. This preserves a substantial portion of the article content while limiting token usage and reducing variance caused by very long texts.
+
+\subsection{Data Coverage and Observation Design}
+
+The feature-rich model is applied only to successfully scraped articles with non-empty titles and non-empty bodies in January 2025. The resulting usable sample consists of 3,816 observations. Since one firm mention is selected per article, each processed row corresponds to one unique article--firm event.
+
+No aggregation is performed at this stage. The model output is stored at the individual event level, preserving the original article timestamp and firm assignment. This is methodologically useful because it retains the finest temporal granularity available in the dataset and allows later evaluation steps to decide whether aggregation is necessary for a specific task.
+
+\subsection{Stored Output Representation}
+
+Each processed event is stored together with both its input metadata and its extracted feature set. In addition to the structured LLM outputs, the stored record includes the article identifier (\texttt{url\_hash}), stock symbol, event date, UTC timestamp, headline, truncated body text, company name, model name, raw model response, and processing timestamp.
+
+This storage design supports both reproducibility and later analysis. The raw response can be inspected for parsing or interpretation issues, while the validated structured columns can be used directly in quantitative experiments.
+
+\subsection{Role of the Feature-Rich Model}
+
+The feature-rich LLM event model serves as the main extension beyond the baseline sentiment classifier. Its purpose is to test whether a multidimensional event representation derived from natural-language news can better capture the informational drivers of short-term stock price movements than a single sentiment score alone.
+
+By explicitly modelling characteristics such as magnitude, novelty, uncertainty, event category, and expected time horizon, the approach aims to retain more of the decision-relevant structure contained in financial text. This richer event encoding forms the basis for subsequent comparisons between simple headline sentiment signals and more detailed LLM-derived representations of market-moving news.
+
+
+\section{Predictive Modelling}
+
+This section describes the predictive modelling stage used to test whether the structured event representations extracted from financial news contain information about subsequent stock price movements. The purpose of this stage is not to build a production trading model, but to evaluate, in a controlled way, whether the feature-rich LLM event extraction pipeline produces variables that are statistically useful for downstream prediction.
+
+The implementation is based on a supervised learning setup in which each observation corresponds to a single firm--article event. For each such event, the extracted textual features are joined with subsequent price observations from the intraday price table and transformed into directional and continuous return targets. The modelling script then evaluates several baselines and predictive models under increasingly strict temporal validation schemes.
+
+\subsection{Problem Formulation}
+
+Each row in the modelling dataset represents an event for stock $i$ at publication timestamp $t$, together with a structured feature vector
+\[
+\mathbf{x}_{i,t} \in \mathbb{R}^p.
+\]
+This vector is derived from the LLM output and contains both numerical and categorical attributes describing the content and character of the underlying article.
+
+The original modelling setup considered multiple forecast horizons. In conceptual terms, these included short intraday reactions and slower daily reactions. In practice, the present run focuses on the daily horizons, because the intraday horizons did not yield stable or meaningful predictive performance. The retained daily targets are:
+\begin{itemize}
+    \item \textbf{1-day return}, measured from same-day close to next-day close
+    \item \textbf{2-day return}, measured from same-day close to day-2 close
+\end{itemize}
+
+More formally, let $P^{\text{close}}_{i,d}$ denote the closing price of stock $i$ on day $d$. Then the daily return targets are defined as
+\[
+r^{(1d)}_{i,t} = \frac{P^{\text{close}}_{i,d+1} - P^{\text{close}}_{i,d}}{P^{\text{close}}_{i,d}} \cdot 100,
+\]
+and
+\[
+r^{(2d)}_{i,t} = \frac{P^{\text{close}}_{i,d+2} - P^{\text{close}}_{i,d}}{P^{\text{close}}_{i,d}} \cdot 100,
+\]
+where $d$ is the trading day corresponding to the event timestamp $t$.
+
+The modelling code converts these continuous returns into binary directional labels using a threshold rule. Let $\tau = 0.1$ denote the minimum absolute return threshold in percent. Then the classification label is defined as
+\[
+y_{i,t} =
+\begin{cases}
+\texttt{UP}, & \text{if } r_{i,t} > \tau,\\[4pt]
+\texttt{DOWN}, & \text{if } r_{i,t} < -\tau,\\[4pt]
+\texttt{undefined}, & \text{otherwise.}
+\end{cases}
+\]
+Observations with $|r_{i,t}| \leq 0.1$ are excluded from the classification task. This filtering step is intended to remove very small price movements that are likely dominated by noise, bid--ask bounce, or other short-run fluctuations that are not meaningfully linked to article content.
+
+The resulting prediction problem is therefore a binary classification task. In parallel, the continuous returns $r^{(1d)}_{i,t}$ and $r^{(2d)}_{i,t}$ are also retained for a regression setup, allowing the study to test not only whether direction can be predicted, but also whether return magnitude can be estimated.
+
+\subsection{Construction of the Modelling Dataset}
+
+The modelling table is built by joining the feature-rich article output with intraday price data. The source table used in this run is
+\texttt{feature\_rich\_sentiment\_paper\_scrapeable\_domains\_jan\_2025\_headline\_only\_usable\_rows},
+and the price data are taken from
+\texttt{sp100\_intraday\_15min\_prices\_jan\_2025}.
+
+For each event, the script retrieves the nearest available future bar for several reference points. In the code, this is done by selecting the first available bar at or after the publication timestamp and then analogous bars for shifted timestamps such as $t+15$ minutes and $t+60$ minutes. In addition, the same-day close, next-day open, next-day close, and day-2 close are extracted. This creates a bridge between the textual event representation and the subsequent market response.
+
+Although only the daily close-based targets are used in the present analysis, the broader extraction logic is useful because it preserves the possibility of analysing faster market reactions. The fact that the intraday horizons were prepared but not emphasised in the final interpretation is itself methodologically informative: it shows that the extraction pipeline was evaluated across multiple time scales, rather than only on the horizon that happened to perform best.
+
+\subsection{Feature Representation}
+
+The feature-rich event extraction pipeline produces a mixture of scalar and categorical variables. In this modelling stage, the candidate input attributes include:
+\begin{itemize}
+    \item \textbf{Numerical features}: \texttt{score}, \texttt{confidence}
+    \item \textbf{Categorical features}: \texttt{direction}, \texttt{domain}, \texttt{magnitude}, \texttt{novelty}, \texttt{uncertainty}, \texttt{event\_type}, \texttt{time\_horizon}
+    \item \textbf{Optional identity features}: \texttt{symbol}, \texttt{company\_name}
+\end{itemize}
+
+Two modelling configurations are considered:
+\begin{enumerate}
+    \item a specification \emph{with} firm identity features, in which \texttt{symbol} and \texttt{company\_name} are included;
+    \item a specification \emph{without} firm identity features, in which \texttt{symbol} and \texttt{company\_name} are excluded.
+\end{enumerate}
+
+This distinction is important. Including \texttt{symbol} and \texttt{company\_name} may improve predictive performance if some firms exhibit persistent response patterns that the model can exploit. However, such a setup also risks learning stock-specific regularities rather than generalisable event semantics. Excluding these variables forces the model to rely more directly on the event attributes themselves, such as whether the article concerns earnings, management, macroeconomic developments, or high-uncertainty news. In the present run, the identity-free specification is the main focus, but both variants are retained because their comparison is analytically important and will be examined in the evaluation section.
+
+The preprocessing pipeline follows the implementation in the code. Numerical variables are imputed using the median and then standardised:
+\[
+x^{\text{scaled}} = \frac{x - \mu}{\sigma},
+\]
+where $\mu$ and $\sigma$ are computed on the training set. Categorical variables are imputed with their most frequent category and then converted into sparse one-hot encoded vectors. If a categorical feature such as \texttt{event\_type} takes values in the set
+\[
+\{\texttt{EARNINGS}, \texttt{MANAGEMENT}, \texttt{MACRO}, \ldots\},
+\]
+then one-hot encoding transforms it into binary indicators such as
+\[
+\texttt{event\_type\_EARNINGS},\;
+\texttt{event\_type\_MANAGEMENT},\;
+\texttt{event\_type\_MACRO}.
+\]
+This allows linear models to assign separate weights to each event category.
+
+A concrete example from the current setup is that a single event row may contain attributes such as:
+\[
+\texttt{score} = 0.62,\quad
+\texttt{confidence} = \texttt{HIGH},\quad
+\texttt{magnitude} = \texttt{HIGH},\quad
+\texttt{event\_type} = \texttt{EARNINGS},\quad
+\texttt{uncertainty} = \texttt{LOW}.
+\]
+After preprocessing, such an event is represented numerically by a combination of scaled continuous values and one-hot activated category indicators.
+
+\subsection{Model Selection}
+
+To evaluate the predictive content of the feature set, three classification models and one regression model are used. The chosen models span increasing levels of complexity and interpretability.
+
+\subsubsection{Majority Baseline}
+
+The first benchmark is a dummy classifier that always predicts the most frequent class observed in the training set. If the training labels are imbalanced, this classifier may already achieve a non-trivial accuracy. Formally, if
+\[
+\hat{c} = \arg\max_{c \in \{\texttt{UP}, \texttt{DOWN}\}} \Pr(y=c),
+\]
+then the model prediction is
+\[
+\hat{y}_{i,t} = \hat{c}
+\quad \text{for all } (i,t).
+\]
+This classifier contains no feature-based intelligence. Its main role is to provide a lower bound that every learned model should meaningfully exceed.
+
+\subsubsection{Logistic Regression}
+
+The main interpretable model is logistic regression with class balancing. Let $\mathbf{x}_{i,t}$ denote the processed feature vector. The model estimates
+\[
+\Pr(y_{i,t}=\texttt{UP}\mid \mathbf{x}_{i,t})
+=
+\sigma(\beta_0 + \boldsymbol{\beta}^{\top}\mathbf{x}_{i,t}),
+\]
+where
+\[
+\sigma(z)=\frac{1}{1+e^{-z}}
+\]
+is the logistic function. Prediction is then obtained by thresholding the estimated probability.
+
+The corresponding parameter vector $\boldsymbol{\beta}$ is especially useful because it permits direct coefficient inspection. Positive coefficients indicate that a feature raises the log-odds of an upward move, while negative coefficients indicate the opposite. In other words,
+\[
+\log\left(\frac{\Pr(y=\texttt{UP}\mid \mathbf{x})}{\Pr(y=\texttt{DOWN}\mid \mathbf{x})}\right)
+=
+\beta_0 + \boldsymbol{\beta}^{\top}\mathbf{x}.
+\]
+This makes logistic regression well suited not only for prediction, but also for interpretation of the extracted article features. In the code, the model is configured with balanced class weights, which increases the penalty for mistakes on the minority class and reduces bias toward whichever direction is more common in the training data.
+
+\subsubsection{Random Forest}
+
+To complement the linear model, a random forest classifier is included. A random forest is an ensemble of decision trees
+\[
+\{T_1(\mathbf{x}), T_2(\mathbf{x}), \ldots, T_M(\mathbf{x})\},
+\]
+whose predictions are aggregated by majority vote:
+\[
+\hat{y} = \text{mode}\{T_m(\mathbf{x})\}_{m=1}^{M}.
+\]
+In the present implementation, the forest uses $M=300$ trees together with additional constraints such as minimum split size and minimum leaf size. Conceptually, the random forest can capture non-linearities and interactions that logistic regression cannot. For example, it can learn that a \texttt{HIGH} magnitude earnings event with \texttt{LOW} uncertainty behaves differently from a \texttt{HIGH} magnitude legal event with \texttt{HIGH} uncertainty, even if these relationships are not well approximated by a single linear decision surface.
+
+The random forest therefore serves as a flexible benchmark against which the linear model can be compared. If both models perform similarly, this suggests that the predictive structure of the feature space is either weak or largely linear. If the forest substantially outperforms logistic regression, this would point toward more complex feature interactions.
+
+\subsubsection{Ridge Regression}
+
+In addition to directional classification, the code also evaluates a regression model for the continuous return target. The model used is Ridge regression:
+\[
+\hat{r}_{i,t} = \beta_0 + \boldsymbol{\beta}^{\top}\mathbf{x}_{i,t},
+\]
+with the regularised objective
+\[
+\min_{\beta_0,\boldsymbol{\beta}}
+\sum_{n=1}^{N}
+\left(r_n - \beta_0 - \boldsymbol{\beta}^{\top}\mathbf{x}_n\right)^2
++
+\lambda \lVert \boldsymbol{\beta} \rVert_2^2.
+\]
+The $\ell_2$ penalty term discourages excessively large coefficients and stabilises estimation under high-dimensional one-hot encoded feature spaces. In this script, the penalty parameter is set to $\lambda=1.0$.
+
+Ridge regression is included because it tests a stricter requirement than classification. It is one thing to correctly infer whether the market is more likely to move up or down; it is much harder to predict the actual return magnitude. As will be discussed later, the regression results remain weak, which suggests that the extracted features are better suited to coarse directional information than to precise numeric forecasting.
+
+\subsection{Evaluation Protocol}
+
+A major concern in financial prediction tasks is look-ahead bias and inadvertent temporal leakage. For this reason, the modelling script uses strictly time-aware train--test splits.
+
+\subsubsection{Time-Ordered 80/20 Split}
+
+The first evaluation scheme sorts the observations chronologically by publication timestamp and uses the earliest $80\%$ for training and the most recent $20\%$ for testing. If the ordered dataset contains $N$ observations, then the split point is approximately
+\[
+N_{\text{train}} = \lfloor 0.8N \rfloor,
+\qquad
+N_{\text{test}} = N - N_{\text{train}}.
+\]
+This design preserves temporal ordering and avoids the unrealistic mixing of past and future observations that would occur under a random split.
+
+This first split is useful because it provides a relatively large training sample while still evaluating the model on unseen future data. In the present project, this setup produced the most encouraging results for the 2-day classification task, particularly before moving to the stricter validation scheme.
+
+\subsubsection{Strict Last-5-Days Split}
+
+The second evaluation scheme is deliberately more demanding. Instead of reserving a proportional test fraction, it holds out the final five unique trading days of the sample as the test set. All earlier days are used for training. If $\mathcal{D}$ denotes the set of event dates and $d_{(1)} < \cdots < d_{(K)}$ the sorted unique days, then the test set is
+\[
+\{d_{(K-4)}, d_{(K-3)}, d_{(K-2)}, d_{(K-1)}, d_{(K)}\}.
+\]
+This split more closely resembles a realistic forecasting situation in which a model trained on historical data is asked to generalise to the most recent period.
+
+The value of this second split is methodological rather than merely technical. A model that looks strong under a broad time-ordered 80/20 partition may still fail once asked to predict a compact and genuinely out-of-sample terminal block. In financial data, where distributions can shift quickly over time, this distinction is crucial.
+
+\subsection{Performance Metrics}
+
+For classification, three metrics are recorded:
+\begin{itemize}
+    \item \textbf{Accuracy}
+    \[
+    \text{Accuracy} = \frac{1}{N}\sum_{n=1}^{N}\mathbf{1}(\hat{y}_n = y_n),
+    \]
+    \item \textbf{Macro F1-score}, which averages class-specific F1-scores equally,
+    \[
+    \text{F1}_c = \frac{2 \cdot \text{Precision}_c \cdot \text{Recall}_c}{\text{Precision}_c + \text{Recall}_c},
+    \qquad
+    \text{Macro F1} = \frac{1}{C}\sum_{c=1}^{C}\text{F1}_c,
+    \]
+    \item \textbf{Weighted F1-score}, which weights each class by its support.
+\end{itemize}
+
+These metrics are reported because accuracy alone can be misleading under class imbalance. A model that simply follows the dominant class can appear strong in terms of accuracy while being uninformative in practice. Macro F1 is therefore particularly helpful in determining whether both directions are being predicted meaningfully.
+
+For regression, the reported metrics are mean absolute error (MAE), root mean squared error (RMSE), and coefficient of determination:
+\[
+\text{MAE} = \frac{1}{N}\sum_{n=1}^{N} |r_n - \hat{r}_n|,
+\]
+\[
+\text{RMSE} = \sqrt{\frac{1}{N}\sum_{n=1}^{N}(r_n - \hat{r}_n)^2},
+\]
+\[
+R^2 = 1 - \frac{\sum_{n=1}^{N}(r_n-\hat{r}_n)^2}{\sum_{n=1}^{N}(r_n-\bar{r})^2}.
+\]
+In this context, negative $R^2$ values indicate that the model performs worse than simply predicting the mean return.
+
+\subsection{Daily Horizon Focus}
+
+Although the broader project also considered intraday targets such as 15-minute and 60-minute post-publication reactions, these are not emphasised in the present section. Empirically, those very short horizons did not produce stable predictive results and were close to random classification. This is not entirely surprising. Ultra-short-term price movements are affected by market microstructure, latency, order flow, liquidity conditions, and other factors that are not explicitly represented in the extracted article features.
+
+The 1-day and especially 2-day horizons are therefore more appropriate for testing whether structured semantic event information is reflected in subsequent price behaviour. These horizons allow some time for information assimilation and reduce the extent to which the target is dominated by immediate trading noise.
+
+\subsection{Interpretability and Coefficient Inspection}
+
+One of the practical advantages of logistic regression in this setup is that the fitted coefficients can be inspected directly after training. In the code, this is done for the 2-day horizon in the specification without firm identity features. After one-hot encoding, the model yields coefficients for transformed features such as:
+\[
+\begin{aligned}[t]
+&\texttt{cat\_\_magnitude\_HIGH},\\
+&\texttt{cat\_\_event\_type\_MANAGEMENT},\\
+&\texttt{cat\_\_event\_type\_EARNINGS},\\
+&\texttt{cat\_\_uncertainty\_LOW}
+\end{aligned}
+\]
+
+Illustratively, features with positive coefficients increase the estimated probability of the \texttt{UP} class, while features with negative coefficients increase the estimated probability of the \texttt{DOWN} class. In the current experiments, examples of positively associated features include high-magnitude events, management-related events, earnings-related events, and low-uncertainty signals. These are economically plausible relationships: highly salient and relatively clear information may be more likely to trigger a directional market response than vague or ambiguous news.
+
+At the same time, coefficient interpretation must be treated carefully. Coefficients are conditional on the entire encoded feature space and may vary across temporal splits. A feature that looks helpful under one split may weaken or reverse under another if the underlying market regime changes. For that reason, coefficient inspection is informative, but not sufficient on its own to establish robustness.
+
+\subsection{Summary}
+
+The predictive modelling stage is designed as a structured and increasingly demanding test of the event representation. Several points are methodologically important.
+
+First, the task is defined at the event level rather than at the aggregate daily firm level. This preserves the granularity of the article-derived features and allows the model to learn from individual news events.
+
+Second, the study evaluates both identity-aware and identity-free feature specifications. The current run excludes \texttt{symbol} and \texttt{company\_name}, but both settings are retained because the difference between them is analytically relevant and will be discussed in the evaluation chapter.
+
+Third, the modelling pipeline combines careful preprocessing, interpretable linear modelling, and a flexible non-linear benchmark. This allows the analysis to distinguish between simple linear signal, more complex interaction-driven signal, and pure class imbalance effects.
+
+Fourth, the use of two temporal split strategies is central to the credibility of the results. The time-ordered 80/20 split provides an initial signal check, whereas the strict last-5-days split serves as a more realistic stress test of out-of-sample generalisation.
+
+Overall, this modelling setup is intended to answer a focused research question: whether structured semantic features extracted from financial news can predict subsequent stock direction at short daily horizons, and whether any observed signal remains meaningful once temporal evaluation is made stricter. The numerical results themselves are interpreted in the following sections.

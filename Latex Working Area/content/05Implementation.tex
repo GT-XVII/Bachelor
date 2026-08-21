@@ -1,0 +1,205 @@
+%!TEX root = ../dokumentation.tex
+
+\chapter{Implementation}
+\label{ch:implementation}
+
+\section{Development Environment and Tooling}
+\label{sec:devenv}
+
+Both systems are implemented and evaluated on an Apple M4 workstation with 16\,GB of unified memory, running macOS. All code is written in Python~3.14.6. No discrete GPU is required: \texttt{sentence-transformers} version~5.x automatically selects Apple Silicon MPS as the compute backend for embedding and cross-encoder inference on M4, providing hardware acceleration without CUDA. FAISS nearest-neighbour search runs on CPU using \texttt{faiss-cpu}, which is sufficient for the index sizes used — 4,840 vectors in the unified RAG index and at most 1,499 vectors per agent sub-index.
+
+Table~\ref{tab:libraries} lists all dependencies with confirmed installed versions. The dependency set is partitioned into two requirements files: \texttt{requirements\_rag.txt} covers the RAG pipeline alone, and \texttt{requirements\_agent.txt} covers the agent and is a strict superset of the RAG requirements. Installing the agent requirements file is therefore sufficient to prepare both systems for execution. The evaluation libraries — RAGAS, BERTScore, and rouge-score — are not installed during development to avoid dependency conflicts with the inference stack; they are added to the same environment immediately before the evaluation scripts are run.
+
+\begin{table}[ht]
+\centering
+\caption{Project dependencies with confirmed installed versions (verified 2026-08-17).}
+\label{tab:libraries}
+\begin{tabular}{llp{6.4cm}}
+\hline
+\textbf{Library} & \textbf{Version} & \textbf{Role} \\
+\hline
+\multicolumn{3}{l}{\textit{Inference stack}} \\
+\texttt{openai} & 3.0.0 & RAG LLM client (OpenAI-compatible REST API) \\
+\texttt{sentence-transformers} & 5.7.0 & BGE-base-en-v1.5 embeddings; CrossEncoder reranker \\
+\texttt{transformers} & 5.15.0 & HuggingFace model loading (used by sentence-transformers) \\
+\texttt{faiss-cpu} & 1.15.0 & \texttt{IndexFlatIP} nearest-neighbour search \\
+\texttt{numpy} & 2.5.2 & L2 normalisation; cosine similarity \\
+\hline
+\multicolumn{3}{l}{\textit{Agent framework}} \\
+\texttt{langgraph} & 1.2.11 & Agent loop (\texttt{create\_react\_agent}, StateGraph) \\
+\texttt{langchain} & 1.3.15 & Core abstractions \\
+\texttt{langchain-openai} & 1.5.1 & \texttt{ChatOpenAI} wrapper for agent LLM calls \\
+\texttt{langchain-core} & 1.5.5 & \texttt{@tool} decorator; \texttt{AIMessage}; \texttt{ToolMessage} \\
+\texttt{langchain-community} & 0.4.2 & \texttt{get\_openai\_callback()} for token counting \\
+\hline
+\multicolumn{3}{l}{\textit{Utilities}} \\
+\texttt{python-dotenv} & 1.2.2 & Loads \texttt{.env} into \texttt{os.environ} at startup \\
+\texttt{tqdm} & 4.70.0 & Ingestion progress bars \\
+\texttt{requests} & 2.34.2 & GitHub REST API calls (acquisition scripts) \\
+\texttt{pdfplumber} & 0.11.10 & PDF text extraction (acquisition scripts) \\
+\hline
+\multicolumn{3}{l}{\textit{Evaluation (to be installed before evaluation run)}} \\
+\texttt{ragas} & --- & Context relevance, faithfulness, answer relevance \\
+\texttt{bert-score} & --- & BERTScore F1 against ground-truth answers \\
+\texttt{rouge-score} & --- & ROUGE-L lexical overlap \\
+\hline
+\end{tabular}
+\end{table}
+
+The repository is organised into four top-level directories — \texttt{rag/}, \texttt{agent/}, \texttt{data/}, and \texttt{scripts/} — each encapsulating one functional concern. The listing below shows the layout at two levels of depth, with the large corpus and index directories collapsed.
+
+\begin{small}
+\begin{verbatim}
+.
+├── .env                    API keys and model name (not committed)
+├── .env.example            Template with placeholder values
+├── requirements_rag.txt    RAG pipeline dependencies
+├── requirements_agent.txt  Agent dependencies (superset of RAG)
+├── data/
+│   ├── corpus/             Three JSONL files, one per source type
+│   ├── eval/               queries.jsonl; candidates.jsonl
+│   └── raw/                Downloaded PDFs; cloned doc repositories
+├── rag/
+│   ├── config.py           Models, chunk size, top-k, prompts
+│   ├── ingest.py           Builds unified FAISS index from corpus
+│   ├── retrieve.py         FAISS search + CrossEncoder reranking
+│   ├── generate.py         AI Refinery LLM call
+│   ├── pipeline.py         Orchestrate retrieve + generate; log
+│   └── indexes/            unified.faiss + unified_chunks.jsonl
+├── agent/
+│   ├── config.py           LLM, top-k, iterations, system prompt
+│   ├── ingest.py           Builds three per-source FAISS indexes
+│   ├── tools.py            @tool functions; per-source retrieval
+│   ├── agent.py            create_react_agent construction
+│   ├── pipeline.py         Run ReAct loop; log
+│   └── indexes/            Per-source .faiss + _chunks.jsonl
+└── scripts/
+    ├── acquisition/        01_fetch_github_issues.py
+    │                       02_fetch_markdown_docs.py
+    │                       03_fetch_pdfs.py
+    └── evaluation/         generate_queries.py; check_queries.py
+\end{verbatim}
+\end{small}
+
+Reproduction of the full environment from a fresh clone requires four steps. First, dependencies are installed with \texttt{pip install -r requirements\_agent.txt}; the agent file is a superset of the RAG requirements, so a single install covers both systems. Second, \texttt{.env.example} is copied to \texttt{.env} and three values are provided: \texttt{AI\_REFINERY\_BASE\_URL}, \texttt{AI\_REFINERY\_API\_KEY}, and \texttt{LLM\_MODEL}. Third, the RAG index is built with \texttt{python -m rag.ingest}, which reads \texttt{data/corpus/}, chunks all records, computes embeddings, and writes the unified FAISS index to \texttt{rag/indexes/}; this step completes in approximately two minutes on M4. Fourth, the agent indexes are built with \texttt{python -m agent.ingest}, which performs the same pipeline filtered by source type for each of the three per-source indexes; this step completes in approximately one minute.
+
+Three operational constraints govern the evaluation run. First, the AI Refinery LLM endpoint is hosted on Accenture's internal Kubernetes cluster and is unreachable without an active VPN connection; both pipelines fail with a connection timeout when the VPN is not engaged, as confirmed during development. Second, queries are submitted sequentially rather than in parallel — the endpoint does not publish rate limits, and sequential execution also eliminates concurrency artefacts from per-query wall-clock latency measurements, which are a primary evaluation metric. Third, token consumption across the 90-query evaluation is estimated at approximately 600,000 input tokens for the RAG pipeline — reflecting one LLM call per query with up to five retrieved chunks as context — and at 900,000 to 1,200,000 input tokens for the agent, reflecting context accumulation across one to three LLM calls per query in the ReAct loop; both figures are within the available API budget for a single uninterrupted evaluation run.
+
+\section{RAG Pipeline Implementation}
+\label{sec:rag-impl}
+
+\subsection{Chunking and Embedding}
+
+The ingestion script (\texttt{rag/ingest.py}) transforms raw corpus records into embedded chunk vectors in a single sequential pass: load all JSONL records, split each into overlapping windows, embed the resulting texts, and write a FAISS index alongside a companion chunk metadata file.
+
+Chunking uses a word-count sliding window with a target size of 400 words and an overlap of 60 words, giving a step size of 340 words between window starts. The implementation splits on whitespace and joins the selected word slice back into a string — no tokeniser is involved. This word-based approach was chosen deliberately: it avoids a dependency on any specific tokeniser vocabulary, produces predictable chunk lengths across the three structurally different source types, and ensures that the same chunking code is shared without modification between the RAG and agent ingestion pipelines. Documents shorter than 400 words are emitted as a single chunk. Applied to the 1,623-record corpus, the pipeline produces 4,840 chunks, each identified by a \texttt{chunk\_id} of the form \texttt{<doc\_id>\_\_chunk<n>}.
+
+The 400-word target balances two competing constraints. A chunk must be long enough to contain a complete technical thought — a single sentence is too short for the cross-encoder reranker to assess relevance meaningfully — but short enough that the top-5 reranked chunks fit comfortably within the LLM context window alongside the system prompt. At a subword expansion ratio of approximately 1.3 tokens per word, five chunks of 400 words each contribute roughly 2,600 tokens of context, well within the limits of \texttt{gpt-oss-120b}.
+
+Embeddings are computed with \texttt{BAAI/bge-base-en-v1.5}, a 768-dimensional bi-encoder that ranked among the top open-source retrieval models on the MTEB leaderboard at implementation time and requires no commercial licence. The model encodes all chunk texts with \texttt{normalize\_embeddings=True}, which L2-normalises each vector before it is written to the FAISS index. Normalisation is required by the choice of \texttt{IndexFlatIP} as the index type: inner product on unit-norm vectors equals cosine similarity, so the index provides exact cosine search without approximation. Encoding is batched at 64 chunks per forward pass to control peak memory usage.
+
+\subsection{Retrieval and Reranking}
+
+Retrieval operates in two stages, implemented in \texttt{rag/retrieve.py}. The first stage uses FAISS to retrieve the 20 nearest chunks to the query by cosine similarity. The second stage reranks those 20 candidates with a cross-encoder and returns the top 5 to the generator.
+
+Before the FAISS search, the query string is prefixed with the BGE retrieval instruction (\textit{``Represent this sentence for searching relevant passages: ''}) and encoded with the same embedding model used at ingest time. This asymmetric prefix is specified in the BGE model card for retrieval tasks: document texts are indexed without a prefix, while query vectors use the instruction prefix to shift the query embedding toward the retrieval subspace. The prefixed query vector is L2-normalised to match the index vectors, and \texttt{IndexFlatIP.search()} returns the 20 highest inner-product scores along with their indices into the chunk metadata file. Retrieving 20 candidates before reranking provides a recall buffer: the bi-encoder embedding may rank some genuinely relevant passages outside the top 5, and the wider candidate set gives the cross-encoder an opportunity to promote them.
+
+The cross-encoder model (\texttt{cross-encoder/ms-marco-MiniLM-L-6-v2}) scores each (query, candidate\,text) pair jointly rather than encoding query and document independently. This joint encoding allows the model to attend to fine-grained token-level interactions between the query and the passage, giving substantially better relevance estimates than the bi-encoder at the cost of 20 sequential forward passes per query. Candidates are sorted descending by cross-encoder score and the top 5 are passed to the generator. Both the FAISS score and the cross-encoder score are retained in each chunk's metadata and written to the query log, supporting post-hoc analysis of retrieval behaviour.
+
+The generator (\texttt{rag/generate.py}) constructs a user message from the top-5 chunks by numbering each passage and prepending its source type, title, and URL. A system prompt instructs the model to answer using only the provided context passages and to state explicitly when the context is insufficient. The LLM is called at temperature 0.0 for deterministic, reproducible output. Token counts are read from the API response's \texttt{usage} field and recorded in the log. The \texttt{RAGPipeline} class in \texttt{rag/pipeline.py} sequences the two stages, records wall-clock latency for each stage and for the full query, and appends a structured JSON record to a per-session log file.
+
+\subsection{Failure Modes and Resolutions}
+
+Four failure modes were encountered during development and resolved before the evaluation run.
+
+\textbf{Missing BGE query prefix.} An early version of the retrieval code embedded query strings without the retrieval instruction prefix. Retrieval quality was measurably lower for several test queries — relevant passages appeared outside the top-20 candidate set — because the query vector fell in a region of the embedding space associated with general sentence similarity rather than passage retrieval. The fix was to apply the prefix unconditionally at query time, following the model card specification.
+
+\textbf{Extra body parameter rejected by AI Refinery.} The initial generation call included \texttt{chat\_template\_kwargs} in the \texttt{extra\_body} argument, a vLLM-specific extension used by some self-hosted deployments. The AI Refinery endpoint returned a validation error for this field. The resolution was to set \texttt{extra\_body} to \texttt{None} when the configured base URL matches the AI Refinery hostname, a behaviour controlled by the \texttt{\_skip\_extra\_body} flag in \texttt{rag/config.py}. The same flag is used by the agent configuration, keeping the workaround in one place.
+
+\textbf{VPN-gated endpoint.} The AI Refinery endpoint is on Accenture's internal Kubernetes cluster and returns a connection timeout without VPN. This manifested as \texttt{httpx.ConnectTimeout} propagating up through the OpenAI client. The resolution is operational rather than code-level: the evaluation run must be initiated with an active VPN connection.
+
+\textbf{Unnormalised vectors in IndexFlatIP.} A prototype built before normalisation was added to the ingest pipeline stored raw embedding vectors in the FAISS index. Inner-product scores for unnormalised vectors do not correspond to cosine similarity, so retrieval rankings were meaningless. The fix was to pass \texttt{normalize\_embeddings=True} to \texttt{model.encode()} in both the ingest script and the query-time embedding call, ensuring that all vectors in the index and all query vectors lie on the unit hypersphere.
+
+\section{Agent Implementation}
+\label{sec:agent-impl}
+
+\subsection{Agent Loop}
+
+The agent loop is constructed in \texttt{agent/agent.py} using \texttt{create\_react\_agent} from \texttt{langgraph.prebuilt}, which builds a compiled LangGraph \texttt{StateGraph} from an LLM and a list of tools. The resulting graph implements the ReAct pattern described by \citeasnoun{yao2023react}: the model reasons about the query, emits a tool call, receives the retrieval result as an observation, and repeats until it produces a final answer without a tool call. In LangGraph~1.2.11 this loop is expressed through the model's native function-calling API rather than through text-parsed Thought/Action strings. Structurally, the pattern is unchanged — the agent alternates between reasoning and acting — but the mechanism is more reliable because tool selection and argument extraction are handled by the model's structured output, not by fragile regex parsing of generated text.
+
+Each iteration of the loop corresponds to two LangGraph supersteps: an agent node in which the LLM produces an \texttt{AIMessage} containing one or more \texttt{tool\_calls}, and a tools node in which those calls are executed and the results are returned as \texttt{ToolMessage} objects appended to the state. The model receives the updated message history — including all prior tool observations — at the start of each subsequent agent node. The loop terminates when the model emits an \texttt{AIMessage} with no \texttt{tool\_calls}, which is taken as the final answer. A recursion limit of 13 supersteps is configured, corresponding to six complete tool-call cycles plus one final answer step. If this limit is reached, LangGraph raises a \texttt{GraphRecursionError}, which \texttt{AgentPipeline} catches and records as \texttt{finish\_reason: "max\_iterations"} in the query log.
+
+One implementation obstacle arose from a breaking API change in LangChain~1.x. The \texttt{create\_react\_agent} function and \texttt{AgentExecutor} class had both been removed from the \texttt{langchain.agents} namespace and migrated to LangGraph, causing an \texttt{ImportError} at startup. The resolution was to import \texttt{create\_react\_agent} from \texttt{langgraph.prebuilt} and adapt the pipeline to LangGraph's message-based state, replacing the legacy \texttt{intermediate\_steps} tuple list.
+
+\subsection{Tool Implementations}
+
+The three retrieval tools are implemented in \texttt{agent/tools.py}. Each tool is a Python function decorated with LangChain's \texttt{@tool} decorator, which registers the function's docstring as the description exposed to the model and wraps the return value as a \texttt{ToolMessage} observation. At runtime, each function delegates to a \texttt{SourceRetriever} instance bound to one of the three per-source FAISS indexes.
+
+\texttt{SourceRetriever} encapsulates the same two-stage retrieval pipeline used in the RAG system: the query is embedded with the BGE prefix, the FAISS index returns 20 nearest-neighbour candidates by cosine similarity, and the cross-encoder reranks those candidates and returns the top~5. The embedding model, reranker, chunking parameters, and top-k settings are identical to those used in the RAG pipeline, loaded from the shared configuration values in \texttt{agent/config.py}. Because retrieval mechanics are identical, any quality difference observed in the evaluation reflects routing and synthesis behaviour, not per-chunk retrieval quality. The reranked chunks are formatted as a numbered list of passages — each with source type, title, URL, relevance score, and text — and returned as a plain string observation to the agent.
+
+The markdown documentation index is built from a 400-record random sample of the full 1,283-record markdown corpus, specified by \texttt{SOURCE\_LIMITS["markdown\_doc"] = 400} in the agent configuration. This downsampling prevents the markdown source from dominating the per-source index by a factor of six over the other two sources and keeps agent index build time comparable to the RAG ingestion run. The downsampled subset is selected with a fixed random seed to ensure reproducibility.
+
+Post-hoc reconstruction of which chunks were retrieved during a query is handled by the \texttt{ToolBundle} class. Each \texttt{SourceRetriever} appends the list of returned chunks to an internal \texttt{\_call\_history} list after every \texttt{search()} call. After the agent completes, \texttt{ToolBundle.collect\_retrieved()} flushes these histories and matches each retriever call to the corresponding step in the agent trace using per-tool cursor indices. The result is a flat list of structured chunk records annotated with step number and tool name, written to the query log in the same schema as the RAG retrieved-chunks field. Because LangGraph exposes intermediate steps as message objects rather than \texttt{(AgentAction, observation)} tuples, a lightweight \texttt{\_ToolCallProxy} adapter class in \texttt{agent/pipeline.py} bridges the two representations so that \texttt{collect\_retrieved()} can process both without modification.
+
+\subsection{System Prompt and Routing Behaviour}
+
+The system prompt passed to \texttt{create\_react\_agent} establishes the agent's identity and constraints in five sentences: it names the role (enterprise knowledge assistant), enumerates the three available source categories (GitHub issues, technical documentation, CNCF whitepapers), instructs the model to use tools before answering, instructs it to search multiple sources when the question spans more than one, and constrains the final answer to retrieved evidence. No explicit routing rules are encoded in the prompt — the model is not told which tool to use for which query type.
+
+Routing decisions emerge entirely from the match between query semantics and the natural-language descriptions registered in each tool's docstring, which specify appropriate use cases:
+
+\begin{itemize}
+\item \texttt{search\_github\_issues}: bug reports, feature requests, and error resolutions
+\item \texttt{search\_markdown\_docs}: conceptual explanations, how-to guides, and configuration references
+\item \texttt{search\_pdf\_whitepapers}: standards, best practices, and threat models
+\end{itemize}
+
+The model selects among these by attending to the query's vocabulary and intent, which is the routing mechanism authentic to the ReAct pattern \cite{yao2023react}. Encoding routing as tool descriptions rather than deterministic dispatch rules means the agent can handle query phrasings that do not exactly match any predefined category, at the cost of occasional mis-routing that is directly observable in the evaluation's routing accuracy metric.
+
+The LLM is configured at temperature~0.0 throughout the ReAct loop, making both tool selection and answer generation deterministic for a given query. This is necessary for the evaluation: the routing accuracy metric compares the agent's \texttt{sources\_used} log field against the ground-truth \texttt{source\_type} labels in \texttt{data/eval/queries.jsonl}, and non-deterministic routing would make repeated runs produce different accuracy values from the same query set.
+
+\section{Logging and Instrumentation}
+\label{sec:logging}
+
+Both pipelines write structured JSON logs to enable post-hoc evaluation without re-running queries. Every query produces one JSON record appended to a per-session log file; evaluation scripts consume these files directly, without any intermediate transformation. The RAG and agent logs share an identical set of outer fields — making cross-system comparison a straightforward field-by-field join on \texttt{query} — and the agent log extends this shared schema with three additional fields that have no RAG equivalent. Table~\ref{tab:log_schema} lists the complete field set for both systems.
+
+\begin{table}[ht]
+\centering
+\caption{Log record schema. Shared fields are produced identically by both pipelines; agent-only fields have no equivalent in the RAG log.}
+\label{tab:log_schema}
+\begin{tabular}{llp{5.8cm}}
+\hline
+\textbf{Field} & \textbf{Type} & \textbf{Description} \\
+\hline
+\multicolumn{3}{l}{\textit{Shared fields (RAG and agent)}} \\
+\texttt{timestamp}        & string  & UTC ISO-8601 timestamp, set after query completes \\
+\texttt{system}           & string  & \texttt{"rag"} or \texttt{"agent"} \\
+\texttt{query}            & string  & The input question \\
+\texttt{answer}           & string  & The generated answer \\
+\texttt{finish\_reason}   & string  & \texttt{"stop"} or \texttt{"max\_iterations"} \\
+\texttt{retrieved}        & array   & Chunk metadata: chunk\_id, source\_type, doc\_id, title, faiss\_score, rerank\_score \\
+\texttt{latency.total\_s} & float   & Wall-clock time, query start to answer complete \\
+\texttt{tokens.input}     & int     & Prompt tokens consumed \\
+\texttt{tokens.output}    & int     & Completion tokens generated \\
+\texttt{tokens.total}     & int     & Sum of input and output tokens \\
+\hline
+\multicolumn{3}{l}{\textit{RAG-only additional latency fields}} \\
+\texttt{latency.retrieve\_s} & float & FAISS search and cross-encoder reranking time \\
+\texttt{latency.generate\_s} & float & LLM call time \\
+\hline
+\multicolumn{3}{l}{\textit{Agent-only fields}} \\
+\texttt{agent\_trace}     & array   & One entry per tool call: step, tool name, tool input, observation \\
+\texttt{tool\_calls}      & int     & Number of completed tool calls (\texttt{len(agent\_trace)}) \\
+\texttt{sources\_used}    & array   & Sorted unique tool names from the trace \\
+\hline
+\end{tabular}
+\end{table}
+
+Latency is measured with \texttt{time.perf\_counter()}, which provides sub-millisecond wall-clock resolution and is not affected by system clock adjustments. In the RAG pipeline, timing is split across two instrumented blocks: \texttt{latency.retrieve\_s} wraps the \texttt{Retriever.retrieve()} call — covering FAISS search and cross-encoder reranking — and \texttt{latency.generate\_s} wraps the \texttt{Generator.generate()} call, covering the LLM API round-trip only. The agent pipeline records only \texttt{latency.total\_s}, wrapping the entire \texttt{app.invoke()} call that runs the ReAct loop. A per-stage breakdown is not recorded for the agent because the number of LLM calls and tool invocations varies per query; isolating individual stages would require instrumenting LangGraph's internal graph execution, which would complicate the implementation without adding evaluation value. In both systems, the timer is stopped before the log write, so file I/O is excluded from all latency figures.
+
+Token consumption is captured by two different mechanisms that produce the same \texttt{tokens} field structure. For the RAG pipeline, prompt and completion token counts are extracted from the \texttt{usage} object that the OpenAI API returns alongside every chat completion. For the agent pipeline, a callback context manager is used instead, because the multi-step loop makes per-response token access impractical.
+
+The \texttt{get\_openai\_callback()} function from \texttt{langchain\_community} wraps the \texttt{app.invoke()} call and intercepts every LLM invocation the LangGraph StateGraph makes internally, accumulating prompt and completion tokens across all steps of the ReAct loop. Without it, token totals would require summing counts from each \texttt{AIMessage} individually, which the LangGraph API does not directly expose. If \texttt{langchain\_community} is unavailable, the agent pipeline falls back to reporting zero for both token fields.
+
+The agent trace is constructed after \texttt{app.invoke()} returns by scanning the final message list in order. Each \texttt{AIMessage} that contains \texttt{tool\_calls} is processed to create a partial trace entry — recording the step number, the tool name, and the query argument — stored in a pending dictionary keyed by \texttt{tool\_call\_id}. Each subsequent \texttt{ToolMessage} is matched to its pending entry by \texttt{tool\_call\_id} and the observation text, truncated to 3\,000 characters, is attached to complete the entry. Completed entries are appended to \texttt{agent\_trace} in execution order. The \texttt{sources\_used} field is derived as the sorted unique set of tool names from the completed trace, and \texttt{tool\_calls} is set to the length of the trace list. Truncating observations at 3\,000 characters bounds log file size while retaining enough context for manual inspection of routing decisions.
+
+Each pipeline instance writes to a single JSONL file named with a UTC timestamp at initialisation time — for example, \texttt{rag/logs/rag\_20260812T193235.jsonl}. Records are appended one per line in the format \texttt{json.dumps(result) + "\textbackslash n"}, which produces a valid JSONL file that evaluation scripts can process with a single line-by-line read. Using a per-session file rather than a single accumulating log prevents query records from different runs from interleaving and allows partial evaluation runs to be identified and re-run by filename timestamp.

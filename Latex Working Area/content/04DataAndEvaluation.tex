@@ -1,0 +1,171 @@
+%!TEX root = ../dokumentation.tex
+
+\chapter{Data and Evaluation Setup}
+\label{ch:data}
+
+\section{Dataset Construction}
+\label{sec:dataset}
+
+The corpus used in this evaluation was assembled from three structurally distinct open-source document collections, each selected as a proxy for a category of enterprise knowledge source. Collection, preprocessing, and normalisation were automated through three Python scripts — \texttt{01\_fetch\_github\_issues.py}, \texttt{02\_fetch\_markdown\_docs.py}, and \texttt{03\_fetch\_pdfs.py} — executed against publicly accessible repositories and APIs. All records were written to the unified JSONL schema defined in Section~\ref{ch:design} before being consumed by either retrieval system.
+
+\subsection{Data Collection per Source Type}
+
+\textbf{GitHub Issues.} Issues were retrieved from \texttt{kubernetes/kubernetes} and \texttt{microsoft/vscode} via the GitHub REST API v3 using a Personal Access Token, which raises the authenticated rate limit from 60 to 5\,000 requests per hour. A target of 100 qualifying issues per repository was set, yielding a maximum corpus of 200 records. Four filter criteria were applied during collection: only closed issues were fetched, because closed records contain resolution context alongside the original problem description; the issue body was required to exceed 200 characters, excluding stub entries; at least one comment was required, ensuring discussion beyond the opening post; and issues carrying the labels \textit{duplicate}, \textit{invalid}, or \textit{wontfix} were discarded. Pull requests, which share the GitHub issues endpoint, were identified and excluded via the presence of a \texttt{pull\_request} field in the API response. For each qualifying issue, a separate request retrieved up to 50 comments; the issue body and all comment texts were concatenated with a separator into a single \texttt{content} field.
+
+\textbf{Markdown and RST documentation.} Three repositories were cloned using \texttt{git clone \texttt{-{}-}depth=1 \texttt{-{}-}filter=blob:none \texttt{-{}-}sparse} to minimise bandwidth by downloading only the relevant documentation subtree. From \texttt{kubernetes/website}, only the \texttt{content/en/docs} directory was checked out, yielding Markdown files from the official Kubernetes documentation. From \texttt{ansible/ansible-documentation}, the \texttt{docs/} directory was checked out, containing both Markdown and RST files. The \texttt{cncf/tag-observability} repository was cloned in full, as it is a small repository whose content — including the 68\,KB observability whitepaper and working-group documents — is distributed across the root and subdirectories. Directories that contain navigation scaffolding, theme assets, and non-prose content were excluded by path matching against a fixed skip-list (\texttt{assets}, \texttt{static}, \texttt{themes}, \texttt{\_layouts}, and equivalents). Files smaller than 1\,KB were discarded before markup stripping.
+
+\textbf{PDF whitepapers.} Fourteen CNCF documents were downloaded via HTTPS from five repositories: \texttt{cncf/tag-security} (five documents, \texttt{main} branch), \texttt{cncf/tag-storage} (two documents, \texttt{master} branch), \texttt{cncf/tag-app-delivery} (three documents), \texttt{cncf/foundation} (two documents), and \texttt{cncf/wg-serverless} (one document, \texttt{master} branch). Text was extracted page by page using \texttt{pdfplumber}. Pages were classified as junk and discarded if they contained fewer than 100 characters of extracted text or if more than 70\,\% of their non-empty lines were shorter than 50 characters — a heuristic that reliably identifies cover pages and table-of-contents pages without requiring heading detection. The CNCF AI-assisted development survey yielded zero extractable text pages due to a graphics-only layout and was excluded from the corpus. The remaining 13 documents were segmented into overlapping four-page windows with a one-page overlap, producing sections of coherent prose suitable for retrieval.
+
+\subsection{Preprocessing and Normalisation}
+
+Markdown and RST files were reduced to plain text by a regular-expression pipeline that removed YAML front matter, fenced code blocks, inline code spans, HTML tags, Hugo shortcodes, and Markdown image references. Markdown hyperlinks were reduced to their display label; RST roles were similarly reduced to their content. RST structural underline characters and directive declarations were removed. Consecutive blank lines were collapsed to a single blank line. This pipeline was applied uniformly to both Markdown and RST files; no format-specific branch was required beyond the removal of RST-specific syntax. All records from the documentation and PDF sources were capped at 8\,000 characters after stripping, preventing any single document from dominating retrieval contexts. GitHub issue content was not capped at this stage, as issue bodies and comment threads are segmented into 400-word overlapping chunks during index construction.
+
+Every record produced by each acquisition script was written to the same five-field JSONL schema — \texttt{source\_type}, \texttt{id}, \texttt{title}, \texttt{content}, \texttt{metadata} — described in Section~\ref{ch:design}. No cross-source deduplication was performed, as the three source types draw from non-overlapping repositories with non-overlapping document namespaces. Within each source, uniqueness is guaranteed by the issue number (GitHub), the file path relative to the repository root (Markdown), and the document name plus section index (PDF).
+
+\subsection{Corpus Statistics}
+
+The completed corpus contains 1\,623 records across the three source types, with a combined total of approximately 1\,449\,000 words. Table~\ref{tab:corpus_stats} reports per-source record counts, word-length statistics, and estimated token counts; the token estimates assume an average of 1.3 subword tokens per English word, consistent with the BGE tokeniser's subword vocabulary for technical prose.
+
+\begin{table}[ht]
+\centering
+\caption{Corpus statistics after acquisition, filtering, and normalisation.}
+\label{tab:corpus_stats}
+\begin{tabular}{lrrrr}
+\hline
+\textbf{Source type} & \textbf{Records} & \textbf{Avg words} & \textbf{Total words} & \textbf{Approx.\ tokens} \\
+\hline
+GitHub Issues        & 200   & 2\,434 & 486\,826   & 633\,000 \\
+Markdown / RST docs  & 1\,283 & 646   & 829\,088   & 1\,078\,000 \\
+PDF whitepaper sections & 140 & 952   & 133\,281   & 173\,000 \\
+\hline
+\textbf{Total}       & \textbf{1\,623} & & \textbf{1\,449\,195} & \textbf{1\,884\,000} \\
+\hline
+\end{tabular}
+\end{table}
+
+GitHub issues show the widest length variation: the distribution spans from brief issue stubs that passed the 200-character body filter to multi-comment threads exceeding 2\,000 words, with the majority falling between 200 and 500 words after the body and comments are concatenated. Markdown documents are tightly bounded by the 8\,000-character content cap, producing a maximum of approximately 1\,400 words per record and a distribution concentrated between 500 and 1\,000 words. PDF sections, also capped at 8\,000 characters, are the most length-uniform source: 88 of 140 sections fall in the 1\,000--2\,000-word range, reflecting the dense prose typical of formal technical whitepapers. The length diversity across source types mirrors the structural heterogeneity of the enterprise environment this corpus is designed to simulate.
+
+\section{Evaluation Query Set}
+
+\subsection{Synthetic QA Generation}
+
+Candidate question--answer pairs are generated by prompting \texttt{gpt-oss-120b}, accessed through the Accenture AI Refinery endpoint, against corpus excerpts sampled from the indexes built in Section~\ref{sec:dataset}. This LLM-assisted approach is established practice for constructing domain-specific evaluation benchmarks when no annotated dataset exists \cite{es2023ragas}. Using the same model for generation and for answer evaluation, rather than a separate weaker generator, keeps phrasing conventions consistent between ground-truth answers and the system outputs under evaluation, which reduces spurious penalties in semantic similarity scoring.
+
+One structured prompt template was designed for each query type; all templates instruct the model to return a JSON object containing the question, the ground-truth answer, and the list of source chunk identifiers forming the evidence base. The prompt for factual and synthesis questions specifies three requirements: the question must be answerable solely from the provided passage or passages, the wording must not quote or paraphrase the answer, and the question must be specific enough to admit exactly one correct answer. Responses are parsed with \texttt{json.loads}; responses that fail to parse or violate the expected schema are discarded before human review. The generation script, \texttt{scripts/evaluation/generate\_queries.py}, handles chunk sampling, prompt construction, API calls, and result storage. All generated candidates are written to \texttt{data/eval/candidates.jsonl}; the final reviewed set is stored in \texttt{data/eval/queries.jsonl} under the schema defined in Table~\ref{tab:query_schema}.
+
+\subsection{Query Taxonomy}
+
+The evaluation set contains 90 queries organised into four types, each designed to stress one of Gao et al.'s four RAG capability dimensions \cite{gao2023ragsurvey}. Table~\ref{tab:query_taxonomy} summarises the taxonomy. Structuring the query set around these dimensions makes the comparison between systems directly interpretable in terms of the literature: performance differences on each subset can be attributed to a specific aspect of retrieval behaviour rather than to undifferentiated query difficulty.
+
+\begin{table}[ht]
+\centering
+\caption{Evaluation query taxonomy: four types mapping to Gao et al.'s RAG capability dimensions.}
+\label{tab:query_taxonomy}
+\begin{tabular}{llrl}
+\hline
+\textbf{Type} & \textbf{Capability dimension} & \textbf{Count} & \textbf{Description} \\
+\hline
+Factual      & Noise robustness         & 30 & Single-chunk answer; one source type \\
+Synthesis    & Information integration  & 30 & Answer spans 2+ passages; $\geq$10 cross-source \\
+Ambiguous    & Noise robustness         & 15 & Underspecified query; no unique correct answer \\
+Unanswerable & Negative rejection       & 15 & Plausible but corpus-absent topic \\
+\hline
+\textbf{Total} &                        & \textbf{90} & \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Factual queries} each have a single correct answer contained within one corpus chunk. The generation script samples chunks stratified by source type---17 from Markdown documentation, 17 from GitHub issues, and 16 from PDF whitepapers---and prompts the model to produce one factual question per chunk. After manual review, the accepted set is balanced to approximately 10 questions per source type.
+
+\textbf{Synthesis queries} require combining information from at least two passages to answer correctly. Chunk pairs were sampled in three configurations: pairs from within the same document, pairs from different documents of the same source type, and pairs spanning two distinct source types (cross-source). Approximately 12 of the 40 sampled pairs are cross-source; the review process requires that at least 10 cross-source questions survive to the final set. Cross-source synthesis queries are structurally important for the agent evaluation: they require the agent to invoke multiple tools rather than resolving the query from a single index, making routing accuracy directly observable.
+
+\textbf{Ambiguous queries} are derived from accepted factual questions by removing one key identifying term---the technology name, the version specifier, or the system being described---and prompting the model to rewrite the result as a naturally underspecified query. The rewritten question remains plausible and domain-relevant but lacks the context required to return a unique correct answer. Approximately five ambiguous queries target each source type.
+
+\textbf{Unanswerable queries} are composed by hand rather than generated by a language model, because a model prompted against corpus excerpts cannot reliably invent plausible questions about topics the corpus does not contain. Each unanswerable question concerns a topic adjacent to the corpus domain but absent from every source---for example, Kubernetes features introduced after the issue snapshot date, security standards not referenced in any whitepaper, or Ansible modules absent from the documentation clone. Each candidate is verified by running it through both retrieval systems and confirming that no top-5 retrieved chunk provides a sufficient answer.
+
+\subsection{Manual Review and Filtering}
+
+Every LLM-generated candidate undergoes manual review before acceptance into the final query set. A candidate is accepted if six criteria are satisfied: the ground-truth answer is directly verifiable against the cited source text without inference beyond what is written; the question wording does not quote or paraphrase the answer; the question is non-trivial in the sense that a keyword match on its surface terms is insufficient to locate the answer; for synthesis candidates, the answer cannot be produced from any single chunk in isolation and both cited passages are genuinely required; for ambiguous candidates, the rewritten question reads naturally and would plausibly be asked by a domain non-expert; and the English is clear, well-formed, and domain-appropriate. A candidate is rejected if its answer admits multiple valid interpretations, if the question is a near-verbatim copy of a sentence from the source text, or if a correct answer requires domain knowledge not present in the corpus.
+
+Rejected candidates are deleted from \texttt{data/eval/candidates.jsonl}; accepted candidates may be edited before transfer to \texttt{data/eval/queries.jsonl}. A validation script, \texttt{scripts/evaluation/check\_queries.py}, enforces schema compliance and reports per-type counts after review, confirming that the final set meets the distribution targets in Table~\ref{tab:query_taxonomy}.
+
+\subsection{Final Query Set Statistics}
+
+\begin{table}[ht]
+\centering
+\caption{Query set schema for \texttt{data/eval/queries.jsonl}.}
+\label{tab:query_schema}
+\begin{tabular}{lll}
+\hline
+\textbf{Field} & \textbf{Type} & \textbf{Description} \\
+\hline
+\texttt{id}           & string       & Unique query identifier (\texttt{q001}--\texttt{q090}) \\
+\texttt{question}     & string       & The evaluation question \\
+\texttt{ground\_truth} & string      & Correct answer verifiable against source text \\
+\texttt{query\_type}  & enum         & \texttt{factual}, \texttt{synthesis}, \texttt{ambiguous}, \texttt{unanswerable} \\
+\texttt{source\_type} & enum         & \texttt{github\_issue}, \texttt{markdown\_doc}, \texttt{pdf\_whitepaper}, \texttt{cross\_source}, \texttt{none} \\
+\texttt{source\_ids}  & string list  & Chunk identifiers forming the ground-truth evidence base \\
+\texttt{notes}        & string       & Manual annotation (e.g., ambiguity rationale, verification notes) \\
+\hline
+\end{tabular}
+\end{table}
+
+The final set comprises 90 queries distributed across the four types and three primary source categories shown in Table~\ref{tab:query_taxonomy}. The \texttt{source\_type} field serves a dual purpose: it provides the primary expected source category for human-readable taxonomy, and it functions as the routing ground-truth label for agent evaluation. A query is considered correctly routed if at least one tool call in the agent trace targets the expected source type; for \texttt{cross\_source} queries, both expected source types must appear in the agent's \texttt{sources\_used} log field. The \texttt{source\_ids} field identifies the specific chunks that constitute the evidence base for each question, enabling post-hoc verification of context relevance at the chunk level during RAGAS evaluation. Together, these two fields provide the ground-truth annotations required to evaluate both systems on retrieval quality and, for the agent specifically, on source routing accuracy.
+
+\section{Evaluation Metrics Definition}
+\label{sec:metrics}
+
+\subsection{RAGAS Scores}
+
+Context relevance, faithfulness, and answer relevance — the three RAGAS metrics defined by \citeasnoun{es2023ragas} — form the primary quality signal for both systems, each targeting a distinct failure mode of retrieval-augmented generation. Context relevance measures how much of the retrieved context is relevant to the query: a low score indicates that the retrieval stage surfaces noisy or off-topic passages that dilute the context window. Faithfulness measures the fraction of factual claims in the generated answer that are directly supported by the retrieved context: a low score signals that the model asserts information not grounded in the retrieved material. Answer relevance measures how well the generated answer addresses the original question, scored by embedding multiple questions reverse-generated from the answer and computing their mean cosine similarity to the query: a low score indicates that the answer, while potentially faithful to the context, fails to respond to what was actually asked.
+
+All three metrics are computed by the RAGAS library using an LLM judge, which is invoked internally to classify retrieved sentences as relevant or irrelevant, to extract answer claims and verify them against the retrieved context, and to generate the reverse questions used in answer relevance scoring. Each metric requires four inputs per query: the question, the generated answer, the list of retrieved context passages, and — for faithfulness and answer relevance — the ground-truth answer string. These inputs are assembled from two sources: the question and ground-truth fields from \texttt{data/eval/queries.jsonl}, and the answer and retrieved chunk texts from the pipeline log.
+
+The RAGAS judge is configured to call \texttt{gpt-oss-120b} via the Accenture AI Refinery endpoint — the same model used to generate answers in both evaluation systems. Using the same model as both generator and judge prevents the judge's linguistic conventions from diverging from those of the generator, which would introduce a systematic bias into faithfulness and answer relevance scoring. Because the RAG and agent logs share an identical outer schema, the RAGAS input construction script applies without modification to either log file, ensuring that metric computation is structurally equivalent for both systems.
+
+\subsection{BERTScore and ROUGE-L}
+
+BERTScore computes precision, recall, and F1 between a generated answer and a ground-truth reference by matching contextual token embeddings rather than surface word forms, which allows it to credit semantically equivalent phrasings that exact-match metrics would penalise \cite{zhang2020bertscore}. The F1 score is the reported figure. Embeddings are produced by \texttt{microsoft/deberta-xlarge-mnli} with baseline rescaling, the recommended configuration for English-language evaluation, which calibrates raw cosine similarity scores against a language-model baseline to improve cross-domain comparability.
+
+ROUGE-L measures the longest common subsequence (LCS) between the generated and reference answer, normalised by reference length to produce a recall-oriented score. No model inference is required: the metric is computed using the standard \texttt{rouge-score} Python library and is fully deterministic. ROUGE-L is sensitive to word order and exact token overlap, making it a conservative lower bound on quality relative to BERTScore.
+
+Both metrics are applied to the \texttt{answer} field from the pipeline log against the \texttt{ground\_truth} field from \texttt{data/eval/queries.jsonl} across all 90 queries for both systems. Neither serves as a primary decision criterion for the comparison in Chapter~\ref{ch:results}: RAGAS captures the retrieval-specific quality properties — faithfulness and context relevance — that string-based metrics cannot directly observe. BERTScore and ROUGE-L provide secondary corroboration and offer a reference point for readers familiar with standard natural language generation benchmarks.
+
+\subsection{Latency and Token Cost}
+
+Latency and token consumption are read directly from the structured logs that both pipeline implementations produce, without requiring additional instrumentation. Response latency is recorded as \texttt{latency.total\_s} — the wall-clock time from query submission to the point at which the final answer string is complete. For the RAG pipeline this interval spans FAISS nearest-neighbour search, cross-encoder reranking, and LLM generation. For the agent pipeline it spans the entire ReAct loop, including every tool invocation and the final synthesis call. Both are measured end-to-end on the same machine, calling the same AI Refinery API endpoint, so hardware and network conditions are identical across systems.
+
+Reported latency statistics include the mean, median, and standard deviation across all 90 queries, and a per-query-type breakdown — factual, synthesis, ambiguous, and unanswerable — to reveal where each system's timing profile diverges. Token consumption is read from \texttt{tokens.input} and \texttt{tokens.output} in the log, captured via the OpenAI API response object for RAG and via \texttt{get\_openai\_callback()} for the agent. Because the AI Refinery endpoint does not publish per-token pricing externally, raw token counts form the primary reported figure. A cost estimate in USD is also provided using the publicly available GPT-4o pricing schedule (\$2.50 per million input tokens, \$10.00 per million output tokens) as a proxy, and is explicitly labelled as an approximation.
+
+Token cost is a practically important dimension for enterprise deployments. The agent's multi-step ReAct loop accumulates context across multiple LLM calls per query, typically producing higher input-token counts than the RAG pipeline's single generation call. At enterprise query volumes, the accumulated cost of additional tool-call context can outweigh retrieval quality gains for cost-sensitive teams, making this metric central to the practical trade-off analysis in Chapter~\ref{ch:discussion}.
+
+\subsection{Agent-Specific Metrics}
+
+Two metrics apply exclusively to the agent system and are computed post-hoc from the agent log: source routing accuracy and mean tool call count per query. Routing accuracy measures the fraction of queries for which the agent's tool-call pattern matches the ground-truth source type specified in \texttt{data/eval/queries.jsonl}. For queries with a single expected source type — factual, within-source synthesis, and ambiguous — a query is counted as correctly routed if at least one entry in the \texttt{sources\_used} log field matches the expected \texttt{source\_type} label. For cross-source synthesis queries, correct routing requires that both expected source types appear in \texttt{sources\_used}. Unanswerable queries are excluded from routing accuracy computation, as no source type is defined for them.
+
+Mean tool call count is the average value of the \texttt{tool\_calls} field in the agent log, reported both as an overall mean and broken down by query type. The per-type breakdown reveals characteristic routing patterns: factual queries are expected to average approximately one tool call, cross-source synthesis queries approximately two, and unanswerable queries expose whether the agent searches exhaustively before declining. A high mean tool call count on unanswerable queries indicates that the agent is investing retrieval effort on queries that no source can resolve, rather than recognising the absence of relevant material and declining early.
+
+Neither metric applies to the RAG pipeline, which has no routing step and no iterative loop: RAG queries the unified index with every request, and its log records a tool call count of zero by construction. These metrics are therefore reported in a dedicated agent-only subsection of Chapter~\ref{ch:results}, separate from the cross-system comparison tables.
+
+\subsection{Complexity and Maintainability Rubric}
+
+Implementation complexity and maintainability cannot be captured by automated metrics and are assessed using a structured rubric applied to both systems by the author on the basis of implementation experience. The rubric evaluates five criteria chosen to reflect the concerns of an enterprise team making an architectural decision between the two approaches: implementation effort, configurability, debuggability, extensibility, and operational overhead. Table~\ref{tab:rubric} defines each criterion and the objective proxy used to anchor the score.
+
+\begin{table}[ht]
+\centering
+\caption{Complexity and maintainability rubric: five criteria scored 1--5 (5 = simpler / lower complexity).}
+\label{tab:rubric}
+\begin{tabular}{p{3.2cm}p{5.0cm}p{5.0cm}}
+\hline
+\textbf{Criterion} & \textbf{What it measures} & \textbf{Objective proxy} \\
+\hline
+Implementation effort  & Code volume and time required to build from scratch & Lines of code per functional component \\
+Configurability        & Parameters required to tune for a new deployment & Parameter count in \texttt{config.py} \\
+Debuggability          & Ease of tracing a failure to its root cause & Failure modes identified during testing; call-stack depth at error \\
+Extensibility          & Effort to onboard a new data source & Steps required to add one new source type \\
+Operational overhead   & Runtime dependencies and services required & Dependency count; external services at runtime \\
+\hline
+\end{tabular}
+\end{table}
+
+Each criterion is scored from one to five, where five denotes lower complexity or greater ease of use. Scores are assigned by the author and justified with the corresponding objective proxy where one is available; where a proxy does not fully determine the score, the rationale is stated explicitly. Lines of code are counted with blank lines and comment-only lines excluded, reported per functional component — ingest, retrieval or tools, generation or agent, and pipeline. The rubric produces a single comparison table in Chapter~\ref{ch:results} that reports per-criterion scores and an unweighted mean for each system. The mean is treated as indicative rather than definitive, given the small criterion set and single evaluator — a limitation acknowledged in Chapter~\ref{ch:discussion}.

@@ -1,0 +1,116 @@
+\begin{thebibliography}{xx}
+
+\harvarditem{{}}{2025}{agenticrag2025enterprise}
+{}  \harvardyearleft 2025\harvardyearright , `{AgenticRAG}: Agentic retrieval
+  for enterprise knowledge bases', {\em arXiv preprint arXiv:2605.05538} .
+\newline\harvardurl{https://arxiv.org/abs/2605.05538}
+
+\harvarditem[Asai et~al.]{Asai, Wu, Wang, Sil \harvardand\
+  Hajishirzi}{2023}{asai2023selfrag}
+Asai, A., Wu, Z., Wang, Y., Sil, A. \harvardand\ Hajishirzi, H.
+  \harvardyearleft 2023\harvardyearright , `{SELF-RAG}: Learning to retrieve,
+  generate, and critique through self-reflection', {\em arXiv preprint
+  arXiv:2310.11511} .
+\newline\harvardurl{https://arxiv.org/abs/2310.11511}
+
+\harvarditem[Es et~al.]{Es, James, Anke \harvardand\
+  Schockaert}{2023}{es2023ragas}
+Es, S., James, J., Anke, L.~E. \harvardand\ Schockaert, S.  \harvardyearleft
+  2023\harvardyearright , `{RAGAS}: Automated evaluation of retrieval augmented
+  generation', {\em arXiv preprint arXiv:2309.15217} .
+\newline\harvardurl{https://arxiv.org/abs/2309.15217}
+
+\harvarditem[Ferrazzi et~al.]{Ferrazzi, Cvjeticanin, Piraccini \harvardand\
+  Giannuzzi}{2026}{ferrazzi2026agenticrag}
+Ferrazzi, P., Cvjeticanin, M., Piraccini, A. \harvardand\ Giannuzzi, D.
+  \harvardyearleft 2026\harvardyearright , `Is agentic {RAG} worth it? an
+  experimental comparison of {RAG} approaches', {\em arXiv preprint
+  arXiv:2601.07711} .
+\newline\harvardurl{https://arxiv.org/abs/2601.07711}
+
+\harvarditem[Gao et~al.]{Gao, Xiong, Gao, Jia, Pan, Bi, Dai, Sun \harvardand\
+  Wang}{2023}{gao2023ragsurvey}
+Gao, Y., Xiong, Y., Gao, X., Jia, K., Pan, J., Bi, Y., Dai, Y., Sun, J.
+  \harvardand\ Wang, H.  \harvardyearleft 2023\harvardyearright ,
+  `Retrieval-augmented generation for large language models: A survey', {\em
+  arXiv preprint arXiv:2312.10997} .
+\newline\harvardurl{https://arxiv.org/abs/2312.10997}
+
+\harvarditem[Jiang et~al.]{Jiang, Xu, Gao, Sun, Liu, Dwivedi-Yu, Yang, Callan
+  \harvardand\ Neubig}{2023}{jiang2023flare}
+Jiang, Z., Xu, F.~F., Gao, L., Sun, Z., Liu, Q., Dwivedi-Yu, J., Yang, Y.,
+  Callan, J. \harvardand\ Neubig, G.  \harvardyearleft 2023\harvardyearright ,
+  `Active retrieval augmented generation', {\em arXiv preprint
+  arXiv:2305.06983} .
+\newline\harvardurl{https://arxiv.org/abs/2305.06983}
+
+\harvarditem[Lewis et~al.]{Lewis, Perez, Piktus, Petroni, Karpukhin, Goyal,
+  K{\"u}ttler, Lewis, Yih, Rockt{\"a}schel, Riedel \harvardand\
+  Kiela}{2020}{lewis2020rag}
+Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N.,
+  K{\"u}ttler, H., Lewis, M., Yih, W.-t., Rockt{\"a}schel, T., Riedel, S.
+  \harvardand\ Kiela, D.  \harvardyearleft 2020\harvardyearright ,
+  Retrieval-augmented generation for knowledge-intensive {NLP} tasks, {\em in}
+  `Advances in Neural Information Processing Systems', Vol.~33, pp.~9459--9474.
+\newline\harvardurl{https://arxiv.org/abs/2005.11401}
+
+\harvarditem[Schick et~al.]{Schick, Dwivedi-Yu, Dess{\`i}, Raileanu, Lomeli,
+  Zettlemoyer, Cancedda \harvardand\ Scialom}{2023}{schick2023toolformer}
+Schick, T., Dwivedi-Yu, J., Dess{\`i}, R., Raileanu, R., Lomeli, M.,
+  Zettlemoyer, L., Cancedda, N. \harvardand\ Scialom, T.  \harvardyearleft
+  2023\harvardyearright , Toolformer: Language models can teach themselves to
+  use tools, {\em in} `Advances in Neural Information Processing Systems'.
+\newline\harvardurl{https://arxiv.org/abs/2302.04761}
+
+\harvarditem[Shinn et~al.]{Shinn, Cassano, Berman, Gopinath, Narasimhan
+  \harvardand\ Yao}{2023}{shinn2023reflexion}
+Shinn, N., Cassano, F., Berman, E., Gopinath, A., Narasimhan, K. \harvardand\
+  Yao, S.  \harvardyearleft 2023\harvardyearright , Reflexion: Language agents
+  with verbal reinforcement learning, {\em in} `Advances in Neural Information
+  Processing Systems'.
+\newline\harvardurl{https://arxiv.org/abs/2303.11366}
+
+\harvarditem[Sumers et~al.]{Sumers, Yao, Narasimhan \harvardand\
+  Griffiths}{2023}{sumers2023coala}
+Sumers, T.~R., Yao, S., Narasimhan, K. \harvardand\ Griffiths, T.~L.
+  \harvardyearleft 2023\harvardyearright , `Cognitive architectures for
+  language agents', {\em Transactions on Machine Learning Research} .
+\newline\harvardurl{https://arxiv.org/abs/2309.02427}
+
+\harvarditem[Wang et~al.]{Wang, Ma, Feng, Zhang, Yang, Zhang, Chen, Tang, Chen,
+  Lin, Zhao, Wei \harvardand\ Wen}{2023}{wang2023survey}
+Wang, L., Ma, C., Feng, X., Zhang, Z., Yang, H., Zhang, J., Chen, Z., Tang, J.,
+  Chen, X., Lin, Y., Zhao, W.~X., Wei, Z. \harvardand\ Wen, J.-R.
+  \harvardyearleft 2023\harvardyearright , `A survey on large language model
+  based autonomous agents', {\em arXiv preprint arXiv:2308.11432} .
+\newline\harvardurl{https://arxiv.org/abs/2308.11432}
+
+\harvarditem[Xi et~al.]{Xi, Chen, Guo, He, Ding, Hong, Zhang, Wang, Jin, Zhou,
+  Zheng, Fan, Wang, Xiong, Liu, Zhou, Wang, Jiang, Zou, Liu, Yin, Dou, Weng,
+  Cheng, Zhang, Qin, Zheng, Qiu, Huang \harvardand\ Gui}{2023}{xi2023rise}
+Xi, Z., Chen, W., Guo, X., He, W., Ding, Y., Hong, B., Zhang, M., Wang, J.,
+  Jin, S., Zhou, E., Zheng, R., Fan, X., Wang, X., Xiong, L., Liu, Q., Zhou,
+  Y., Wang, W., Jiang, C., Zou, Y., Liu, X., Yin, Z., Dou, S., Weng, R., Cheng,
+  W., Zhang, Q., Qin, W., Zheng, Y., Qiu, X., Huang, X. \harvardand\ Gui, T.
+  \harvardyearleft 2023\harvardyearright , `The rise and potential of large
+  language model based agents: A survey', {\em arXiv preprint arXiv:2309.07864}
+  .
+\newline\harvardurl{https://arxiv.org/abs/2309.07864}
+
+\harvarditem[Yao et~al.]{Yao, Zhao, Yu, Du, Shafran, Narasimhan \harvardand\
+  Cao}{2023}{yao2023react}
+Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan, K. \harvardand\
+  Cao, Y.  \harvardyearleft 2023\harvardyearright , {ReAct}: Synergizing
+  reasoning and acting in language models, {\em in} `International Conference
+  on Learning Representations'.
+\newline\harvardurl{https://arxiv.org/abs/2210.03629}
+
+\harvarditem[Zhang et~al.]{Zhang, Kishore, Wu, Weinberger \harvardand\
+  Artzi}{2020}{zhang2020bertscore}
+Zhang, T., Kishore, V., Wu, F., Weinberger, K.~Q. \harvardand\ Artzi, Y.
+  \harvardyearleft 2020\harvardyearright , {BERTScore}: Evaluating text
+  generation with {BERT}, {\em in} `International Conference on Learning
+  Representations'.
+\newline\harvardurl{https://arxiv.org/abs/1904.09675}
+
+\end{thebibliography}

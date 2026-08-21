@@ -1,0 +1,7 @@
+.env
+rag/indexes/
+rag/logs/
+data/raw/markdown_docs/clones/
+__pycache__/
+*.pyc
+.DS_Store

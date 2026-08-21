@@ -1,0 +1,41 @@
+\chapter{Conclusion and Outlook}
+
+\section{Conclusion}
+
+The objective of this thesis was to evaluate whether large language models can extract predictive signals from financial news and, more specifically, whether a feature-rich representation of news events provides additional value over a simple headline-based sentiment approach. Building on the methodology of Lopez Lira and Tang, the study implemented both a baseline sentiment classifier and an extended multidimensional event extraction pipeline, and evaluated their predictive performance on a controlled January 2025 S\&P 100 dataset.
+
+The empirical results provide a direct assessment of the hypotheses formulated in Chapter 1:
+
+\begin{itemize}
+    \item \textbf{H1:} A baseline sentiment classification model based on large language models contains predictive information about short term stock returns.
+    
+    This hypothesis is only weakly supported. While limited predictive structure is observable, particularly at the two-day horizon, the signal is unstable and does not persist under stricter temporal evaluation. At the one-day horizon, performance remains consistently weak.
+
+    \item \textbf{H2:} Structured features extracted from financial news articles using large language models provide additional predictive power beyond sentiment only representations.
+    
+    This hypothesis is not supported. The feature-rich representation does not consistently outperform the headline-only baseline. In several settings, particularly for logistic regression, the simpler sentiment-based approach performs equally well or better.
+
+    \item \textbf{H3:} Models incorporating feature rich representations derived from large language models outperform sentiment based models in both statistical accuracy and economic performance.
+    
+    This hypothesis is not supported. Although stronger results are observed in the feature-rich setting when firm identity features are included, these gains are largely driven by stock-specific effects rather than generalisable event semantics. Once identity features are removed, performance deteriorates and does not exceed the baseline in a robust manner.
+\end{itemize}
+
+An additional and important finding is that increasing the amount of contextual information provided to the model does not improve predictive performance. On the contrary, the feature-rich setup, which incorporates article body text and multiple structured dimensions, often performs worse than the simpler headline-only approach. This suggests that, within the present dataset, additional context introduces noise rather than enhancing the model’s ability to extract economically relevant signals.
+
+At the same time, the results show that model performance is highly sensitive to the inclusion of firm identity features. The strongest results are obtained when \texttt{symbol} and \texttt{company\_name} are included, indicating that the model exploits stock-specific regularities. Once these features are removed, predictive performance declines substantially, highlighting the limited standalone strength of the extracted event features in this dataset.
+
+Overall, the findings suggest that the primary limitation of the study lies not in the modelling approach, but in the underlying data. Compared to the curated dataset used by Lopez Lira and Tang, the GDELT-based pipeline introduces significantly more noise due to indirect firm matching, domain-level filtering, and partial scraping success. As a result, many observations are only weakly related to short-term price formation, which dilutes any underlying predictive signal.
+
+\section{Outlook}
+
+Although the empirical results do not confirm the initial hypotheses, they provide important guidance for future research. The central implication is that data quality and dataset construction are critical determinants of success in LLM-based financial prediction.
+
+A key direction for future work is the use of cleaner and more targeted datasets. This includes curated financial news sources, more precise entity linking, and stricter filtering of market-relevant events. Access to proprietary datasets such as RavenPack or similar structured financial feeds would likely improve the signal-to-noise ratio and allow a more meaningful evaluation of LLM-based representations.
+
+Dataset scale is another important factor. The present study is restricted to a single month of data. Expanding the analysis to longer time periods and larger samples would increase statistical power and enable more robust evaluation across different market regimes.
+
+In addition, future work should reconsider how contextual information is incorporated. The current results indicate that simply providing more text does not improve performance. More selective approaches, such as summarisation, key sentence extraction, or event-focused prompting, may be more effective in isolating relevant information while avoiding noise.
+
+Finally, despite the weak predictive performance, the feature-rich representation remains valuable from a modelling perspective. The extracted dimensions such as magnitude, uncertainty, novelty, and event type provide a more structured and interpretable view of financial news. This suggests that the contribution of LLMs may lie not only in prediction, but also in improving how financial information is represented and analysed.
+
+In summary, the thesis does not find empirical support for the predictive advantage of feature-rich LLM representations under the given conditions. However, the results strongly indicate that this outcome is driven by data limitations rather than a fundamental weakness of the approach. With access to cleaner, larger-scale, and more relevant datasets, it is plausible that the advantages of richer contextual representations would become more apparent.

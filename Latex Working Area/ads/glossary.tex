@@ -1,0 +1,71 @@
+%!TEX root = ../dokumentation.tex
+
+\newglossaryentry{LLM}{
+    name={Large Language Model},
+    description={An AI model trained on vast amounts of text data to generate human-like language responses. \acp{LLM} are capable of understanding context and generating coherent text across a wide range of tasks.}
+}
+
+\newglossaryentry{RAG}{
+    name={Retrieval-Augmented Generation},
+    description={A method that combines information retrieval with large-scale generative models. A retriever selects relevant documents from a knowledge base, which are then passed to a generator (typically an \ac{LLM}) to produce context-aware answers.}
+}
+
+\newglossaryentry{embedding}{
+    name={Embedding},
+    description={A numerical representation of data in a continuous vector space. Embeddings capture semantic relationships, enabling tasks such as semantic search, clustering, and similarity-based retrieval.}
+}
+
+\newglossaryentry{VectorDatabase}{
+    name={Vector Database},
+    description={A specialised database designed to store, index, and query high-dimensional vector embeddings. It enables efficient similarity search and retrieval operations essential for semantic search and \ac{RAG} pipelines.}
+}
+
+\newglossaryentry{information-retrieval}{
+    name={Information Retrieval},
+    description={A field of computer science focused on searching, retrieving, and ranking relevant information from large collections of data. Underpins technologies such as search engines and enterprise search solutions.}
+}
+
+\newglossaryentry{chunking}{
+    name={Chunking},
+    description={The process of splitting a document into smaller, self-contained text segments prior to embedding and indexing. Chunking strategy significantly affects retrieval quality in \ac{RAG} pipelines.}
+}
+
+\newglossaryentry{reranking}{
+    name={Reranking},
+    description={A post-retrieval step in which an additional model scores and reorders a set of candidate documents to improve the relevance of the final context passed to the generator.}
+}
+
+\newglossaryentry{agent}{
+    name={Agent},
+    description={An autonomous system that perceives its environment, reasons about a goal, selects and executes actions (such as querying tools), and iterates until the goal is achieved. In the context of this thesis, agents use \acp{LLM} as their reasoning engine.}
+}
+
+\newglossaryentry{tooluse}{
+    name={Tool Use},
+    description={The capability of an \ac{LLM}-based agent to invoke external functions or APIs — such as a retriever, a search engine, or a database — in order to gather information needed to respond to a query.}
+}
+
+\newglossaryentry{ANN}{
+    name={Approximate Nearest Neighbor Search},
+    description={A family of algorithms for efficiently finding vectors in a high-dimensional space that are closest to a given query vector, trading exact accuracy for computational speed.}
+}
+
+\newglossaryentry{HNSW}{
+    name={Hierarchical Navigable Small World Graph},
+    description={A graph-based algorithm for approximate nearest neighbor search, widely used in vector databases. It organises data points in hierarchical layers enabling efficient navigation to find nearest neighbors.}
+}
+
+\newglossaryentry{BM25}{
+    name={Best Matching 25},
+    description={A ranking function used by keyword-based search engines. BM25 estimates document relevance based on term frequency, inverse document frequency, and document length.}
+}
+
+\newglossaryentry{Confluence}{
+    name={Confluence},
+    description={An enterprise collaboration and wiki platform by Atlassian, commonly used to store meeting notes, project documentation, and shared knowledge within organisations.}
+}
+
+\newglossaryentry{Jira}{
+    name={Jira},
+    description={An issue and project tracking platform by Atlassian, widely used in software development to manage tasks, bugs, and sprint backlogs.}
+}

@@ -1,0 +1,135 @@
+%%**************************************************************
+%% Bachelor Thesis — DHBW
+%% Liam Thomson, DHBW-TINFO23
+%%**************************************************************
+\documentclass[
+    enabledeprecatedfontcommands,
+    pdftex,
+    oneside,
+    12pt,
+    parskip=half,
+    headsepline,
+    footsepline,
+    abstract=true,
+    english
+]{scrreprt}
+
+\newcommand{\titel}{\pdftitel}
+\newcommand{\datum}{\datumAbgabe}
+\newcommand{\martrikelnr}{3248571}
+\newcommand{\kurs}{DHBW-TINFO23}
+\newcommand{\datumAbgabe}{2026}
+\newcommand{\firma}{Accenture}
+\newcommand{\firmenort}{Kronberg im Taunus}
+\newcommand{\abgabeort}{Stuttgart}
+\newcommand{\abschluss}{Bachelor of Science}
+\newcommand{\studiengang}{New Study Informatik}
+\newcommand{\dhbw}{Stuttgart}
+\newcommand{\betreuer}{Piotr Preuss}
+\newcommand{\betreuerTwo}{Prof. Dr. Katja Wengler}
+\newcommand{\gutachter}{Dr. Prof. Kay Berkling}
+\newcommand{\zeitraum}{12 Wochen}
+\newcommand{\arbeitsart}{\arbeit}
+\newcommand{\glsac}[2]{\gls{#1} (\ac{#2})}
+
+\input{ads/header}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{amssymb}
+% xcolor loaded in header.tex
+\usepackage{listings}
+\lstset{
+    basicstyle=\ttfamily,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    showstringspaces=false,
+    tabsize=4,
+    breaklines=true
+    }
+\makeglossaries
+\input{ads/glossary}
+
+\begin{document}
+
+	% Deckblatt
+	\begin{spacing}{1}
+		\input{ads/deckblatt}
+	\end{spacing}
+	\newpage
+
+	\renewcommand{\thepage}{\Roman{page}}
+	\setcounter{page}{1}
+
+	% Sperrvermerk
+	\input{ads/sperrvermerk}
+	\newpage
+
+	% Erklärung
+	\input{ads/erklaerung}
+	\newpage
+
+	% Abstract
+	\input{ads/abstract}
+	\newpage
+
+	\pagestyle{plain}
+
+	% Inhaltsverzeichnis
+	\renewcommand{\contentsname}{Table of Contents}
+	\begin{spacing}{1.1}
+		\setcounter{tocdepth}{2}
+		\tableofcontents
+	\end{spacing}
+	\newpage
+
+	\renewcommand{\thepage}{\arabic{page}}
+	\setcounter{page}{1}
+
+	% Inhalt
+	\input{content/01Introduction}
+	\input{content/02TheoreticalFoundations}
+	\input{content/03SystemDesign}
+	\input{content/04DataAndEvaluation}
+	\input{content/05Implementation}
+	\input{content/06Results}
+	\input{content/07Discussion}
+	\input{content/08Conclusion}
+
+	% Anhang
+	\clearpage
+	\pagenumbering{roman}
+
+	% Abbildungsverzeichnis
+	\cleardoublepage
+	\phantomsection \label{listoffig}
+	\addcontentsline{toc}{chapter}{Figures}
+	\renewcommand{\listfigurename}{Figures}
+	\listoffigures
+
+	% Tabellenverzeichnis
+	\cleardoublepage
+	\phantomsection \label{listoftab}
+	\addcontentsline{toc}{chapter}{Tables}
+	\renewcommand{\listtablename}{Tables}
+	\listoftables
+
+	% Quellcodeverzeichnis
+	\cleardoublepage
+	\phantomsection \label{listoflist}
+	\addcontentsline{toc}{chapter}{Listings}
+	\lstlistoflistings
+
+	% References
+	\renewcommand{\bibname}{References}
+	\cleardoublepage
+	\phantomsection \label{listoflit}
+	\addcontentsline{toc}{chapter}{References}
+
+	\bibliographystyle{agsm}
+	\bibliography{ArbeitBib}
+
+	% Glossar
+	\printglossary[style=altlist,title=Glossary]
+
+\end{document}

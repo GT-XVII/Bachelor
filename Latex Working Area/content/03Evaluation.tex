@@ -1,0 +1,277 @@
+%!TEX root = ../dokumentation.tex
+
+\chapter{Evaluation}
+
+\section{Evaluation Framework}
+
+This chapter evaluates the predictive modelling results presented in the previous chapter and relates them directly to the research goals and hypotheses formulated in the introduction. The central aim is to assess whether LLM extracted news representations contain predictive information for short term stock movements, and whether a richer feature based representation improves upon a simpler headline sentiment baseline.
+
+\subsection{Final Sample and Target Construction}
+
+The evaluation is based on the final January 2025 analytical dataset introduced in Chapter 2. The feature rich table contains 3816 joined article--firm observations for the S\&P 100 universe, while the headline only table contains 3815 joined observations. This one row difference is negligible for interpretation, so both representations are evaluated as effectively the same January 2025 sample.
+
+The initial raw pool originates from the January 2025 GDELT stream, which contains close to one million article level records. This pool is first restricted to 22 financially relevant whitelist domains. A full scraping pass is then executed on these domains, but only 12 yield usable article text under the implemented retrieval setup. The final analytical sample therefore consists only of observations for which the article could be retrieved successfully and linked to a firm level event observation. After target construction, 2118 feature rich observations remain for one day classification and 1625 for two day classification; the headline only setup differs by only one observation at the one day horizon and is otherwise identical.
+
+Two daily directional targets are evaluated. The one day target measures the return from same day close to next day close. The two day target measures the return from same day close to day two close. For classification, these continuous returns are converted into directional labels using a threshold of $\pm 0.1\%$, with very small price movements removed as noise. As a result, the majority baseline is not perfectly balanced and must be reported explicitly for each horizon and split.
+
+Table~\ref{tab:class_balance} reports the resulting class balance after applying the $\pm 0.1\%$ threshold and dropping near zero return observations. This is important because the majority baseline varies across horizons and becomes particularly strong in the stricter last five days evaluation.
+
+\begin{table}[htbp]
+\centering
+\caption{Class balance of the evaluation targets after threshold filtering}
+\label{tab:class_balance}
+\begin{tabular}{llrrr}
+\hline
+\textbf{Representation} & \textbf{Target / Split} & \textbf{Up} & \textbf{Down} & \textbf{Majority Share} \\
+\hline
+Feature rich & 1d / 80--20 test & 215 & 209 & 50.71\% \\
+Feature rich & 1d / Last 5 Days test & 438 & 430 & 50.46\% \\
+Feature rich & 2d / 80--20 test & 178 & 147 & 54.77\% \\
+Feature rich & 2d / Last 5 Days test & 589 & 357 & 62.26\% \\
+Headline only & 1d / 80--20 test & 215 & 209 & 50.71\% \\
+Headline only & 1d / Last 5 Days test & 438 & 429 & 50.52\% \\
+Headline only & 2d / 80--20 test & 178 & 147 & 54.77\% \\
+Headline only & 2d / Last 5 Days test & 589 & 357 & 62.26\% \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Representations and Model Inputs}
+
+Three representation settings are compared throughout the chapter:
+\begin{enumerate}
+    \item \textbf{Feature rich, identity aware}, which includes \texttt{symbol} and \texttt{company\_name}
+    \item \textbf{Feature rich, identity free}, which excludes \texttt{symbol} and \texttt{company\_name}
+    \item \textbf{Headline only baseline}, which uses only the LLM sentiment score extracted from the headline
+\end{enumerate}
+
+This distinction is methodologically important because it separates stock specific regularities from more generalisable event information. If performance rises mainly in the identity aware setting, the improvement may reflect company specific shortcuts rather than reusable event semantics.
+
+For classification, three models are compared: a majority class baseline, logistic regression, and random forest. For regression, Ridge regression is used. Logistic regression serves as the main interpretable linear benchmark, while random forest tests whether limited nonlinear structure can be exploited in the same feature space.
+
+\subsection{Train--Test Splits and Evaluation Logic}
+
+Two time aware evaluation protocols are used. The first is an ordered 80--20 split, in which the earliest 80\% of observations are used for training and the latest 20\% for testing. The second is a stricter \enquote{Last 5 Days} split, in which the final five observation days present in the January 2025 sample are held out entirely for evaluation.
+
+The latter split is important because it provides a more demanding temporal test of generalisation. In financial prediction, random or weakly ordered splits can overstate performance if adjacent observations share similar market conditions or event patterns. Holding out the last five trading days therefore better reflects the intended forecasting setting, namely learning on earlier January data and predicting later unseen observations.
+
+Classification performance is assessed using accuracy, macro F1, and weighted F1. Regression performance is assessed using MAE, RMSE, and $R^2$. Support for the hypotheses is interpreted conservatively. H1 is supported only if the extracted representations show predictive information beyond the majority baseline in a temporally meaningful setting. H2 is supported only if the feature rich representation improves robustly over the headline only baseline. H3 is supported only if the richer representation delivers the strongest overall predictive performance without depending mainly on firm identity features.
+
+\subsection{Positioning Relative to Lopez Lira and Tang}
+
+Before interpreting the results, it is important to clarify how the present study differs from the benchmark approach of Lopez Lira and Tang.
+
+Their study uses a much larger set of approximately 159{,}000 headlines drawn from a curated financial news source and already filtered for market relevance. In contrast, the present work relies on publicly available GDELT data, restricts the sample to a whitelist of accessible domains, and then further depends on successful article retrieval. This produces a much smaller and noisier dataset.
+
+A second difference concerns representation. Lopez Lira and Tang focus on headline level sentiment classification with a minimal prompt. The present thesis extends this idea by extracting a richer event representation from article text, including dimensions such as magnitude, uncertainty, novelty, event type, and time horizon. This extension follows directly from the research gap identified in the introduction, namely that sentiment only methods compress complex financial language into overly narrow categories.
+
+These differences mean that the results presented here should not be interpreted as a direct replication. Rather, they constitute an exploratory extension under more constrained and noisier data conditions.
+
+\section{Classification Results}
+
+The classification results are presented first because the central empirical question of the thesis concerns directional prediction rather than precise return magnitude. The main comparison of interest is whether the richer event representation yields more stable directional performance than the simpler headline only baseline under time aware evaluation.
+
+\subsection{Feature Rich Model with Identity Features}
+
+Table~\ref{tab:cls_with_identity} summarises the classification results for the feature rich representation when \texttt{symbol} and \texttt{company\_name} are included.
+
+\begin{table}[htbp]
+\centering
+\caption{Feature rich classification results with identity features}
+\label{tab:cls_with_identity}
+\begin{tabular}{llrrr}
+\hline
+\textbf{Horizon / Split / Model} & \textbf{} & \textbf{Accuracy} & \textbf{Macro F1} & \textbf{Weighted F1} \\
+\hline
+1d / 80--20 / Majority &  & 0.5071 & 0.3365 & 0.3412 \\
+1d / 80--20 / Logistic Regression &  & 0.5094 & 0.5063 & 0.5068 \\
+1d / 80--20 / Random Forest &  & 0.5448 & 0.5441 & 0.5443 \\
+\hline
+1d / Last 5 Days / Majority &  & 0.5052 & 0.3356 & 0.3391 \\
+1d / Last 5 Days / Logistic Regression &  & 0.4960 & 0.4956 & 0.4954 \\
+1d / Last 5 Days / Random Forest &  & 0.4717 & 0.4715 & 0.4714 \\
+\hline
+2d / 80--20 / Majority &  & 0.5477 & 0.3539 & 0.3876 \\
+2d / 80--20 / Logistic Regression &  & 0.7354 & 0.7343 & 0.7359 \\
+2d / 80--20 / Random Forest &  & 0.7385 & 0.7356 & 0.7382 \\
+\hline
+2d / Last 5 Days / Majority &  & 0.6226 & 0.3837 & 0.4778 \\
+2d / Last 5 Days / Logistic Regression &  & 0.6279 & 0.6252 & 0.6330 \\
+2d / Last 5 Days / Random Forest &  & 0.6015 & 0.5877 & 0.6062 \\
+\hline
+\end{tabular}
+\end{table}
+
+At first glance, the strongest results appear at the two day horizon. Under the ordered 80--20 split, both logistic regression and random forest perform substantially above the majority baseline. Even under the stricter last five days split, logistic regression still remains slightly above the majority baseline in terms of accuracy and clearly above it in macro F1.
+
+However, these results must be interpreted cautiously. Earlier coefficient inspection showed that the strongest predictors in this setting were often \texttt{symbol} and \texttt{company\_name}, indicating that the model is learning stock specific tendencies rather than general event semantics. The identity aware configuration therefore reflects an upper bound that is partly driven by company specific effects.
+
+\subsection{Feature Rich Model without Identity Features}
+
+Table~\ref{tab:cls_without_identity} reports the classification results for the feature rich representation after removing \texttt{symbol} and \texttt{company\_name}.
+
+\begin{table}[htbp]
+\centering
+\caption{Feature rich classification results without identity features}
+\label{tab:cls_without_identity}
+\begin{tabular}{llrrr}
+\hline
+\textbf{Horizon / Split / Model} & \textbf{} & \textbf{Accuracy} & \textbf{Macro F1} & \textbf{Weighted F1} \\
+\hline
+1d / 80--20 / Majority &  & 0.5071 & 0.3365 & 0.3412 \\
+1d / 80--20 / Logistic Regression &  & 0.4481 & 0.4403 & 0.4413 \\
+1d / 80--20 / Random Forest &  & 0.5118 & 0.5076 & 0.5083 \\
+\hline
+1d / Last 5 Days / Majority &  & 0.5046 & 0.3354 & 0.3385 \\
+1d / Last 5 Days / Logistic Regression &  & 0.4770 & 0.4768 & 0.4769 \\
+1d / Last 5 Days / Random Forest &  & 0.4781 & 0.4663 & 0.4671 \\
+\hline
+2d / 80--20 / Majority &  & 0.5477 & 0.3539 & 0.3876 \\
+2d / 80--20 / Logistic Regression &  & 0.5015 & 0.4998 & 0.5026 \\
+2d / 80--20 / Random Forest &  & 0.5323 & 0.5140 & 0.5230 \\
+\hline
+2d / Last 5 Days / Majority &  & 0.6226 & 0.3837 & 0.4778 \\
+2d / Last 5 Days / Logistic Regression &  & 0.4926 & 0.4915 & 0.4973 \\
+2d / Last 5 Days / Random Forest &  & 0.5571 & 0.5290 & 0.5572 \\
+\hline
+\end{tabular}
+\end{table}
+
+Once identity features are removed, the apparent strength of the feature rich model largely disappears. At the one day horizon, performance remains weak throughout. At the two day horizon, all results fall below the majority baseline in terms of accuracy under both splits.
+
+This finding is important because it shows that the earlier predictive strength was not primarily driven by generalisable event semantics alone. Instead, a substantial part of the apparent signal came from stock specific effects encoded in company identity.
+
+\subsection{Headline Only Baseline}
+
+Because the comparison between a sentiment only baseline and a feature rich representation is one of the core research goals of the thesis, the headline only results require separate discussion. Table~\ref{tab:headline_only_results} presents the classification results for the headline only baseline, which uses only the extracted headline sentiment score.
+
+\begin{table}[htbp]
+\centering
+\caption{Headline only classification results using sentiment score only}
+\label{tab:headline_only_results}
+\begin{tabular}{llrrr}
+\hline
+\textbf{Horizon / Split / Model} & \textbf{} & \textbf{Accuracy} & \textbf{Macro F1} & \textbf{Weighted F1} \\
+\hline
+1d / 80--20 / Majority &  & 0.5071 & 0.3365 & 0.3412 \\
+1d / 80--20 / Logistic Regression &  & 0.4764 & 0.4401 & 0.4381 \\
+1d / 80--20 / Random Forest &  & 0.4764 & 0.4401 & 0.4381 \\
+\hline
+1d / Last 5 Days / Majority &  & 0.5052 & 0.3356 & 0.3391 \\
+1d / Last 5 Days / Logistic Regression &  & 0.4717 & 0.4321 & 0.4306 \\
+1d / Last 5 Days / Random Forest &  & 0.4717 & 0.4321 & 0.4306 \\
+\hline
+2d / 80--20 / Majority &  & 0.5477 & 0.3539 & 0.3876 \\
+2d / 80--20 / Logistic Regression &  & 0.5754 & 0.5280 & 0.5422 \\
+2d / 80--20 / Random Forest &  & 0.4215 & 0.3723 & 0.3556 \\
+\hline
+2d / Last 5 Days / Majority &  & 0.6226 & 0.3837 & 0.4778 \\
+2d / Last 5 Days / Logistic Regression &  & 0.5846 & 0.5128 & 0.5587 \\
+2d / Last 5 Days / Random Forest &  & 0.4567 & 0.4560 & 0.4608 \\
+\hline
+\end{tabular}
+\end{table}
+
+These results provide a much cleaner baseline than the earlier identity aware setup. At the one day horizon, headline sentiment alone does not provide useful predictive power. Both logistic regression and random forest remain below the majority baseline under both splits. At the two day horizon, logistic regression performs somewhat better, especially under the ordered 80--20 split, but the gains remain modest and do not survive the stricter temporal benchmark. Under the last five days split, the headline only logistic model still remains below the majority baseline in accuracy.
+
+This means that pure headline sentiment contains at most a weak and unstable signal in the present dataset. It does not provide robust out of sample predictive performance.
+
+\subsection{Direct Comparison: Headline Only versus Feature Rich}
+
+Since the central objective of the thesis is to compare the simpler sentiment only representation with the richer event based representation, the most relevant comparison is between the headline only baseline and the identity free feature rich model. Table~\ref{tab:headline_vs_feature_rich} summarises this comparison for the two day horizon, which is the only horizon where any non trivial directional signal appears.
+
+\begin{table}[htbp]
+\centering
+\caption{Comparison of two day classification accuracy for headline only and feature rich identity free representations}
+\label{tab:headline_vs_feature_rich}
+\begin{tabular}{llrr}
+\hline
+\textbf{Split} & \textbf{Model} & \textbf{Headline Only} & \textbf{Feature Rich, No Identity} \\
+\hline
+80--20 & Majority Baseline & 0.5477 & 0.5477 \\
+80--20 & Logistic Regression & 0.5754 & 0.5015 \\
+80--20 & Random Forest & 0.4215 & 0.5323 \\
+\hline
+Last 5 Days & Majority Baseline & 0.6226 & 0.6226 \\
+Last 5 Days & Logistic Regression & 0.5846 & 0.4926 \\
+Last 5 Days & Random Forest & 0.4567 & 0.5571 \\
+\hline
+\end{tabular}
+\end{table}
+
+The comparison leads to a clear conclusion. The feature rich representation does not consistently outperform the headline only baseline. In the logistic regression setting, which is the more interpretable and stable linear benchmark, the headline only model actually performs better at the two day horizon under both splits. Random forest shows the opposite pattern, but neither headline only nor feature rich random forest beats the majority baseline under the stricter temporal evaluation.
+
+The most important point is therefore not that one representation dominates the other in every cell, but that the richer representation fails to deliver a robust and consistent improvement over the simpler sentiment only baseline. This directly addresses one of the main research goals of the thesis.
+
+
+\section{Regression Results}
+
+Table~\ref{tab:regression_results} summarises the Ridge regression results for all three configurations.
+
+\begin{table}[htbp]
+\centering
+\caption{Ridge regression results across all representations}
+\label{tab:regression_results}
+\begin{tabular}{llrrr}
+\hline
+\textbf{Configuration / Horizon / Split} & \textbf{} & \textbf{MAE} & \textbf{RMSE} & \textbf{$R^2$} \\
+\hline
+Feature Rich with Identity / 1d / 80--20 &  & 1.9176 & 2.7961 & -0.1404 \\
+Feature Rich with Identity / 1d / Last 5 Days &  & 2.1144 & 3.0297 & -0.1404 \\
+Feature Rich with Identity / 2d / 80--20 &  & 2.5456 & 3.2356 & 0.0998 \\
+Feature Rich with Identity / 2d / Last 5 Days &  & 2.8494 & 3.9449 & -0.2544 \\
+\hline
+Feature Rich without Identity / 1d / 80--20 &  & 1.9049 & 2.8642 & -0.1970 \\
+Feature Rich without Identity / 1d / Last 5 Days &  & 1.9855 & 2.9218 & -0.0617 \\
+Feature Rich without Identity / 2d / 80--20 &  & 2.6069 & 3.6248 & -0.1297 \\
+Feature Rich without Identity / 2d / Last 5 Days &  & 2.4128 & 3.5488 & -0.0151 \\
+\hline
+Headline Only / 1d / 80--20 &  & 1.8154 & 2.7528 & -0.1054 \\
+Headline Only / 1d / Last 5 Days &  & 1.9622 & 2.9131 & -0.0543 \\
+Headline Only / 2d / 80--20 &  & 2.5405 & 3.5581 & -0.0886 \\
+Headline Only / 2d / Last 5 Days &  & 2.3636 & 3.5277 & -0.0031 \\
+\hline
+\end{tabular}
+\end{table}
+
+The regression results are weak throughout. Most $R^2$ values are negative, meaning that the models fail to outperform a naive mean predictor. Only one result, namely the identity aware feature rich configuration at the two day horizon under the ordered split, produces a slightly positive $R^2$, but this effect is small and does not persist under stricter temporal validation.
+
+Importantly, the inclusion of the headline only baseline does not alter the general conclusion. The headline only model is slightly less poor than the feature rich variants in several settings, but none of the representations delivers convincing return magnitude prediction. Relative to Lopez Lira and Tang, who report economically meaningful predictive effects, this is a clear limitation of the present dataset and pipeline.
+
+\section{Hypothesis Assessment}
+
+The empirical results allow a direct assessment of the research hypotheses introduced in Chapter 1.
+
+\textbf{H1} is only weakly supported. Some predictive structure is visible, especially in selected two day classification settings, but it is limited and unstable. At the one day horizon, results remain consistently weak. At the two day horizon, some models produce non trivial directional performance, yet these gains often shrink or disappear under the stricter temporal split.
+
+\textbf{H2} is not supported. The feature rich representation was designed to preserve more of the semantic structure contained in financial news than a single headline sentiment score. However, once firm identity features are removed, it does not outperform the headline only baseline in a robust and consistent way across the relevant evaluation settings.
+
+\textbf{H3} is not supported. The strongest numerical results occur in the identity aware feature rich setting, but those results are at least partly driven by \texttt{symbol} and \texttt{company\_name}. This means the apparent gains do not provide convincing evidence that richer event semantics alone deliver the strongest predictive performance.
+
+Taken together, the hypothesis assessment suggests that the conceptual motivation for richer LLM based event extraction remains plausible, but the current dataset and evaluation setting do not provide strong empirical confirmation of a predictive advantage over the simpler baseline.
+
+\section{Interpretation and Limitations}
+
+The coefficient analysis provides an additional perspective on the feature rich model. In the identity aware configuration, the strongest coefficients were dominated by \texttt{symbol} and \texttt{company\_name}, which suggests that the model relied heavily on company specific priors. This helps explain why performance drops so clearly once identity features are removed.
+
+In the identity free configuration, the learned coefficients become more meaningful from an economic perspective. Positive coefficients were associated with categories such as high magnitude events, management related events, earnings events, and low uncertainty. Negative coefficients were associated with high uncertainty and less specific event categories such as other, legal, or product related events. These patterns are intuitively plausible and indicate that the feature rich extraction is not arbitrary, even if it does not translate into robust out of sample predictive performance.
+
+The evaluation highlights the central importance of dataset quality. Compared with the curated RavenPack data used by Lopez Lira and Tang, the present GDELT based pipeline introduces substantially more noise. Many articles are only weakly related to immediate stock price formation, and the filtering process is necessarily coarser because it relies on public data, domain whitelisting, and successful scraping rather than a proprietary financial event feed.
+
+This has two consequences. First, genuine predictive signal is diluted by irrelevant or low relevance articles. Second, a richer event representation cannot compensate for weak input quality on its own. Even though the feature rich model captures semantically meaningful distinctions, it operates on a dataset whose signal to noise ratio is likely too low to support robust short term forecasting.
+
+The headline only baseline reinforces this interpretation. If even the simpler sentiment signal fails to produce stable gains, then the problem is unlikely to lie only in feature engineering. Instead, the dataset itself is a major limiting factor.
+
+\section{Overall Assessment}
+
+Several conclusions emerge from the evaluation.
+
+First, the strongest classification results are obtained only when company identity is included, which indicates that stock specific effects act as powerful shortcuts.
+
+Second, once identity features are removed, both the feature rich model and the headline only baseline perform weakly. At the one day horizon, neither approach provides useful predictive power. At the two day horizon, some directional structure is visible, but it remains unstable and generally fails to beat the majority baseline under stricter temporal validation.
+
+Third, the direct comparison between headline only and feature rich representations does not support the expectation that richer structured LLM features automatically improve predictive performance. This is an important result, because the comparison was one of the core aims of the thesis. The richer representation is more expressive and more interpretable, but in the present experimental setting it does not provide a robust advantage over a simple headline sentiment score.
+
+Fourth, regression performance is poor across all configurations, indicating that none of the tested representations is able to model return magnitude reliably.
+
+Overall, the findings suggest that the main contribution of the feature rich approach in the current study lies in improved semantic representation rather than immediate predictive performance. Stronger forecasting results would likely require not only richer features, but also substantially higher quality data and more selective event filtering.
