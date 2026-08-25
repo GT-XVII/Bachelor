@@ -34,6 +34,33 @@ class Generator:
             default_headers=config.LLM_DEFAULT_HEADERS,
         )
 
+    def generate_hypothesis(self, query: str) -> str:
+        """
+        HyDE: generate a short hypothetical passage that would answer the query.
+        The caller embeds this passage (without the BGE query prefix) to retrieve
+        documents from the same embedding space as the stored chunks.
+        """
+        response = self.client.chat.completions.create(
+            model=config.LLM_MODEL,
+            messages=[
+                {"role": "system", "content": (
+                    "Write a short factual passage (2–3 sentences) that directly answers "
+                    "the question. Do not restate the question. Be specific and informative."
+                )},
+                {"role": "user", "content": query},
+            ],
+            temperature=0.0,
+            max_tokens=config.HYDE_MAX_TOKENS,
+            extra_body=config.LLM_EXTRA_BODY,
+        )
+        content = response.choices[0].message.content or ""
+        # gpt-oss-120b may return a list of content blocks
+        if isinstance(content, list):
+            content = " ".join(
+                b.get("text", "") if isinstance(b, dict) else str(b) for b in content
+            )
+        return content.strip()
+
     def generate(self, query: str, chunks: list[dict]) -> dict:
         """
         Returns:

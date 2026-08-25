@@ -1,0 +1,198 @@
+{
+  "rag": {
+    "system": "RAG",
+    "n_queries": 90,
+    "quality": {
+      "overall": {
+        "context_precision": 0.4308,
+        "faithfulness": NaN,
+        "answer_relevancy": 0.6236,
+        "bertscore_f1": -0.0429,
+        "rouge_l": 0.2071
+      },
+      "by_query_type": {
+        "factual": {
+          "context_precision": 0.5464,
+          "faithfulness": 0.8533,
+          "answer_relevancy": 0.7917,
+          "bertscore_f1": 0.217,
+          "rouge_l": 0.3463
+        },
+        "synthesis": {
+          "context_precision": 0.7295,
+          "faithfulness": NaN,
+          "answer_relevancy": 0.6788,
+          "bertscore_f1": 0.1279,
+          "rouge_l": 0.1757
+        },
+        "ambiguous": {
+          "context_precision": 0.0,
+          "faithfulness": 0.7065,
+          "answer_relevancy": 0.8005,
+          "bertscore_f1": -1.0619,
+          "rouge_l": 0
+        },
+        "unanswerable": {
+          "context_precision": 0.0333,
+          "faithfulness": 0.7167,
+          "answer_relevancy": 0.0,
+          "bertscore_f1": 0.1147,
+          "rouge_l": 0.1986
+        }
+      }
+    },
+    "latency_cost": {
+      "latency_s": {
+        "mean": 2.506,
+        "median": 2.032,
+        "stdev": 1.174,
+        "min": 1.047,
+        "max": 5.837
+      },
+      "latency_by_qtype": {
+        "factual": {
+          "mean": 2.065,
+          "median": 1.901,
+          "stdev": 0.624,
+          "min": 1.113,
+          "max": 3.39
+        },
+        "synthesis": {
+          "mean": 3.618,
+          "median": 3.78,
+          "stdev": 1.208,
+          "min": 1.366,
+          "max": 5.837
+        },
+        "ambiguous": {
+          "mean": 2.153,
+          "median": 1.873,
+          "stdev": 0.772,
+          "min": 1.294,
+          "max": 4.014
+        },
+        "unanswerable": {
+          "mean": 1.518,
+          "median": 1.533,
+          "stdev": 0.309,
+          "min": 1.047,
+          "max": 1.976
+        }
+      },
+      "tokens_input_total": 316712,
+      "tokens_output_total": 38495,
+      "tokens_total": 355207,
+      "cost_usd_estimate": 1.1767,
+      "cost_note": "Proxy pricing: GPT-4o $2.50/1M input, $10.00/1M output"
+    }
+  },
+  "agent": {
+    "system": "Agent",
+    "n_queries": 90,
+    "quality": {
+      "overall": {
+        "context_precision": NaN,
+        "faithfulness": NaN,
+        "answer_relevancy": 0.5719,
+        "bertscore_f1": -0.3936,
+        "rouge_l": 0.0943
+      },
+      "by_query_type": {
+        "factual": {
+          "context_precision": 0.34,
+          "faithfulness": NaN,
+          "answer_relevancy": 0.6356,
+          "bertscore_f1": -0.2073,
+          "rouge_l": 0.161
+        },
+        "synthesis": {
+          "context_precision": 0.4015,
+          "faithfulness": NaN,
+          "answer_relevancy": 0.6231,
+          "bertscore_f1": -0.2772,
+          "rouge_l": 0.0731
+        },
+        "ambiguous": {
+          "context_precision": 0.0111,
+          "faithfulness": NaN,
+          "answer_relevancy": 0.5967,
+          "bertscore_f1": -1.0619,
+          "rouge_l": 0
+        },
+        "unanswerable": {
+          "context_precision": NaN,
+          "faithfulness": NaN,
+          "answer_relevancy": 0.3173,
+          "bertscore_f1": -0.3306,
+          "rouge_l": 0.0977
+        }
+      }
+    },
+    "latency_cost": {
+      "latency_s": {
+        "mean": 15.792,
+        "median": 16.051,
+        "stdev": 10.279,
+        "min": 1.945,
+        "max": 70.532
+      },
+      "latency_by_qtype": {
+        "factual": {
+          "mean": 11.875,
+          "median": 5.638,
+          "stdev": 9.186,
+          "min": 1.945,
+          "max": 27.193
+        },
+        "synthesis": {
+          "mean": 20.503,
+          "median": 20.727,
+          "stdev": 11.829,
+          "min": 5.639,
+          "max": 70.532
+        },
+        "ambiguous": {
+          "mean": 12.73,
+          "median": 7.515,
+          "stdev": 9.373,
+          "min": 2.334,
+          "max": 26.995
+        },
+        "unanswerable": {
+          "mean": 17.265,
+          "median": 18.219,
+          "stdev": 5.142,
+          "min": 7.971,
+          "max": 26.553
+        }
+      },
+      "tokens_input_total": 15419790,
+      "tokens_output_total": 142426,
+      "tokens_total": 15562216,
+      "cost_usd_estimate": 39.9737,
+      "cost_note": "Proxy pricing: GPT-4o $2.50/1M input, $10.00/1M output"
+    },
+    "routing": {
+      "overall_pct": 73.3,
+      "correct": 55,
+      "total": 75,
+      "by_query_type": {
+        "factual": {
+          "pct": 73.3,
+          "total": 30,
+          "correct": 22
+        },
+        "synthesis": {
+          "pct": 73.3,
+          "total": 30,
+          "correct": 22
+        },
+        "ambiguous": {
+          "pct": 73.3,
+          "total": 15,
+          "correct": 11
+        }
+      }
+    }
+  }
+}

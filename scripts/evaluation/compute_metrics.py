@@ -385,7 +385,7 @@ def process_system(label: str, log_path: Path, query_map: dict, chunk_texts: dic
 
     result = {"system": label, "n_queries": len(records), "quality": quality, "latency_cost": latency}
 
-    if label.lower() == "agent":
+    if label.lower() in ("agent", "multi_agent"):
         print("  Computing routing accuracy…")
         result["routing"] = compute_routing(records, query_map)
 
@@ -394,16 +394,21 @@ def process_system(label: str, log_path: Path, query_map: dict, chunk_texts: dic
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Compute Chapter 6 evaluation metrics.")
-    parser.add_argument("--rag",     required=True, help="Path to RAG eval log (JSONL)")
-    parser.add_argument("--agent",   required=True, help="Path to agent eval log (JSONL)")
+    parser.add_argument("--rag",         required=True,  help="Path to RAG eval log (JSONL)")
+    parser.add_argument("--agent",       required=True,  help="Path to agent eval log (JSONL)")
+    parser.add_argument("--multi_agent", required=False, help="Path to multi-agent eval log (JSONL)")
     parser.add_argument("--queries", default=str(QUERIES_PATH), help="Path to queries.jsonl")
     args = parser.parse_args()
 
-    rag_path   = Path(args.rag)
-    agent_path = Path(args.agent)
-    q_path     = Path(args.queries)
+    rag_path         = Path(args.rag)
+    agent_path       = Path(args.agent)
+    multi_agent_path = Path(args.multi_agent) if args.multi_agent else None
+    q_path           = Path(args.queries)
 
-    for p in (rag_path, agent_path, q_path):
+    paths_to_check = [rag_path, agent_path, q_path]
+    if multi_agent_path:
+        paths_to_check.append(multi_agent_path)
+    for p in paths_to_check:
         if not p.exists():
             print(f"Error: {p} not found.", file=sys.stderr)
             sys.exit(1)
@@ -413,24 +418,37 @@ def main() -> None:
     chunk_texts = load_chunk_texts()
     print(f"  {len(query_map)} queries | {len(chunk_texts):,} chunks")
 
-    rag_results   = process_system("RAG",   rag_path,   query_map, chunk_texts)
-    agent_results = process_system("Agent", agent_path, query_map, chunk_texts)
+    rag_results         = process_system("RAG",         rag_path,         query_map, chunk_texts)
+    agent_results       = process_system("Agent",       agent_path,       query_map, chunk_texts)
+    multi_agent_results = (
+        process_system("Multi_Agent", multi_agent_path, query_map, chunk_texts)
+        if multi_agent_path else None
+    )
 
     # ── Print summary ─────────────────────────────────────────────────────────
-    print_section("RAG — Quality",       rag_results["quality"])
-    print_section("Agent — Quality",     agent_results["quality"])
-    print_section("RAG — Latency/Cost",  rag_results["latency_cost"])
-    print_section("Agent — Latency/Cost", agent_results["latency_cost"])
+    print_section("RAG — Quality",         rag_results["quality"])
+    print_section("Agent — Quality",       agent_results["quality"])
+    if multi_agent_results:
+        print_section("Multi-Agent — Quality", multi_agent_results["quality"])
+    print_section("RAG — Latency/Cost",    rag_results["latency_cost"])
+    print_section("Agent — Latency/Cost",  agent_results["latency_cost"])
+    if multi_agent_results:
+        print_section("Multi-Agent — Latency/Cost", multi_agent_results["latency_cost"])
     if "routing" in agent_results:
         print_section("Agent — Routing Accuracy", agent_results["routing"])
+    if multi_agent_results and "routing" in multi_agent_results:
+        print_section("Multi-Agent — Routing Accuracy", multi_agent_results["routing"])
 
     # ── Write results JSON ────────────────────────────────────────────────────
     ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
     out_path = EVAL_DIR / f"results_{ts}.json"
     EVAL_DIR.mkdir(parents=True, exist_ok=True)
 
+    output = {"rag": rag_results, "agent": agent_results}
+    if multi_agent_results:
+        output["multi_agent"] = multi_agent_results
     with open(out_path, "w") as f:
-        json.dump({"rag": rag_results, "agent": agent_results}, f, indent=2)
+        json.dump(output, f, indent=2)
 
     print(f"\nResults written → {out_path}")
 

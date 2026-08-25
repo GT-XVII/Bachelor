@@ -28,9 +28,17 @@ class RAGPipeline:
     def query(self, question: str) -> dict:
         t_start = time.perf_counter()
 
+        # ── HyDE: generate hypothesis before retrieval ─────────────────────────
+        hypothesis = None
+        t_hyde = 0.0
+        if config.USE_HYDE:
+            t_hyde_start = time.perf_counter()
+            hypothesis = self.generator.generate_hypothesis(question)
+            t_hyde = time.perf_counter() - t_hyde_start
+
         # ── Retrieval ──────────────────────────────────────────────────────────
         t_retrieve_start = time.perf_counter()
-        chunks = self.retriever.retrieve(question)
+        chunks = self.retriever.retrieve(question, hypothesis=hypothesis)
         t_retrieve = time.perf_counter() - t_retrieve_start
 
         # ── Generation ────────────────────────────────────────────────────────
@@ -46,6 +54,8 @@ class RAGPipeline:
             "query":          question,
             "answer":         gen["answer"],
             "finish_reason":  gen["finish_reason"],
+            # HyDE hypothesis used for retrieval (None if USE_HYDE=False)
+            "hyde_hypothesis": hypothesis,
             # retrieved context provenance
             "retrieved": [
                 {
@@ -58,8 +68,9 @@ class RAGPipeline:
                 }
                 for c in chunks
             ],
-            # latency (seconds)
+            # latency (seconds) — hyde_s is 0.0 when USE_HYDE=False
             "latency": {
+                "hyde_s":     round(t_hyde,     4),
                 "retrieve_s": round(t_retrieve, 4),
                 "generate_s": round(t_generate, 4),
                 "total_s":    round(t_total,    4),

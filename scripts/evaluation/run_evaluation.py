@@ -1,17 +1,19 @@
 """
-Run both pipelines over all evaluation queries.
+Run evaluation pipelines over all evaluation queries.
 
 Usage:
     python -m scripts.evaluation.run_evaluation
     python -m scripts.evaluation.run_evaluation --system rag
     python -m scripts.evaluation.run_evaluation --system agent
+    python -m scripts.evaluation.run_evaluation --system multi_agent
     python -m scripts.evaluation.run_evaluation --queries data/eval/queries.jsonl
 
 Writes:
     rag/logs/eval_<timestamp>.jsonl
     agent/logs/eval_<timestamp>.jsonl
+    multi_agent/logs/eval_<timestamp>.jsonl
 
-Estimated runtime: ~30-35 minutes for both systems over 90 queries on VPN.
+Estimated runtime: ~30-35 min (RAG), ~4-6 hrs (agent), ~20-30 min (multi_agent) on VPN.
 """
 
 import argparse
@@ -62,7 +64,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Run evaluation pipelines.")
     parser.add_argument("--queries", default=str(DEFAULT_QUERIES),
                         help="Path to queries.jsonl (default: data/eval/queries.jsonl)")
-    parser.add_argument("--system", choices=["rag", "agent", "both"], default="both",
+    parser.add_argument("--system", choices=["rag", "agent", "multi_agent", "both"], default="both",
                         help="Which pipeline to run (default: both)")
     args = parser.parse_args()
 
@@ -89,6 +91,12 @@ def main() -> None:
         agent = AgentPipeline()
         agent._log_path = agent._log_path.parent / f"eval_{ts}.jsonl"
         run_pipeline(agent, queries, "Agent")
+
+    if args.system == "multi_agent":
+        from multi_agent.pipeline import MultiAgentPipeline
+        multi = MultiAgentPipeline()
+        multi._log_path = multi._log_path.parent / f"eval_{ts}.jsonl"
+        run_pipeline(multi, queries, "Multi-Agent")
 
     print("\nEvaluation run complete.")
 
