@@ -2,5 +2,11 @@
 
 \renewcommand{\abstractname}{Abstract}
 \begin{abstract}
-% Abstract to be written upon completion of the thesis.
+Enterprise knowledge is fragmented across structurally heterogeneous sources --- issue trackers, collaborative wikis, and document repositories --- each with different retrieval semantics. Classical Retrieval-Augmented Generation (RAG) pipelines apply uniform retrieval regardless of source type, leaving open the question of whether source-aware agent-based approaches offer a practical quality advantage.
+
+This thesis implements and evaluates four system configurations over a shared corpus of 1,623 enterprise-proxy documents drawn from GitHub Issues, Markdown documentation, and CNCF PDF whitepapers. Ninety queries spanning factual, synthesis, ambiguous, and unanswerable types are evaluated across an original RAG pipeline, a single-agent ReAct system using LangGraph with three source-specific retrieval tools, a multi-agent coordinator applying fan-out retrieval followed by a single synthesis call, and an improved RAG pipeline incorporating Hypothetical Document Embeddings (HyDE), Maximal Marginal Relevance (MMR) reranking, and a synthesis-oriented generation prompt.
+
+The single-agent system produced a 41\% failure rate from hitting the iteration ceiling, 6.5$\times$ RAG latency, and an 11$\times$ token cost increase, with no quality advantage over the baseline on any measured metric. The multi-agent coordinator eliminated all failures, achieved the highest answer relevancy scores across both factual (0.818 vs.\ original RAG 0.792) and synthesis queries (0.770 vs.\ 0.679), and operated at 2.5$\times$ RAG cost. The improved RAG pipeline raised synthesis answer relevancy by nine percentage points at effectively identical cost, with a 1.7$\times$ latency increase attributable to the HyDE hypothesis generation call.
+
+The improved RAG pipeline is the optimal upgrade path for deployments where cost and operational simplicity are primary constraints. The multi-agent coordinator is preferred when maximum answer quality across heterogeneous source types justifies a moderate cost premium. The single-agent ReAct pattern, as implemented, is unsuitable for production without structural fixes to its iteration-limit failure mode.
 \end{abstract}

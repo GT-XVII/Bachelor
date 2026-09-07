@@ -1,29 +1,29 @@
 \babel@toc {english}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {2.1}{\ignorespaces Evaluation metrics employed in this thesis, organised by dimension.}}{17}{table.2.1}%
+\contentsline {table}{\numberline {2.1}{\ignorespaces Evaluation metrics employed in this thesis, organised by dimension.}}{19}{table.2.1}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces Corpus statistics after acquisition and filtering.}}{19}{table.3.1}%
-\contentsline {table}{\numberline {3.2}{\ignorespaces Unified document schema shared by both retrieval systems.}}{20}{table.3.2}%
-\contentsline {table}{\numberline {3.3}{\ignorespaces Agent retrieval tools and their source-type scope.}}{26}{table.3.3}%
-\contentsline {table}{\numberline {3.4}{\ignorespaces Controlled and varied parameters across both systems.}}{28}{table.3.4}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Corpus statistics after acquisition and filtering.}}{22}{table.3.1}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Unified document schema shared by both retrieval systems.}}{23}{table.3.2}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Agent retrieval tools and their source-type scope.}}{30}{table.3.3}%
+\contentsline {table}{\numberline {3.4}{\ignorespaces Controlled and varied parameters across both systems.}}{33}{table.3.4}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Corpus statistics after acquisition, filtering, and normalisation.}}{32}{table.4.1}%
-\contentsline {table}{\numberline {4.2}{\ignorespaces Evaluation query taxonomy: four types mapping to Gao et al.'s RAG capability dimensions.}}{34}{table.4.2}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces Query set schema for \texttt {data/eval/queries.jsonl}.}}{36}{table.4.3}%
-\contentsline {table}{\numberline {4.4}{\ignorespaces Complexity and maintainability rubric: five criteria scored 1--5 (5 = simpler / lower complexity).}}{40}{table.4.4}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Corpus statistics after acquisition, filtering, and normalisation.}}{37}{table.4.1}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Evaluation query taxonomy: four types mapping to Gao et al.'s RAG capability dimensions.}}{39}{table.4.2}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Query set schema for \texttt {data/eval/queries.jsonl}.}}{41}{table.4.3}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Complexity and maintainability rubric: five criteria scored 1--5 (5 = simpler / lower complexity).}}{45}{table.4.4}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {5.1}{\ignorespaces Project dependencies with confirmed installed versions (verified 2026-08-17).}}{51}{table.5.1}%
-\contentsline {table}{\numberline {5.2}{\ignorespaces Log record schema. Shared fields are produced identically by both pipelines; agent-only fields have no equivalent in the RAG log.}}{52}{table.5.2}%
+\contentsline {table}{\numberline {5.1}{\ignorespaces Project dependencies with confirmed installed versions (verified 2026-08-17).}}{60}{table.5.1}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces Log record schema. Shared fields are produced identically by both pipelines; agent-only fields have no equivalent in the RAG log.}}{61}{table.5.2}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {6.1}{\ignorespaces Quality metrics by system and query type. Faithfulness is reported separately in Table~\ref {tab:faithfulness}. BERTScore uses \texttt {microsoft/deberta-xlarge-mnli} with baseline rescaling; values above zero indicate performance above the baseline model.}}{53}{table.6.1}%
-\contentsline {table}{\numberline {6.2}{\ignorespaces Faithfulness by system and query type. Agent faithfulness is unavailable because the RAGAS LLM judge timed out on all 90 agent queries; the agent's longer, multi-paragraph synthesis answers exceeded the judge's time budget. RAG synthesis faithfulness is also unavailable due to isolated timeout errors on that query subset.}}{54}{table.6.2}%
-\contentsline {table}{\numberline {6.3}{\ignorespaces Agent routing accuracy by query type. Unanswerable queries are excluded because no source type is expected. Correct is defined as: at least one tool call targets the expected source type; for cross-source synthesis queries, both expected source types must appear.}}{55}{table.6.3}%
-\contentsline {table}{\numberline {6.4}{\ignorespaces Response latency (seconds) across all 90 queries per system.}}{56}{table.6.4}%
-\contentsline {table}{\numberline {6.5}{\ignorespaces Mean latency (seconds) by query type and system.}}{56}{table.6.5}%
-\contentsline {table}{\numberline {6.6}{\ignorespaces Token consumption and estimated cost for 90 queries. Cost estimates use GPT-4o proxy pricing (\$2.50/M input, \$10.00/M output).}}{57}{table.6.6}%
-\contentsline {table}{\numberline {6.7}{\ignorespaces Complexity and maintainability rubric. Score~5 = simpler / lower complexity. Objective proxies are cited in parentheses.}}{61}{table.6.7}%
+\contentsline {table}{\numberline {6.1}{\ignorespaces Quality metrics by system and query type. BERTScore uses \texttt {microsoft/deberta-xlarge-mnli} with baseline rescaling; values above zero indicate performance above the baseline model. $\dagger $~Multi-agent factual context precision is unavailable: RAGAS timed out on that subset.}}{62}{table.6.1}%
+\contentsline {table}{\numberline {6.2}{\ignorespaces Faithfulness by system and query type. Unavailability is due to RAGAS LLM judge timeout on long responses.}}{64}{table.6.2}%
+\contentsline {table}{\numberline {6.3}{\ignorespaces Source routing accuracy by system and query type. Unanswerable queries are excluded because no source type is expected. Multi-agent routing is 100\,\% by architectural design.}}{65}{table.6.3}%
+\contentsline {table}{\numberline {6.4}{\ignorespaces Response latency (seconds) across all 90 queries per system. Failed queries (empty answers) are included in latency statistics — they consumed the full iteration budget before failing.}}{65}{table.6.4}%
+\contentsline {table}{\numberline {6.5}{\ignorespaces Mean latency (seconds) by query type and system.}}{66}{table.6.5}%
+\contentsline {table}{\numberline {6.6}{\ignorespaces Token consumption and estimated cost for 90 queries. Cost estimates use GPT-4o proxy pricing (\$2.50/M input, \$10.00/M output). $\dagger $~Single-agent input is understated; estimated true total is approximately 8.2M tokens (\$21).}}{67}{table.6.6}%
+\contentsline {table}{\numberline {6.7}{\ignorespaces Complexity and maintainability rubric scores (1\,=\,most complex, 5\,=\,least complex). Improved RAG shares the RAG codebase with two additional configuration flags and receives identical scores.}}{71}{table.6.7}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {7.1}{\ignorespaces System-level trade-off comparison across five evaluation dimensions.}}{64}{table.7.1}%
+\contentsline {table}{\numberline {7.1}{\ignorespaces System-level trade-off comparison across five evaluation dimensions. CP = context precision; AR = answer relevancy.}}{75}{table.7.1}%
 \addvspace {10\p@ }
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

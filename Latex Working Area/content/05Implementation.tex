@@ -12,14 +12,16 @@ Table~\ref{tab:libraries} lists all dependencies with confirmed installed versio
 
 \begin{table}[ht]
 \centering
+\small
+\setlength{\tabcolsep}{4pt}
 \caption{Project dependencies with confirmed installed versions (verified 2026-08-17).}
 \label{tab:libraries}
-\begin{tabular}{llp{6.4cm}}
+\begin{tabular}{p{5.0cm}p{1.5cm}p{6.8cm}}
 \hline
 \textbf{Library} & \textbf{Version} & \textbf{Role} \\
 \hline
 \multicolumn{3}{l}{\textit{Inference stack}} \\
-\texttt{openai} & 3.0.0 & RAG LLM client (OpenAI-compatible REST API) \\
+\texttt{openai} & 2.54.0 & RAG LLM client (OpenAI-compatible REST API); downgraded from 3.0.0 by ragas dependency resolution \\
 \texttt{sentence-transformers} & 5.7.0 & BGE-base-en-v1.5 embeddings; CrossEncoder reranker \\
 \texttt{transformers} & 5.15.0 & HuggingFace model loading (used by sentence-transformers) \\
 \texttt{faiss-cpu} & 1.15.0 & \texttt{IndexFlatIP} nearest-neighbour search \\
@@ -38,17 +40,18 @@ Table~\ref{tab:libraries} lists all dependencies with confirmed installed versio
 \texttt{requests} & 2.34.2 & GitHub REST API calls (acquisition scripts) \\
 \texttt{pdfplumber} & 0.11.10 & PDF text extraction (acquisition scripts) \\
 \hline
-\multicolumn{3}{l}{\textit{Evaluation (to be installed before evaluation run)}} \\
-\texttt{ragas} & --- & Context relevance, faithfulness, answer relevance \\
-\texttt{bert-score} & --- & BERTScore F1 against ground-truth answers \\
-\texttt{rouge-score} & --- & ROUGE-L lexical overlap \\
+\multicolumn{3}{l}{\textit{Evaluation}} \\
+\texttt{ragas} & 0.4.3 & Context relevance, faithfulness, answer relevance \\
+\texttt{bert-score} & 0.3.13 & BERTScore F1 (microsoft/deberta-xlarge-mnli) \\
+\texttt{rouge-score} & 0.1.2 & ROUGE-L lexical overlap \\
+\texttt{datasets} & 5.0.1 & Required by ragas for Dataset input format \\
 \hline
 \end{tabular}
 \end{table}
 
 The repository is organised into four top-level directories — \texttt{rag/}, \texttt{agent/}, \texttt{data/}, and \texttt{scripts/} — each encapsulating one functional concern. The listing below shows the layout at two levels of depth, with the large corpus and index directories collapsed.
 
-\begin{small}
+\begin{footnotesize}
 \begin{verbatim}
 .
 ├── .env                    API keys and model name (not committed)
@@ -73,17 +76,22 @@ The repository is organised into four top-level directories — \texttt{rag/}, \
 │   ├── agent.py            create_react_agent construction
 │   ├── pipeline.py         Run ReAct loop; log
 │   └── indexes/            Per-source .faiss + _chunks.jsonl
+├── multi_agent/
+│   ├── config.py           LLM settings, synthesis prompt, log dir
+│   ├── graph.py            LangGraph StateGraph (retrieve + synthesize)
+│   └── pipeline.py         MultiAgentPipeline; log
 └── scripts/
     ├── acquisition/        01_fetch_github_issues.py
     │                       02_fetch_markdown_docs.py
     │                       03_fetch_pdfs.py
-    └── evaluation/         generate_queries.py; check_queries.py
+    └── evaluation/         generate_queries.py
+                            check_queries.py
 \end{verbatim}
-\end{small}
+\end{footnotesize}
 
 Reproduction of the full environment from a fresh clone requires four steps. First, dependencies are installed with \texttt{pip install -r requirements\_agent.txt}; the agent file is a superset of the RAG requirements, so a single install covers both systems. Second, \texttt{.env.example} is copied to \texttt{.env} and three values are provided: \texttt{AI\_REFINERY\_BASE\_URL}, \texttt{AI\_REFINERY\_API\_KEY}, and \texttt{LLM\_MODEL}. Third, the RAG index is built with \texttt{python -m rag.ingest}, which reads \texttt{data/corpus/}, chunks all records, computes embeddings, and writes the unified FAISS index to \texttt{rag/indexes/}; this step completes in approximately two minutes on M4. Fourth, the agent indexes are built with \texttt{python -m agent.ingest}, which performs the same pipeline filtered by source type for each of the three per-source indexes; this step completes in approximately one minute.
 
-Three operational constraints govern the evaluation run. First, the AI Refinery LLM endpoint is hosted on Accenture's internal Kubernetes cluster and is unreachable without an active VPN connection; both pipelines fail with a connection timeout when the VPN is not engaged, as confirmed during development. Second, queries are submitted sequentially rather than in parallel — the endpoint does not publish rate limits, and sequential execution also eliminates concurrency artefacts from per-query wall-clock latency measurements, which are a primary evaluation metric. Third, token consumption across the 90-query evaluation is estimated at approximately 600,000 input tokens for the RAG pipeline — reflecting one LLM call per query with up to five retrieved chunks as context — and at 900,000 to 1,200,000 input tokens for the agent, reflecting context accumulation across one to three LLM calls per query in the ReAct loop; both figures are within the available API budget for a single uninterrupted evaluation run.
+Three operational constraints govern the evaluation run. First, the AI Refinery LLM endpoint is hosted on Accenture's internal Kubernetes cluster and is unreachable without an active VPN connection; both pipelines fail with a connection timeout when the VPN is not engaged, as confirmed during development. Second, queries are submitted sequentially rather than in parallel — the endpoint does not publish rate limits, and sequential execution also eliminates concurrency artefacts from per-query wall-clock latency measurements, which are a primary evaluation metric. Third, token consumption across the 90-query evaluation substantially exceeded initial estimates: the RAG pipelines consumed 313,000–317,000 input tokens in total (reflecting one LLM call per query against up to five retrieved chunks, plus a short HyDE hypothesis call in the improved pipeline), while the single-agent pipeline consumed approximately 4.97 million logged input tokens — with an estimated true total of 8.2 million, since the 33 queries that raised \texttt{GraphRecursionError} recorded zero tokens due to a pipeline instrumentation gap corrected after the evaluation run. The multi-agent system consumed 919,000 input tokens across the same 90 queries. All systems remained within the available API budget.
 
 \section{RAG Pipeline Implementation}
 \label{sec:rag-impl}
@@ -94,19 +102,25 @@ The ingestion script (\texttt{rag/ingest.py}) transforms raw corpus records into
 
 Chunking uses a word-count sliding window with a target size of 400 words and an overlap of 60 words, giving a step size of 340 words between window starts. The implementation splits on whitespace and joins the selected word slice back into a string — no tokeniser is involved. This word-based approach was chosen deliberately: it avoids a dependency on any specific tokeniser vocabulary, produces predictable chunk lengths across the three structurally different source types, and ensures that the same chunking code is shared without modification between the RAG and agent ingestion pipelines. Documents shorter than 400 words are emitted as a single chunk. Applied to the 1,623-record corpus, the pipeline produces 4,840 chunks, each identified by a \texttt{chunk\_id} of the form \texttt{<doc\_id>\_\_chunk<n>}.
 
-The 400-word target balances two competing constraints. A chunk must be long enough to contain a complete technical thought — a single sentence is too short for the cross-encoder reranker to assess relevance meaningfully — but short enough that the top-5 reranked chunks fit comfortably within the LLM context window alongside the system prompt. At a subword expansion ratio of approximately 1.3 tokens per word, five chunks of 400 words each contribute roughly 2,600 tokens of context, well within the limits of \texttt{gpt-oss-120b}.
+The 400-word target balances two competing constraints. A chunk must be long enough to contain a complete technical thought, since a single sentence is too short for the cross-encoder reranker to assess relevance meaningfully, but short enough that the top-5 reranked chunks fit comfortably within the LLM context window alongside the system prompt. At a subword expansion ratio of approximately 1.3 tokens per word, five chunks of 400 words each contribute roughly 2,600 tokens of context, well within the limits of \texttt{gpt-oss-120b}.
 
 Embeddings are computed with \texttt{BAAI/bge-base-en-v1.5}, a 768-dimensional bi-encoder that ranked among the top open-source retrieval models on the MTEB leaderboard at implementation time and requires no commercial licence. The model encodes all chunk texts with \texttt{normalize\_embeddings=True}, which L2-normalises each vector before it is written to the FAISS index. Normalisation is required by the choice of \texttt{IndexFlatIP} as the index type: inner product on unit-norm vectors equals cosine similarity, so the index provides exact cosine search without approximation. Encoding is batched at 64 chunks per forward pass to control peak memory usage.
 
 \subsection{Retrieval and Reranking}
 
-Retrieval operates in two stages, implemented in \texttt{rag/retrieve.py}. The first stage uses FAISS to retrieve the 20 nearest chunks to the query by cosine similarity. The second stage reranks those 20 candidates with a cross-encoder and returns the top 5 to the generator.
+Retrieval is implemented across four sequential stages in \texttt{rag/retrieve.py}: optional hypothesis generation, FAISS nearest-neighbour search, cross-encoder reranking, and Maximal Marginal Relevance diversification.
 
-Before the FAISS search, the query string is prefixed with the BGE retrieval instruction (\textit{``Represent this sentence for searching relevant passages: ''}) and encoded with the same embedding model used at ingest time. This asymmetric prefix is specified in the BGE model card for retrieval tasks: document texts are indexed without a prefix, while query vectors use the instruction prefix to shift the query embedding toward the retrieval subspace. The prefixed query vector is L2-normalised to match the index vectors, and \texttt{IndexFlatIP.search()} returns the 20 highest inner-product scores along with their indices into the chunk metadata file. Retrieving 20 candidates before reranking provides a recall buffer: the bi-encoder embedding may rank some genuinely relevant passages outside the top 5, and the wider candidate set gives the cross-encoder an opportunity to promote them.
+\textbf{HyDE pre-retrieval.} Before querying the FAISS index, the pipeline generates a hypothetical passage using the LLM. The \texttt{Generator.generate\_hypothesis()} method in \texttt{rag/generate.py} issues a short generation call with the instruction ``Write a short factual passage (2--3 sentences) that directly answers the question'' and returns the completion text. The hypothesis is then embedded by \texttt{Retriever.\_embed\_passage()}, which calls \texttt{model.encode()} without the BGE query prefix. Omitting the prefix is deliberate: the hypothesis is phrased in document register rather than question register and should therefore be embedded in the same distributional region as stored document chunks, not in the query subspace. The original query is retained separately for cross-encoder reranking, so relevance scoring in the next stage remains grounded in the actual question regardless of how the hypothesis was phrased.
 
-The cross-encoder model (\texttt{cross-encoder/ms-marco-MiniLM-L-6-v2}) scores each (query, candidate\,text) pair jointly rather than encoding query and document independently. This joint encoding allows the model to attend to fine-grained token-level interactions between the query and the passage, giving substantially better relevance estimates than the bi-encoder at the cost of 20 sequential forward passes per query. Candidates are sorted descending by cross-encoder score and the top 5 are passed to the generator. Both the FAISS score and the cross-encoder score are retained in each chunk's metadata and written to the query log, supporting post-hoc analysis of retrieval behaviour.
+\textbf{FAISS search.} When a hypothesis is available, \texttt{Retriever.retrieve()} passes the hypothesis embedding to \texttt{IndexFlatIP.search()} as the search vector; otherwise the query string is prefixed with the BGE retrieval instruction (\textit{``Represent this sentence for searching relevant passages:''}) and its embedding is used instead. Because all stored vectors and all search vectors are L2-normalised, the inner product returned by \texttt{IndexFlatIP} equals cosine similarity exactly. The index returns the 20 highest-scoring candidates and their positions in the chunk metadata file. The 20-candidate pool provides a recall buffer that allows the cross-encoder to promote genuinely relevant passages that the bi-encoder placed outside the top~5.
 
-The generator (\texttt{rag/generate.py}) constructs a user message from the top-5 chunks by numbering each passage and prepending its source type, title, and URL. A system prompt instructs the model to answer using only the provided context passages and to state explicitly when the context is insufficient. The LLM is called at temperature 0.0 for deterministic, reproducible output. Token counts are read from the API response's \texttt{usage} field and recorded in the log. The \texttt{RAGPipeline} class in \texttt{rag/pipeline.py} sequences the two stages, records wall-clock latency for each stage and for the full query, and appends a structured JSON record to a per-session log file.
+\begin{sloppypar}
+\textbf{Cross-encoder reranking.} The cross-encoder (\path{cross-encoder/ms-marco-MiniLM-L-6-v2}) scores all 20 (original query, passage) pairs jointly. Joint scoring allows the model to attend to fine-grained token-level interactions between the query and the passage, giving substantially better relevance estimates than the inner-product score at the cost of 20 sequential forward passes. Candidates are sorted descending by cross-encoder score.
+\end{sloppypar}
+
+\textbf{MMR diversification.} After sorting by cross-encoder score, \texttt{Retriever.\_mmr()} selects the final 5 passages using Maximal Marginal Relevance. Cross-encoder scores are first normalised to $[0,1]$ for commensurability with cosine similarity values. The stored L2-normalised embedding vector for each candidate is retrieved from the FAISS index via \texttt{IndexFlatIP.reconstruct()}. MMR then iterates: at each step it selects the candidate that maximises $\lambda \cdot \text{norm\_score}(d_i) - (1-\lambda) \cdot \max_{d_j \in S} \mathbf{v}_i^\top \mathbf{v}_j$, where $S$ is the set of already-selected passages, $\mathbf{v}_i$ and $\mathbf{v}_j$ are stored embedding vectors, and $\lambda = 0.7$ (controlled by \texttt{MMR\_LAMBDA} in \texttt{rag/config.py}). This prevents the final context window from being populated by five near-duplicate excerpts from the same document section. Both the FAISS score and the cross-encoder score are retained in each chunk's metadata and written to the query log.
+
+The generator (\texttt{rag/generate.py}) constructs a user message from the top-5 chunks by numbering each passage and prepending its source type, title, and URL. A system prompt instructs the model to answer using only the provided context passages, to synthesise across all retrieved passages when the context contains information from multiple sources, and to decline explicitly when the context is insufficient. The LLM is called at temperature 0.0 for deterministic, reproducible output. Token counts are read from the API response's \texttt{usage} field and recorded in the log. The \texttt{RAGPipeline} class in \texttt{rag/pipeline.py} sequences all four stages, records wall-clock latency for each stage — including \texttt{latency.hyde\_s} for the hypothesis generation call — and appends a structured JSON record to a per-session log file.
 
 \subsection{Failure Modes and Resolutions}
 
@@ -125,9 +139,9 @@ Four failure modes were encountered during development and resolved before the e
 
 \subsection{Agent Loop}
 
-The agent loop is constructed in \texttt{agent/agent.py} using \texttt{create\_react\_agent} from \texttt{langgraph.prebuilt}, which builds a compiled LangGraph \texttt{StateGraph} from an LLM and a list of tools. The resulting graph implements the ReAct pattern described by \citeasnoun{yao2023react}: the model reasons about the query, emits a tool call, receives the retrieval result as an observation, and repeats until it produces a final answer without a tool call. In LangGraph~1.2.11 this loop is expressed through the model's native function-calling API rather than through text-parsed Thought/Action strings. Structurally, the pattern is unchanged — the agent alternates between reasoning and acting — but the mechanism is more reliable because tool selection and argument extraction are handled by the model's structured output, not by fragile regex parsing of generated text.
+The agent loop is constructed in \texttt{agent/agent.py} using \texttt{create\_react\_agent} from \texttt{langgraph.prebuilt}, which builds a compiled LangGraph \texttt{StateGraph} from an LLM and a list of tools. The resulting graph implements the ReAct pattern described by \citeasnoun{yao2023react}: the model reasons about the query, emits a tool call, receives the retrieval result as an observation, and repeats until it produces a final answer without a tool call. In LangGraph~1.2.11 this loop is expressed through the model's native function-calling API rather than through text-parsed Thought/Action strings. Structurally, the pattern is unchanged, but the mechanism is more reliable because tool selection and argument extraction are handled by the model's structured output, not by fragile regex parsing of generated text.
 
-Each iteration of the loop corresponds to two LangGraph supersteps: an agent node in which the LLM produces an \texttt{AIMessage} containing one or more \texttt{tool\_calls}, and a tools node in which those calls are executed and the results are returned as \texttt{ToolMessage} objects appended to the state. The model receives the updated message history — including all prior tool observations — at the start of each subsequent agent node. The loop terminates when the model emits an \texttt{AIMessage} with no \texttt{tool\_calls}, which is taken as the final answer. A recursion limit of 13 supersteps is configured, corresponding to six complete tool-call cycles plus one final answer step. If this limit is reached, LangGraph raises a \texttt{GraphRecursionError}, which \texttt{AgentPipeline} catches and records as \texttt{finish\_reason: "max\_iterations"} in the query log.
+Each iteration of the loop corresponds to two LangGraph supersteps: an agent node in which the LLM produces an \texttt{AIMessage} containing one or more \texttt{tool\_calls}, and a tools node in which those calls are executed and the results are returned as \texttt{ToolMessage} objects appended to the state. The model receives the updated message history — including all prior tool observations — at the start of each subsequent agent node. The loop terminates when the model emits an \texttt{AIMessage} with no \texttt{tool\_calls}, which is taken as the final answer. A recursion limit of 15 iterations is configured via \texttt{MAX\_ITERATIONS} in \texttt{agent/config.py}. If this limit is reached, LangGraph raises a \texttt{GraphRecursionError}, which \texttt{AgentPipeline} catches and records as \texttt{finish\_reason: "max\_iterations"} in the query log.
 
 One implementation obstacle arose from a breaking API change in LangChain~1.x. The \texttt{create\_react\_agent} function and \texttt{AgentExecutor} class had both been removed from the \texttt{langchain.agents} namespace and migrated to LangGraph, causing an \texttt{ImportError} at startup. The resolution was to import \texttt{create\_react\_agent} from \texttt{langgraph.prebuilt} and adapt the pipeline to LangGraph's message-based state, replacing the legacy \texttt{intermediate\_steps} tuple list.
 
@@ -157,6 +171,26 @@ The model selects among these by attending to the query's vocabulary and intent,
 
 The LLM is configured at temperature~0.0 throughout the ReAct loop, making both tool selection and answer generation deterministic for a given query. This is necessary for the evaluation: the routing accuracy metric compares the agent's \texttt{sources\_used} log field against the ground-truth \texttt{source\_type} labels in \texttt{data/eval/queries.jsonl}, and non-deterministic routing would make repeated runs produce different accuracy values from the same query set.
 
+\subsection{Runtime Failures and Resolutions}
+
+Three failure modes were identified during the single-agent evaluation run and resolved through targeted fixes to \texttt{agent/pipeline.py} and \texttt{agent/config.py}.
+
+\textbf{Reasoning-model content format.} \texttt{gpt-oss-120b} returns \texttt{msg.content} as a typed block list — for example, \texttt{[\{"type": "text", "text": "..."\}]} — rather than a plain string. The original answer extraction code applied an \texttt{isinstance(content, str)} guard and silently discarded non-string values, causing four queries to record an empty answer despite successful ReAct loop completion. The fix joins all blocks of type \texttt{"text"} or \texttt{"thinking"} into a single string before the guard check.
+
+\textbf{Token capture on recursion error.} The \texttt{get\_openai\_callback()} context manager accumulates token counts across all LLM calls made during \texttt{app.invoke()} and its counters are populated by the time the context exits — even when \texttt{app.invoke()} raises a \texttt{GraphRecursionError}. The original pipeline code read \texttt{cb.prompt\_tokens} inside the \texttt{try} block after the \texttt{invoke} call, where it was skipped by exception propagation. The fix initialises \texttt{cb = None} before the \texttt{try} block and reads token counts in the \texttt{except GraphRecursionError} branch. Token counts for the 33 already-logged failure records remain at zero in the definitive evaluation log and are noted as understated in Chapter~6.
+
+\textbf{Unanswerable queries and the iteration ceiling.} The original system prompt contained no instruction for queries whose answers are absent from the corpus. Without an explicit decline path, the agent searched all three indexes exhaustively on every unanswerable query and reached the iteration ceiling in all 15 such cases. A single sentence was added to the system prompt: ``If after searching the available sources you cannot find relevant information, state clearly that the answer is not available in the knowledge base — do not continue searching.'' The maximum completion budget was also raised from 1,024 to 2,048 tokens to ensure that \texttt{gpt-oss-120b}'s internal reasoning tokens do not exhaust the response budget before the visible answer is written. Both fixes were applied after the evaluation run and informed the design of the multi-agent architecture described in the following subsection.
+
+\subsection{Multi-Agent Coordination Architecture}
+
+The single-agent evaluation produced a 41\,\% failure rate and a mean latency of 16.3 seconds per query, primarily because the sequential ReAct loop accumulated context across up to 9 tool calls and hit the iteration ceiling on queries where the model searched exhaustively rather than declining. These failure modes motivated a second agent architecture, implemented in \texttt{multi\_agent/}, that decouples retrieval from reasoning and eliminates the ReAct loop entirely.
+
+The multi-agent graph is a two-node \texttt{StateGraph} defined in\linebreak[0] \texttt{multi\_agent/graph.py}. A \texttt{retrieve\_all\_sources} node iterates over the three source types sequentially, calling the \texttt{SourceRetriever.\_retrieve()} method from \texttt{agent/tools.py} for each and accumulating the returned chunk lists. An initial design used LangGraph's \texttt{Send()} API to dispatch these retrieval calls as parallel fan-out branches; this was reverted because Apple Silicon MPS does not support concurrent \texttt{SentenceTransformer} inference across threads and produced a segfault during execution. Sequential iteration over three FAISS indexes takes approximately 300\,ms and represents a negligible fraction of per-query latency, so the reversion had no measurable effect on throughput. A \texttt{synthesize} node then receives the pooled passages — at most 15 chunks, 5 per source — and issues a single LLM call to produce the final answer.
+
+The \texttt{MultiAgentState} TypedDict carries \texttt{query}, \texttt{source\_results}, \texttt{answer}, and \texttt{finish\_reason}; there is no iteration limit and no \texttt{GraphRecursionError} risk. The synthesis prompt instructs the model to integrate evidence from all three source types and to decline explicitly when none of the retrieved passages addresses the query. The LLM call is wrapped in \texttt{get\_openai\_callback()} identically to the single-agent pipeline, so token counts are captured correctly for all 90 queries. The \texttt{MultiAgentPipeline} class in \texttt{multi\_agent/pipeline.py} exposes the same \texttt{query(question)} interface as \texttt{AgentPipeline} and writes log records in a schema compatible with the evaluation scripts.
+
+The multi-agent implementation reuses the per-source FAISS indexes built by \texttt{agent/ingest.py} and the \texttt{SourceRetriever} class from \texttt{agent/tools.py}, adding no new ingestion code. The effective structural difference from the single-agent system is the elimination of the decision loop: the multi-agent always queries all three sources and makes exactly one LLM call, giving it a bounded, fixed-size context per query regardless of query type.
+
 \section{Logging and Instrumentation}
 \label{sec:logging}
 
@@ -164,15 +198,17 @@ Both pipelines write structured JSON logs to enable post-hoc evaluation without 
 
 \begin{table}[ht]
 \centering
+\small
+\setlength{\tabcolsep}{4pt}
 \caption{Log record schema. Shared fields are produced identically by both pipelines; agent-only fields have no equivalent in the RAG log.}
 \label{tab:log_schema}
-\begin{tabular}{llp{5.8cm}}
+\begin{tabular}{p{4.5cm}p{1.2cm}p{7.8cm}}
 \hline
 \textbf{Field} & \textbf{Type} & \textbf{Description} \\
 \hline
 \multicolumn{3}{l}{\textit{Shared fields (RAG and agent)}} \\
 \texttt{timestamp}        & string  & UTC ISO-8601 timestamp, set after query completes \\
-\texttt{system}           & string  & \texttt{"rag"} or \texttt{"agent"} \\
+\texttt{system}           & string  & \texttt{"rag"}, \texttt{"agent"}, or \texttt{"multi\_agent"} \\
 \texttt{query}            & string  & The input question \\
 \texttt{answer}           & string  & The generated answer \\
 \texttt{finish\_reason}   & string  & \texttt{"stop"} or \texttt{"max\_iterations"} \\
@@ -182,9 +218,11 @@ Both pipelines write structured JSON logs to enable post-hoc evaluation without 
 \texttt{tokens.output}    & int     & Completion tokens generated \\
 \texttt{tokens.total}     & int     & Sum of input and output tokens \\
 \hline
-\multicolumn{3}{l}{\textit{RAG-only additional latency fields}} \\
-\texttt{latency.retrieve\_s} & float & FAISS search and cross-encoder reranking time \\
-\texttt{latency.generate\_s} & float & LLM call time \\
+\multicolumn{3}{l}{\textit{RAG-only additional fields}} \\
+\texttt{latency.hyde\_s}     & float  & HyDE hypothesis generation time (0.0 when disabled) \\
+\texttt{latency.retrieve\_s} & float  & FAISS search, cross-encoder reranking, and MMR time \\
+\texttt{latency.generate\_s} & float  & LLM generation call time \\
+\texttt{hyde\_hypothesis}    & string & Generated hypothesis used for FAISS search (null when disabled) \\
 \hline
 \multicolumn{3}{l}{\textit{Agent-only fields}} \\
 \texttt{agent\_trace}     & array   & One entry per tool call: step, tool name, tool input, observation \\
@@ -194,7 +232,7 @@ Both pipelines write structured JSON logs to enable post-hoc evaluation without 
 \end{tabular}
 \end{table}
 
-Latency is measured with \texttt{time.perf\_counter()}, which provides sub-millisecond wall-clock resolution and is not affected by system clock adjustments. In the RAG pipeline, timing is split across two instrumented blocks: \texttt{latency.retrieve\_s} wraps the \texttt{Retriever.retrieve()} call — covering FAISS search and cross-encoder reranking — and \texttt{latency.generate\_s} wraps the \texttt{Generator.generate()} call, covering the LLM API round-trip only. The agent pipeline records only \texttt{latency.total\_s}, wrapping the entire \texttt{app.invoke()} call that runs the ReAct loop. A per-stage breakdown is not recorded for the agent because the number of LLM calls and tool invocations varies per query; isolating individual stages would require instrumenting LangGraph's internal graph execution, which would complicate the implementation without adding evaluation value. In both systems, the timer is stopped before the log write, so file I/O is excluded from all latency figures.
+Latency is measured with \texttt{time.perf\_counter()}, which provides sub-millisecond wall-clock resolution and is not affected by system clock adjustments. In the RAG pipeline, timing is split across three instrumented blocks: \texttt{latency.hyde\_s} wraps the \texttt{Generator.generate\_hypothesis()} call and is recorded as 0.0 when \texttt{USE\_HYDE} is disabled; \texttt{latency.retrieve\_s} wraps the \texttt{Retriever.retrieve()} call, covering FAISS search, cross-encoder reranking, and MMR diversification; and\linebreak[0] \texttt{latency.generate\_s} wraps the \texttt{Generator.generate()} call covering the LLM API round-trip only. The agent and multi-agent pipelines record only \texttt{latency.total\_s}, wrapping the entire \texttt{app.invoke()} call. A per-stage breakdown is not recorded for either agent system because the number of LLM calls and retrieval operations varies per query in the single-agent case, while the multi-agent always performs the same two-node sequence; in neither case would stage-level timing add evaluation value. In all three systems, the timer is stopped before the log write, so file I/O is excluded from all latency figures.
 
 Token consumption is captured by two different mechanisms that produce the same \texttt{tokens} field structure. For the RAG pipeline, prompt and completion token counts are extracted from the \texttt{usage} object that the OpenAI API returns alongside every chat completion. For the agent pipeline, a callback context manager is used instead, because the multi-step loop makes per-response token access impractical.
 

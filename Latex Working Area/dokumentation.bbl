@@ -13,6 +13,14 @@ Asai, A., Wu, Z., Wang, Y., Sil, A. \harvardand\ Hajishirzi, H.
   arXiv:2310.11511} .
 \newline\harvardurl{https://arxiv.org/abs/2310.11511}
 
+\harvarditem{Carbonell \harvardand\ Goldstein}{1998}{carbonell1998mmr}
+Carbonell, J. \harvardand\ Goldstein, J.  \harvardyearleft
+  1998\harvardyearright , The use of {MMR}, diversity-based reranking for
+  reordering documents and producing summaries, {\em in} `Proceedings of the
+  21st Annual International {ACM} {SIGIR} Conference on Research and
+  Development in Information Retrieval', ACM, Melbourne, Australia,
+  pp.~335--336.
+
 \harvarditem[Es et~al.]{Es, James, Anke \harvardand\
   Schockaert}{2023}{es2023ragas}
 Es, S., James, J., Anke, L.~E. \harvardand\ Schockaert, S.  \harvardyearleft
@@ -28,7 +36,15 @@ Ferrazzi, P., Cvjeticanin, M., Piraccini, A. \harvardand\ Giannuzzi, D.
   arXiv:2601.07711} .
 \newline\harvardurl{https://arxiv.org/abs/2601.07711}
 
-\harvarditem[Gao et~al.]{Gao, Xiong, Gao, Jia, Pan, Bi, Dai, Sun \harvardand\
+\harvarditem{Gao, Ma, Lin \harvardand\ Callan}{2023}{gao2023hyde}
+Gao, L., Ma, X., Lin, J. \harvardand\ Callan, J.  \harvardyearleft
+  2023\harvardyearright , Precise zero-shot dense retrieval without relevance
+  labels, {\em in} `Proceedings of the 61st Annual Meeting of the Association
+  for Computational Linguistics (Volume 1: Long Papers)', Association for
+  Computational Linguistics, Toronto, Canada, pp.~1762--1777.
+\newline\harvardurl{https://arxiv.org/abs/2212.10496}
+
+\harvarditem{Gao, Xiong, Gao, Jia, Pan, Bi, Dai, Sun \harvardand\
   Wang}{2023}{gao2023ragsurvey}
 Gao, Y., Xiong, Y., Gao, X., Jia, K., Pan, J., Bi, Y., Dai, Y., Sun, J.
   \harvardand\ Wang, H.  \harvardyearleft 2023\harvardyearright ,

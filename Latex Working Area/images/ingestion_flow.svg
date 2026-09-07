@@ -1,0 +1,267 @@
+<svg viewBox="0 0 1480 820" xmlns="http://www.w3.org/2000/svg" font-family="'Georgia', 'Times New Roman', serif">
+  <defs>
+    <!-- Swimlane fill gradients -->
+    <linearGradient id="laneA" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#DDE8F4" stop-opacity="0.85"/>
+      <stop offset="75%" stop-color="#DDE8F4" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#DDE8F4" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="laneB" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#D9EDD9" stop-opacity="0.85"/>
+      <stop offset="75%" stop-color="#D9EDD9" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#D9EDD9" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="laneC" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#EDE3D9" stop-opacity="0.85"/>
+      <stop offset="75%" stop-color="#EDE3D9" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#EDE3D9" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Arrow marker -->
+    <marker id="arrow" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#3a3a3a"/>
+    </marker>
+    <marker id="arrow-rag" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#1a4a7a"/>
+    </marker>
+    <marker id="arrow-agent" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#5a3a00"/>
+    </marker>
+    <!-- Drop shadow -->
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="120%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#00000018"/>
+    </filter>
+  </defs>
+
+  <!-- ══════════════ BACKGROUND ══════════════ -->
+  <rect width="1480" height="820" fill="#fafaf8"/>
+
+  <!-- ══════════════ TITLE ══════════════ -->
+  <text x="740" y="38" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a1a" letter-spacing="0.2">
+    Ingestion Data Flow: Three Source Pipelines Converging at Shared JSONL Files, then Diverging into System-Specific Indexes
+  </text>
+
+  <!-- ══════════════ SWIMLANE BACKGROUNDS ══════════════ -->
+  <!-- Lane A: GitHub Issues -->
+  <rect x="18" y="55" width="730" height="218" fill="url(#laneA)" rx="4"/>
+  <!-- Lane B: Markdown / RST docs -->
+  <rect x="18" y="278" width="730" height="218" fill="url(#laneB)" rx="4"/>
+  <!-- Lane C: PDF whitepapers -->
+  <rect x="18" y="501" width="730" height="218" fill="url(#laneC)" rx="4"/>
+
+  <!-- Swimlane lane labels (rotated, left edge) -->
+  <text transform="translate(30,164) rotate(-90)" text-anchor="middle" font-size="11" font-style="italic" fill="#3a6ea0" opacity="0.8">GitHub Issues</text>
+  <text transform="translate(30,387) rotate(-90)" text-anchor="middle" font-size="11" font-style="italic" fill="#2e7a3c" opacity="0.8">Markdown / RST Docs</text>
+  <text transform="translate(30,610) rotate(-90)" text-anchor="middle" font-size="11" font-style="italic" fill="#8b5a1a" opacity="0.8">PDF Whitepapers</text>
+
+  <!-- RAG/Agent header zone -->
+  <rect x="1155" y="52" width="305" height="715" fill="#f0f0ec" rx="4" opacity="0.6"/>
+  <line x1="1155" y1="52" x2="1155" y2="767" stroke="#aaaaaa" stroke-width="1" stroke-dasharray="5,3"/>
+
+  <!-- ══════════════ HELPER: box drawing macro via groups ══════════════ -->
+
+  <!-- ─── LANE A: GitHub Issues pipeline ─── -->
+  <!-- Box A1: GitHub REST API -->
+  <rect x="44" y="66" width="152" height="198" rx="5" fill="#ffffff" stroke="#6a9cc8" stroke-width="1.3" filter="url(#shadow)"/>
+  <rect x="44" y="66" width="152" height="20" rx="5" fill="#6a9cc8"/>
+  <rect x="44" y="76" width="152" height="10" fill="#6a9cc8"/>
+  <text x="120" y="81" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#fff">GitHub REST API v3</text>
+  <text x="120" y="99" text-anchor="middle" font-size="9.5" fill="#333">Authenticated PAT</text>
+  <line x1="52" y1="104" x2="188" y2="104" stroke="#ddd" stroke-width="0.7"/>
+  <text x="120" y="118" text-anchor="middle" font-size="9" fill="#444">Fetch closed issues</text>
+  <text x="120" y="130" text-anchor="middle" font-size="9" fill="#444">paginated (100/page)</text>
+  <line x1="52" y1="136" x2="188" y2="136" stroke="#ddd" stroke-width="0.7"/>
+  <text x="120" y="150" text-anchor="middle" font-size="9" fill="#444">Client-side filter:</text>
+  <text x="120" y="162" text-anchor="middle" font-size="9" fill="#444">body &gt; 200 chars,</text>
+  <text x="120" y="174" text-anchor="middle" font-size="9" fill="#444">≥1 comment,</text>
+  <text x="120" y="186" text-anchor="middle" font-size="9" fill="#444">no dup/invalid labels</text>
+  <line x1="52" y1="192" x2="188" y2="192" stroke="#ddd" stroke-width="0.7"/>
+  <text x="120" y="206" text-anchor="middle" font-size="9" fill="#444">Fetch comment thread</text>
+  <text x="120" y="218" text-anchor="middle" font-size="9" fill="#444">→ body + comments</text>
+  <text x="120" y="230" text-anchor="middle" font-size="9" fill="#444">→ content field</text>
+
+  <!-- Arrow A1 → norm (shortened) -->
+  <line x1="196" y1="165" x2="349" y2="165" stroke="#3a3a3a" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+  <!-- ─── LANE B: Markdown / RST ─── -->
+  <rect x="44" y="290" width="152" height="188" rx="5" fill="#ffffff" stroke="#5a9a5a" stroke-width="1.3" filter="url(#shadow)"/>
+  <rect x="44" y="290" width="152" height="20" rx="5" fill="#5a9a5a"/>
+  <rect x="44" y="300" width="152" height="10" fill="#5a9a5a"/>
+  <text x="120" y="305" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#fff">Markdown / RST Docs</text>
+  <text x="120" y="325" text-anchor="middle" font-size="9.5" fill="#333">git clone --depth=1</text>
+  <text x="120" y="337" text-anchor="middle" font-size="9.5" fill="#333">--sparse (docs subtree)</text>
+  <line x1="52" y1="343" x2="188" y2="343" stroke="#ddd" stroke-width="0.7"/>
+  <text x="120" y="357" text-anchor="middle" font-size="9" fill="#444">RST/Markdown</text>
+  <text x="120" y="369" text-anchor="middle" font-size="9" fill="#444">Strip headings,</text>
+  <text x="120" y="381" text-anchor="middle" font-size="9" fill="#444">code blocks, links,</text>
+  <text x="120" y="393" text-anchor="middle" font-size="9" fill="#444">front matter</text>
+  <line x1="52" y1="399" x2="188" y2="399" stroke="#ddd" stroke-width="0.7"/>
+  <text x="120" y="413" text-anchor="middle" font-size="9" fill="#444">Plain text prose</text>
+  <text x="120" y="425" text-anchor="middle" font-size="9" fill="#444">+ lists</text>
+  <text x="120" y="437" text-anchor="middle" font-size="9" fill="#444">→ content field</text>
+
+  <!-- Arrow B1 → norm (shortened) -->
+  <line x1="196" y1="387" x2="349" y2="387" stroke="#3a3a3a" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+  <!-- ─── LANE C: PDF whitepapers ─── -->
+  <rect x="44" y="513" width="152" height="198" rx="5" fill="#ffffff" stroke="#b07a30" stroke-width="1.3" filter="url(#shadow)"/>
+  <rect x="44" y="513" width="152" height="20" rx="5" fill="#b07a30"/>
+  <rect x="44" y="523" width="152" height="10" fill="#b07a30"/>
+  <text x="120" y="528" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#fff">PDF Whitepapers</text>
+  <text x="120" y="547" text-anchor="middle" font-size="9.5" fill="#333">HTTPS download</text>
+  <line x1="52" y1="553" x2="188" y2="553" stroke="#ddd" stroke-width="0.7"/>
+  <text x="120" y="567" text-anchor="middle" font-size="9" fill="#444">pdfplumber</text>
+  <text x="120" y="579" text-anchor="middle" font-size="9" fill="#444">page-by-page extraction</text>
+  <line x1="52" y1="585" x2="188" y2="585" stroke="#ddd" stroke-width="0.7"/>
+  <text x="120" y="599" text-anchor="middle" font-size="9" fill="#444">Discard: &lt;100 chars</text>
+  <text x="120" y="611" text-anchor="middle" font-size="9" fill="#444">or &gt;70% short lines</text>
+  <text x="120" y="623" text-anchor="middle" font-size="9" fill="#444">(TOC pages)</text>
+  <line x1="52" y1="629" x2="188" y2="629" stroke="#ddd" stroke-width="0.7"/>
+  <text x="120" y="643" text-anchor="middle" font-size="9" fill="#444">4-page sliding window</text>
+  <text x="120" y="655" text-anchor="middle" font-size="9" fill="#444">1-page overlap</text>
+  <text x="120" y="667" text-anchor="middle" font-size="9" fill="#444">300–1200 word sections</text>
+  <text x="120" y="679" text-anchor="middle" font-size="9" fill="#444">→ content field</text>
+
+  <!-- Arrow C1 → norm (shortened) -->
+  <line x1="196" y1="612" x2="349" y2="612" stroke="#3a3a3a" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+  <!-- ══════════════ COL 2: Normalisation box (shared) — moved to x=350, top aligned at y=66 ══════════════ -->
+  <rect x="350" y="66" width="178" height="580" rx="6" fill="#ffffff" stroke="#888" stroke-width="1.6" filter="url(#shadow)"/>
+  <rect x="350" y="66" width="178" height="26" rx="6" fill="#555"/>
+  <rect x="350" y="78" width="178" height="14" fill="#555"/>
+  <text x="439" y="84" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">Normalise</text>
+  <text x="439" y="306" text-anchor="middle" font-size="10" fill="#333" font-style="italic">Unified JSON Schema</text>
+  <text x="439" y="324" text-anchor="middle" font-size="9.5" fill="#555">{source_type,</text>
+  <text x="439" y="337" text-anchor="middle" font-size="9.5" fill="#555">id,</text>
+  <text x="439" y="350" text-anchor="middle" font-size="9.5" fill="#555">title,</text>
+  <text x="439" y="363" text-anchor="middle" font-size="9.5" fill="#555">content,</text>
+  <text x="439" y="376" text-anchor="middle" font-size="9.5" fill="#555">metadata}</text>
+
+  <!-- Decorative rule inside norm box -->
+  <line x1="362" y1="287" x2="516" y2="287" stroke="#ccc" stroke-width="0.8"/>
+  <line x1="362" y1="389" x2="516" y2="389" stroke="#ccc" stroke-width="0.8"/>
+
+  <!-- Output file labels inside norm box -->
+  <text x="439" y="406" text-anchor="middle" font-size="8.5" fill="#3a6ea0" font-style="italic">→ github_issues.jsonl</text>
+  <text x="439" y="421" text-anchor="middle" font-size="8.5" fill="#2e7a3c" font-style="italic">→ markdown_docs.jsonl</text>
+  <text x="439" y="436" text-anchor="middle" font-size="8.5" fill="#8b5a1a" font-style="italic">→ pdf_whitepapers.jsonl</text>
+
+  <!-- ══════════════ COL 3: JSONL file nodes — shifted to x=640 ══════════════ -->
+  <!-- github_issues.jsonl -->
+  <rect x="640" y="115" width="158" height="58" rx="5" fill="#eaf2fb" stroke="#6a9cc8" stroke-width="1.4" filter="url(#shadow)"/>
+  <!-- doc icon stacks -->
+  <rect x="648" y="121" width="28" height="36" rx="2" fill="#c0d8f0" stroke="#6a9cc8" stroke-width="0.8"/>
+  <rect x="651" y="124" width="28" height="36" rx="2" fill="#d4e6f7" stroke="#6a9cc8" stroke-width="0.8"/>
+  <rect x="654" y="127" width="28" height="36" rx="2" fill="#eaf2fb" stroke="#6a9cc8" stroke-width="1"/>
+  <text x="686" y="141" font-size="9.5" font-weight="bold" fill="#3a6ea0">github_issues.jsonl</text>
+  <text x="686" y="156" font-size="9" fill="#555">200 records</text>
+
+  <!-- markdown_docs.jsonl -->
+  <rect x="640" y="358" width="158" height="58" rx="5" fill="#eaf5ea" stroke="#5a9a5a" stroke-width="1.4" filter="url(#shadow)"/>
+  <rect x="648" y="364" width="28" height="36" rx="2" fill="#b5ddb5" stroke="#5a9a5a" stroke-width="0.8"/>
+  <rect x="651" y="367" width="28" height="36" rx="2" fill="#cceccc" stroke="#5a9a5a" stroke-width="0.8"/>
+  <rect x="654" y="370" width="28" height="36" rx="2" fill="#eaf5ea" stroke="#5a9a5a" stroke-width="1"/>
+  <text x="686" y="384" font-size="9.5" font-weight="bold" fill="#2e7a3c">markdown_docs.jsonl</text>
+  <text x="686" y="399" font-size="9" fill="#555">1,283 records</text>
+
+  <!-- pdf_whitepapers.jsonl -->
+  <rect x="640" y="594" width="158" height="58" rx="5" fill="#fdf0e0" stroke="#b07a30" stroke-width="1.4" filter="url(#shadow)"/>
+  <rect x="648" y="600" width="28" height="36" rx="2" fill="#e8c080" stroke="#b07a30" stroke-width="0.8"/>
+  <rect x="651" y="603" width="28" height="36" rx="2" fill="#f0d090" stroke="#b07a30" stroke-width="0.8"/>
+  <rect x="654" y="606" width="28" height="36" rx="2" fill="#fdf0e0" stroke="#b07a30" stroke-width="1"/>
+  <text x="686" y="620" font-size="9.5" font-weight="bold" fill="#8b5a1a">pdf_whitepapers.jsonl</text>
+  <text x="686" y="635" font-size="9" fill="#555">140 records</text>
+
+  <!-- Arrows from norm box to JSONL files (from x=528 to x=639) -->
+  <line x1="528" y1="165" x2="639" y2="144" stroke="#6a9cc8" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="528" y1="387" x2="639" y2="387" stroke="#5a9a5a" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <line x1="528" y1="612" x2="639" y2="623" stroke="#b07a30" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+  <!-- ══════════════ BOLD VERTICAL DIVIDER ══════════════ -->
+  <line x1="1150" y1="60" x2="1150" y2="765" stroke="#444" stroke-width="2.5"/>
+
+  <!-- ══════════════ COL 4a: RAG ingestion ══════════════ -->
+  <!-- Three dashed lines converging from JSONL right edges (x=798) to divider at y=154 -->
+  <line x1="798" y1="144" x2="1150" y2="154" stroke="#1a4a7a" stroke-width="1.2" stroke-dasharray="4,2"/>
+  <line x1="798" y1="387" x2="1150" y2="154" stroke="#1a4a7a" stroke-width="1.2" stroke-dasharray="4,2"/>
+  <line x1="798" y1="623" x2="1150" y2="154" stroke="#1a4a7a" stroke-width="1.2" stroke-dasharray="4,2"/>
+
+  <!-- Merge arrow into RAG box -->
+  <line x1="1150" y1="154" x2="1168" y2="154" stroke="#1a4a7a" stroke-width="1.5" marker-end="url(#arrow-rag)"/>
+
+  <!-- RAG processing box — top aligned at y=66 -->
+  <rect x="1168" y="66" width="268" height="176" rx="6" fill="#dce8f5" stroke="#1a4a7a" stroke-width="1.8" filter="url(#shadow)"/>
+  <rect x="1168" y="66" width="268" height="26" rx="6" fill="#1a4a7a"/>
+  <rect x="1168" y="78" width="268" height="14" fill="#1a4a7a"/>
+  <text x="1302" y="84" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">Unified Chunking + Embedding</text>
+  <line x1="1178" y1="106" x2="1426" y2="106" stroke="#8aaac8" stroke-width="0.8"/>
+  <text x="1302" y="123" text-anchor="middle" font-size="9.5" fill="#1a3a6a">Sliding window: 400 words</text>
+  <text x="1302" y="137" text-anchor="middle" font-size="9.5" fill="#1a3a6a">Overlap: 60 words</text>
+  <text x="1302" y="151" text-anchor="middle" font-size="9.5" fill="#1a3a6a">Encoder: BGE-base-en-v1.5</text>
+  <line x1="1178" y1="160" x2="1426" y2="160" stroke="#8aaac8" stroke-width="0.8"/>
+  <text x="1302" y="176" text-anchor="middle" font-size="9.5" fill="#1a3a6a">All three sources merged</text>
+  <text x="1302" y="190" text-anchor="middle" font-size="9.5" fill="#1a3a6a">→ single index</text>
+
+  <!-- RAG System label — moved below UC+E box -->
+  <rect x="1162" y="252" width="140" height="22" fill="#dce8f5" rx="3"/>
+  <text x="1232" y="267" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a4a7a" letter-spacing="0.5">RAG System</text>
+
+  <!-- Output box: unified.faiss -->
+  <rect x="1214" y="302" width="176" height="42" rx="5" fill="#b0ccec" stroke="#1a4a7a" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="1302" y="320" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0a2a5a">unified.faiss</text>
+  <text x="1302" y="336" text-anchor="middle" font-size="9.5" fill="#1a3a6a">4,840 chunks</text>
+  <!-- Arrow RAG box → faiss (from new bottom of UC+E at y=242) -->
+  <line x1="1302" y1="242" x2="1302" y2="301" stroke="#1a4a7a" stroke-width="1.5" marker-end="url(#arrow-rag)"/>
+
+  <!-- ══════════════ COL 4b: Agent ingestion ══════════════ -->
+  <!-- Lines from JSONL right edges (x=798) diverging to Agent boxes -->
+  <line x1="798" y1="144" x2="1165" y2="490" stroke="#7a4a00" stroke-width="1.2" stroke-dasharray="4,2"/>
+  <line x1="798" y1="387" x2="1165" y2="580" stroke="#7a4a00" stroke-width="1.2" stroke-dasharray="4,2"/>
+  <line x1="798" y1="623" x2="1165" y2="672" stroke="#7a4a00" stroke-width="1.2" stroke-dasharray="4,2"/>
+
+  <!-- Arrows to agent boxes -->
+  <line x1="1165" y1="490" x2="1180" y2="490" stroke="#7a4a00" stroke-width="1.4" marker-end="url(#arrow-agent)"/>
+  <line x1="1165" y1="580" x2="1180" y2="580" stroke="#7a4a00" stroke-width="1.4" marker-end="url(#arrow-agent)"/>
+  <line x1="1165" y1="672" x2="1180" y2="672" stroke="#7a4a00" stroke-width="1.4" marker-end="url(#arrow-agent)"/>
+
+  <!-- Agent system label — moved up to y=438 to clear the agent box text -->
+  <rect x="1162" y="438" width="140" height="22" fill="#f5e8d0" rx="3"/>
+  <text x="1232" y="453" text-anchor="middle" font-size="11" font-weight="bold" fill="#7a4a00" letter-spacing="0.5">Agent System</text>
+
+  <!-- Agent box A: github_issues -->
+  <rect x="1180" y="460" width="268" height="62" rx="5" fill="#f5e8d0" stroke="#7a4a00" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="1314" y="478" text-anchor="middle" font-size="9.5" fill="#5a3a00">Chunking + Embedding (400w / 60w / BGE)</text>
+  <line x1="1190" y1="483" x2="1438" y2="483" stroke="#c8a060" stroke-width="0.7"/>
+  <text x="1314" y="498" text-anchor="middle" font-size="10" font-weight="bold" fill="#5a3a00">github_issues.faiss</text>
+  <text x="1314" y="513" text-anchor="middle" font-size="9" fill="#6a4a10">~1,400 chunks</text>
+
+  <!-- Agent box B: markdown_docs -->
+  <rect x="1180" y="548" width="268" height="62" rx="5" fill="#f5e8d0" stroke="#7a4a00" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="1314" y="566" text-anchor="middle" font-size="9.5" fill="#5a3a00">Chunking + Embedding (400w / 60w / BGE)</text>
+  <line x1="1190" y1="571" x2="1438" y2="571" stroke="#c8a060" stroke-width="0.7"/>
+  <text x="1314" y="586" text-anchor="middle" font-size="10" font-weight="bold" fill="#5a3a00">markdown_docs.faiss</text>
+  <text x="1314" y="601" text-anchor="middle" font-size="9" fill="#6a4a10">~2,350 chunks</text>
+
+  <!-- Agent box C: pdf_whitepapers -->
+  <rect x="1180" y="636" width="268" height="62" rx="5" fill="#f5e8d0" stroke="#7a4a00" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="1314" y="654" text-anchor="middle" font-size="9.5" fill="#5a3a00">Chunking + Embedding (400w / 60w / BGE)</text>
+  <line x1="1190" y1="659" x2="1438" y2="659" stroke="#c8a060" stroke-width="0.7"/>
+  <text x="1314" y="674" text-anchor="middle" font-size="10" font-weight="bold" fill="#5a3a00">pdf_whitepapers.faiss</text>
+  <text x="1314" y="689" text-anchor="middle" font-size="9" fill="#6a4a10">~380 chunks</text>
+
+  <!-- ══════════════ LEGEND ══════════════ -->
+  <rect x="44" y="742" width="710" height="56" rx="4" fill="#f5f5f0" stroke="#ccc" stroke-width="0.8"/>
+  <text x="60" y="760" font-size="9.5" fill="#444" font-weight="bold">Legend</text>
+  <!-- swimlane colours -->
+  <rect x="60" y="767" width="12" height="12" fill="#6a9cc8" rx="1"/>
+  <text x="76" y="778" font-size="9" fill="#444">GitHub Issues</text>
+  <rect x="170" y="767" width="12" height="12" fill="#5a9a5a" rx="1"/>
+  <text x="186" y="778" font-size="9" fill="#444">Markdown / RST</text>
+  <rect x="290" y="767" width="12" height="12" fill="#b07a30" rx="1"/>
+  <text x="306" y="778" font-size="9" fill="#444">PDF Whitepapers</text>
+  <!-- arrow types -->
+  <line x1="420" y1="773" x2="460" y2="773" stroke="#3a3a3a" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <text x="466" y="778" font-size="9" fill="#444">Pipeline step</text>
+  <line x1="552" y1="773" x2="592" y2="773" stroke="#1a4a7a" stroke-width="1.4" stroke-dasharray="4,2" marker-end="url(#arrow-rag)"/>
+  <text x="598" y="778" font-size="9" fill="#444">Merge / diverge</text>
+
+</svg>

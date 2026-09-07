@@ -28,6 +28,8 @@ The completed corpus contains 1\,623 records across the three source types, with
 
 \begin{table}[ht]
 \centering
+\small
+\setlength{\tabcolsep}{4pt}
 \caption{Corpus statistics after acquisition, filtering, and normalisation.}
 \label{tab:corpus_stats}
 \begin{tabular}{lrrrr}
@@ -59,9 +61,11 @@ The evaluation set contains 90 queries organised into four types, each designed 
 
 \begin{table}[ht]
 \centering
+\small
+\setlength{\tabcolsep}{4pt}
 \caption{Evaluation query taxonomy: four types mapping to Gao et al.'s RAG capability dimensions.}
 \label{tab:query_taxonomy}
-\begin{tabular}{llrl}
+\begin{tabular}{p{2.4cm}p{4.0cm}rp{6.0cm}}
 \hline
 \textbf{Type} & \textbf{Capability dimension} & \textbf{Count} & \textbf{Description} \\
 \hline
@@ -93,9 +97,11 @@ Rejected candidates are deleted from \texttt{data/eval/candidates.jsonl}; accept
 
 \begin{table}[ht]
 \centering
+\small
+\setlength{\tabcolsep}{4pt}
 \caption{Query set schema for \texttt{data/eval/queries.jsonl}.}
 \label{tab:query_schema}
-\begin{tabular}{lll}
+\begin{tabular}{p{3.2cm}p{1.8cm}p{9.0cm}}
 \hline
 \textbf{Field} & \textbf{Type} & \textbf{Description} \\
 \hline
@@ -117,7 +123,7 @@ The final set comprises 90 queries distributed across the four types and three p
 
 \subsection{RAGAS Scores}
 
-Context relevance, faithfulness, and answer relevance — the three RAGAS metrics defined by \citeasnoun{es2023ragas} — form the primary quality signal for both systems, each targeting a distinct failure mode of retrieval-augmented generation. Context relevance measures how much of the retrieved context is relevant to the query: a low score indicates that the retrieval stage surfaces noisy or off-topic passages that dilute the context window. Faithfulness measures the fraction of factual claims in the generated answer that are directly supported by the retrieved context: a low score signals that the model asserts information not grounded in the retrieved material. Answer relevance measures how well the generated answer addresses the original question, scored by embedding multiple questions reverse-generated from the answer and computing their mean cosine similarity to the query: a low score indicates that the answer, while potentially faithful to the context, fails to respond to what was actually asked.
+The three RAGAS metrics defined by \citeasnoun{es2023ragas} — context relevance, faithfulness, and answer relevance — form the primary quality signal for both systems, each targeting a distinct failure mode of RAG. Context relevance measures how much of the retrieved context is relevant to the query: a low score indicates that the retrieval stage surfaces noisy or off-topic passages that dilute the context window. Faithfulness measures the fraction of factual claims in the generated answer that are directly supported by the retrieved context: a low score signals that the model asserts information not grounded in the retrieved material. Answer relevance measures how well the generated answer addresses the original question, scored by embedding multiple questions reverse-generated from the answer and computing their mean cosine similarity to the query: a low score indicates that the answer, while potentially faithful to the context, fails to respond to what was actually asked.
 
 All three metrics are computed by the RAGAS library using an LLM judge, which is invoked internally to classify retrieved sentences as relevant or irrelevant, to extract answer claims and verify them against the retrieved context, and to generate the reverse questions used in answer relevance scoring. Each metric requires four inputs per query: the question, the generated answer, the list of retrieved context passages, and — for faithfulness and answer relevance — the ground-truth answer string. These inputs are assembled from two sources: the question and ground-truth fields from \texttt{data/eval/queries.jsonl}, and the answer and retrieved chunk texts from the pipeline log.
 
@@ -148,13 +154,14 @@ Mean tool call count is the average value of the \texttt{tool\_calls} field in t
 Neither metric applies to the RAG pipeline, which has no routing step and no iterative loop: RAG queries the unified index with every request, and its log records a tool call count of zero by construction. These metrics are therefore reported in a dedicated agent-only subsection of Chapter~\ref{ch:results}, separate from the cross-system comparison tables.
 
 \subsection{Complexity and Maintainability Rubric}
+\label{subsec:rubric}
 
-Implementation complexity and maintainability cannot be captured by automated metrics and are assessed using a structured rubric applied to both systems by the author on the basis of implementation experience. The rubric evaluates five criteria chosen to reflect the concerns of an enterprise team making an architectural decision between the two approaches: implementation effort, configurability, debuggability, extensibility, and operational overhead. Table~\ref{tab:rubric} defines each criterion and the objective proxy used to anchor the score.
+Implementation complexity and maintainability cannot be captured by automated metrics and are assessed using a structured rubric applied to both systems by the author on the basis of implementation experience. The rubric evaluates five criteria chosen to reflect the concerns of an enterprise team making an architectural decision between the two approaches: implementation effort, configurability, debuggability, extensibility, and operational overhead. Table~\ref{tab:rubric-criteria} defines each criterion and the objective proxy used to anchor the score.
 
 \begin{table}[ht]
 \centering
 \caption{Complexity and maintainability rubric: five criteria scored 1--5 (5 = simpler / lower complexity).}
-\label{tab:rubric}
+\label{tab:rubric-criteria}
 \begin{tabular}{p{3.2cm}p{5.0cm}p{5.0cm}}
 \hline
 \textbf{Criterion} & \textbf{What it measures} & \textbf{Objective proxy} \\

@@ -21,9 +21,11 @@ Enterprise knowledge environments are characterised by structural heterogeneity:
 
 \begin{table}[ht]
 \centering
+\small
+\setlength{\tabcolsep}{4pt}
 \caption{Corpus statistics after acquisition and filtering.}
 \label{tab:corpus}
-\begin{tabular}{llrr}
+\begin{tabular}{p{5.0cm}p{3.5cm}rr}
 \hline
 \textbf{Source type} & \textbf{Enterprise proxy} & \textbf{Records} & \textbf{Avg.\ words} \\
 \hline
@@ -44,9 +46,11 @@ Each record contains five top-level fields. The \texttt{source\_type} field carr
 
 \begin{table}[ht]
 \centering
+\small
+\setlength{\tabcolsep}{4pt}
 \caption{Unified document schema shared by both retrieval systems.}
 \label{tab:schema}
-\begin{tabular}{lll}
+\begin{tabular}{p{4.6cm}p{1.3cm}p{7.7cm}}
 \hline
 \textbf{Field} & \textbf{Type} & \textbf{Description} \\
 \hline
@@ -68,23 +72,30 @@ The three source types produce separate JSONL files — \texttt{github\_issues.j
 
 Acquisition and normalisation proceed in three parallel pipelines, one per source type, before converging at the JSONL files that feed both retrieval systems. Figure~\ref{fig:dataflow} illustrates the overall flow.
 
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{images/ingestion_flow}
+  \caption{Ingestion data flow: three source pipelines converging at shared JSONL files, then diverging into system-specific indexes. Chunking parameters (400-word sliding window, 60-word overlap) and the BGE-base-en-v1.5 embedding model are shared across both systems; the sole architectural difference is a single unified index for RAG versus three per-source indexes for the agent.}
+  \label{fig:dataflow}
+\end{figure}
+
 \textbf{GitHub Issues.} The GitHub REST API v3 is queried with an authenticated Personal Access Token, raising the rate limit from 60 to 5\,000 requests per hour. Closed issues are fetched in pages of 100, filtered client-side against the criteria defined in Section~\ref{ch:data}, and their comment threads are fetched in a subsequent request per issue. The body and comments are concatenated with a separator and written as a single \texttt{content} field.
 
 \textbf{Markdown and RST documentation.} Repositories are cloned with \texttt{git clone \texttt{-{}-}depth=1 \texttt{-{}-}filter=blob:none \texttt{-{}-}sparse}, populating only the documentation subtree. This minimises bandwidth and avoids downloading build artefacts, themes, and binary assets. RST files from the Ansible documentation are processed identically to Markdown files; both formats are reduced to plain text by a regular-expression pipeline that strips headings, fenced code blocks, hyperlinks, shortcodes, and front matter, preserving only the readable prose and list content.
 
 \textbf{PDF whitepapers.} PDFs are downloaded via authenticated HTTPS and processed with \texttt{pdfplumber}. Text is extracted page by page; pages with fewer than 100 characters of extracted text or exhibiting a table-of-contents structure (more than 70\,\% of lines shorter than 50 characters) are discarded. The remaining pages are grouped into overlapping four-page windows with a one-page overlap, producing sections of 300–1\,200 words that are large enough to contain coherent argumentation yet small enough to fit within a typical retrieval context window.
 
-At the convergence point, both retrieval systems read from the same three JSONL files. The RAG pipeline passes all records through a single unified chunking and embedding stage, producing one vector index. The agent-based system ingests each JSONL file into a separate source-specific index, one per tool. This architectural divergence — a single shared index versus three per-source indexes — is one of the key design differences examined in the evaluation.
+At the convergence point, both retrieval systems read from the same three JSONL files. The RAG pipeline passes all records through a single unified chunking and embedding stage, producing one vector index. The agent-based system ingests each JSONL file into a separate source-specific index, one per tool. This architectural divergence is one of the key design differences examined in the evaluation.
 
 \section{Classical RAG Pipeline Architecture}
 
-The classical RAG pipeline transforms raw corpus documents into a queryable knowledge store and, at query time, retrieves and synthesises the most relevant passages into a grounded answer. The implementation comprises eight discrete steps organised into two phases: an offline ingestion phase that runs once against the full corpus, and an online query phase that executes on every user request. Figure~\ref{fig:rag_pipeline} illustrates the complete data flow.
+The classical RAG pipeline transforms raw corpus documents into a queryable knowledge store and, at query time, retrieves and synthesises the most relevant passages into a grounded answer. The implementation comprises eight discrete steps organised into two phases: an offline ingestion phase that runs once against the full corpus, and an online query phase that executes on every user request.
 
 \subsection{Pipeline Stages}
 
 Ingestion proceeds sequentially through four steps. Documents are loaded from the three source JSONL files, split into overlapping fixed-size chunks, encoded into dense vector representations by the embedding model, and added to a persistent FAISS index. At the end of ingestion, 1,623 corpus records have been expanded into 4,840 chunks, each carrying its parent document's source type, title, and metadata. The FAISS index and the chunk metadata store are written to disk and reloaded on startup, so the computationally intensive embedding step is never repeated unless the corpus changes.
 
-The online query phase executes four further steps for each incoming question. The query is encoded by the same embedding model — with a retrieval-specific prefix prepended — and the resulting vector is compared against all indexed chunk vectors to retrieve the twenty closest candidates. A cross-encoder reranker then scores each candidate against the query and returns the five highest-scoring chunks. These chunks are assembled into a numbered context block and passed to the language model alongside a system prompt that instructs the model to answer using only the supplied passages. Latency and token counts are captured for every query and appended to a structured JSONL log, producing the measurement records used in Chapter~\ref{ch:results}.
+The online query phase executes four further steps for each incoming question. The query is encoded by the same embedding model and the resulting vector is compared against all indexed chunk vectors to retrieve the twenty closest candidates. A cross-encoder reranker then scores each candidate against the query and returns the five highest-scoring chunks. These chunks are assembled into a numbered context block and passed to the language model alongside a system prompt that instructs the model to answer using only the supplied passages. Latency and token counts are captured for every query and appended to a structured JSONL log, producing the measurement records used in Chapter~\ref{ch:results}.
 
 \subsection{Chunking Strategy}
 
@@ -108,17 +119,28 @@ Retrieval proceeds in two stages to exploit the complementary properties of bi-e
 
 The key distinction between the two stages lies in how query and document representations are produced. Bi-encoders encode queries and documents independently and compare them post hoc; this enables sub-second retrieval over arbitrarily large indexes but prevents the model from attending to fine-grained token-level interactions between the two texts. Cross-encoders process both texts as a single input, allowing full cross-attention across the query--chunk boundary and producing substantially more accurate relevance scores at the cost of one forward pass per candidate \cite{gao2023ragsurvey}. Applying the cross-encoder only to the twenty FAISS candidates bounds its computational cost to a fixed and small number of inference calls regardless of index size, keeping online latency predictable.
 
-The five highest-scoring chunks after reranking are passed to the generator. Each chunk carries both its FAISS cosine similarity score and its cross-encoder rerank score in the log record, providing a complete provenance trail for post-hoc analysis of retrieval behaviour. Temperature is set to zero for all generation calls to ensure fully deterministic outputs across evaluation runs, a requirement for the reproducibility of the evaluation described in Chapter~\ref{ch:eval}.
+The five highest-scoring chunks after reranking are passed to the generator. Each chunk carries both its FAISS cosine similarity score and its cross-encoder rerank score in the log record, providing a complete provenance trail for post-hoc analysis of retrieval behaviour. Temperature is set to zero for all generation calls to ensure fully deterministic outputs across evaluation runs, a requirement for the reproducibility of the evaluation described in Chapter~\ref{ch:data}. Two retrieval enhancements extend this baseline. Both were incorporated as a post-evaluation revision to the pipeline; the initial results that motivated their addition are presented in Chapter~\ref{ch:results}, and their implementation is detailed in Section~\ref{sec:rag-impl}.
+
+\textbf{Hypothetical Document Embedding (HyDE)} addresses the semantic mismatch between query register and document register that constrains bi-encoder retrieval \cite{gao2023hyde}. Before querying the FAISS index, the language model generates a short hypothetical passage — two to three sentences — that directly answers the query. This passage is embedded without the BGE retrieval prefix, placing its vector in the same distributional region as stored document chunks rather than in the query subspace. The hypothesis vector replaces the query vector as the FAISS search input; the original query is preserved and used unchanged for cross-encoder reranking, so relevance scoring remains grounded in the actual question rather than in the generated passage.
+
+\textbf{Maximal Marginal Relevance (MMR)} addresses the tendency of nearest-neighbour retrieval to return near-duplicate passages from the same document section \cite{carbonell1998mmr}. After the cross-encoder sorts the twenty candidates by relevance, MMR iteratively selects the five final passages by maximising a linear combination of relevance and diversity: at each step it picks the candidate that best balances a high normalised rerank score against low cosine similarity to the passages already selected. A relevance weight of $\lambda = 0.7$ gives relevance priority over diversity, ensuring the final context window is both topically focused and non-redundant. Figure~\ref{fig:rag_pipeline} illustrates the complete query-phase pipeline including both extensions.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{images/rag_pipeline}
+  \caption{RAG pipeline query phase. The original query is passed to the LLM to generate a hypothetical passage (HyDE), whose embedding is used as the FAISS search vector. The original query is preserved for cross-encoder reranking, ensuring relevance scoring remains grounded in the actual question. MMR diversification ($\lambda = 0.7$) then selects the final five passages from the reranked pool before synthesis.}
+  \label{fig:rag_pipeline}
+\end{figure}
 
 \section{Agent-Based System Architecture}
 
-The agent-based system replaces the RAG pipeline's fixed retrieve-then-generate sequence with an iterative reasoning loop in which the language model selects and invokes retrieval tools based on the content and requirements of each query. Rather than encoding the entire corpus into a single unified index, the system exposes three source-specific retrieval tools—one per enterprise proxy source type—and delegates the decision of which tool to call, in what order, and with what query formulation to the language model at runtime. The implementation follows the ReAct framework \cite{yao2023react} and is built using LangChain's agent scaffolding on top of the same language model endpoint and embedding infrastructure used by the RAG pipeline.
+The agent-based system replaces the RAG pipeline's fixed retrieve-then-generate sequence with an iterative reasoning loop in which the language model selects and invokes retrieval tools based on the content and requirements of each query. Rather than encoding the entire corpus into a single unified index, the system exposes three source-specific retrieval tools and delegates the decision of which tool to call, in what order, and with what query formulation to the language model at runtime. The implementation follows the ReAct framework \cite{yao2023react} and is built using LangChain's agent scaffolding on top of the same language model endpoint and embedding infrastructure used by the RAG pipeline.
 
 \subsection{The Agent Loop}
 
 ReAct defines an interleaved reasoning and acting pattern in which a language model alternates between generating a \textit{Thought}—an explicit natural-language reasoning step—and taking an \textit{Action}—a structured tool call with explicit inputs \cite{yao2023react}. After each action, the tool's return value is appended to the context as an \textit{Observation}, and the model continues reasoning from the updated context until it emits a final answer prefixed with the token \textit{Final Answer}. This cycle constitutes a closed-loop process: unlike the single retrieval pass of the RAG pipeline, the agent can inspect retrieved evidence, judge its sufficiency, and issue further tool calls or reformulated queries before committing to a response.
 
-The implementation uses LangChain's \texttt{create\_react\_agent} function, which binds the language model, the registered tool set, and a ReAct-format prompt into an executable agent definition, and \texttt{AgentExecutor}, which drives the reasoning cycle at runtime. The language model is accessed through LangChain's \texttt{ChatOpenAI} wrapper pointed at the same OpenAI-compatible endpoint used by the RAG pipeline—Ollama in development, AI Refinery during evaluation—with identical model identifier and temperature settings. A maximum iteration count of six is enforced by the \texttt{AgentExecutor}; this bound accommodates queries that require all three tools in sequence while preventing unbounded loop growth on ambiguous or unanswerable inputs.
+The implementation uses LangChain's \texttt{create\_react\_agent} function, which binds the language model, the registered tool set, and a ReAct-format prompt into an executable agent definition, and \texttt{AgentExecutor}, which drives the reasoning cycle at runtime. The language model is accessed through LangChain's \texttt{ChatOpenAI} wrapper pointed at the same OpenAI-compatible endpoint used by the RAG pipeline—Ollama in development, AI Refinery during evaluation—with identical model identifier and temperature settings. A maximum iteration count of fifteen is enforced by the \texttt{AgentExecutor}; this bound accommodates queries that require all three tools in sequence while preventing unbounded loop growth on ambiguous or unanswerable inputs.
 
 \subsection{Tools and Source Routing}
 
@@ -126,6 +148,8 @@ Three retrieval tools are registered with the agent, one per corpus source type.
 
 \begin{table}[ht]
 \centering
+\small
+\setlength{\tabcolsep}{4pt}
 \caption{Agent retrieval tools and their source-type scope.}
 \label{tab:agent_tools}
 \begin{tabular}{lll}
@@ -147,7 +171,34 @@ Source routing is implemented entirely through the natural-language descriptions
 
 Tool observations are returned as formatted plain text containing the five reranked chunks, each prefixed with its source type, document title, and cosine similarity score. This format supplies the language model with the provenance information required to attribute claims and to judge whether a further tool call is warranted, while keeping each observation compact enough to avoid exhausting the context window across multi-step queries. The agent may call the same tool more than once with a reformulated query if the first observation is insufficient, or it may call multiple tools in sequence for cross-source synthesis queries.
 
-All tool calls, their inputs, and their observations are recorded in a structured \texttt{agent\_trace} field appended to each log record alongside the query, final answer, total latency, and token counts. The log schema is a strict superset of the RAG pipeline's schema: all shared fields—query, answer, latency, token counts, and retrieved chunks—are produced identically by both systems, while the \texttt{agent\_trace}, tool-call count, and source-routing fields are present only in agent logs. This shared outer schema ensures that the evaluation infrastructure processes both systems' outputs without modification.
+All tool calls, their inputs, and their observations are recorded in a structured \texttt{agent\_trace} field appended to each log record alongside the query, final answer, total latency, and token counts. The log schema is a strict superset of the RAG pipeline's schema: all shared fields—query, answer, latency, token counts, and retrieved chunks—are produced identically by both systems, while the \texttt{agent\_trace}, tool-call count, and source-routing fields are present only in agent logs. This shared outer schema ensures that the evaluation infrastructure processes both systems' outputs without modification. Figure~\ref{fig:single_agent} illustrates the complete single-agent loop.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{images/single_agent}
+  \caption{Single-agent ReAct loop. The language model alternates between Thought (reasoning) and Action (tool call) steps; each tool observation is appended to the growing context window and the cycle repeats until the model emits a final answer without a tool call, or the 15-iteration ceiling is reached.}
+  \label{fig:single_agent}
+\end{figure}
+
+\subsection{Multi-Agent Coordination Architecture}
+\label{subsec:multi-agent-design}
+
+The multi-agent architecture was designed as a corrective response to structural failure modes identified during single-agent evaluation: context accumulation across the ReAct loop exhausted the iteration ceiling, causing 41~per cent of queries to fail before a final answer was produced. Rather than lengthening the iteration limit further, the architecture eliminates the loop entirely.
+
+\begin{sloppypar}
+The design is a two-node LangGraph \texttt{StateGraph}. The first node, \texttt{retrieve\_all\_sources}, queries all three source-specific FAISS indexes sequentially — GitHub Issues, Markdown documentation, and PDF whitepapers — applying the same cross-encoder reranking pipeline used in both the RAG and single-agent systems to each source in turn, and accumulating at most fifteen chunks in total, five per source. The second node, \texttt{synthesize}, receives the pooled passages as a single bounded context window and issues exactly one language model call to produce the final answer. No further retrieval is possible once synthesis begins; the context presented to the model is fixed at the point the first node completes.
+\end{sloppypar}
+
+Three design properties distinguish this architecture from the single-agent system. There is no reasoning loop and therefore no iteration limit and no risk of\linebreak[0] \texttt{GraphRecursionError}. The context window per query is fixed at fifteen chunks regardless of query type or complexity, making the per-query token budget fully predictable. All three sources are queried on every request, so source coverage is an architectural guarantee rather than a model-driven decision \cite{xi2023rise}. These properties come at a cost: the multi-agent system cannot direct retrieval effort selectively toward the most relevant source, nor can it reformulate a query after inspecting an initial observation.
+
+The multi-agent reuses the per-source FAISS indexes constructed by \texttt{agent/ingest.py} and the \texttt{SourceRetriever} class from \texttt{agent/tools.py}, adding no new ingestion infrastructure. The primary trade-off relative to the single agent is coverage guarantee versus query-adaptive selectivity: the multi-agent provides complete source coverage at the cost of the ability to concentrate retrieval on a single source for queries whose answer is localised to one part of the corpus. Figure~\ref{fig:multi_agent} illustrates the architecture.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{images/multi_agent}
+  \caption{Multi-agent coordination architecture. A single \texttt{retrieve\_all\_sources} node queries all three per-source FAISS indexes sequentially, accumulating five chunks per source. The \texttt{synthesize} node then issues exactly one LLM call over the pooled fifteen-chunk context. There is no reasoning loop and no iteration limit.}
+  \label{fig:multi_agent}
+\end{figure}
 
 \section{Comparability Design Decisions}
 
@@ -159,9 +210,11 @@ The language model, embedding model, chunking parameters, and reranker are ident
 
 \begin{table}[ht]
 \centering
+\small
+\setlength{\tabcolsep}{4pt}
 \caption{Controlled and varied parameters across both systems.}
 \label{tab:comparability}
-\begin{tabular}{lll}
+\begin{tabular}{p{3.8cm}p{5.4cm}p{5.4cm}}
 \hline
 \textbf{Parameter} & \textbf{RAG Pipeline} & \textbf{Agent System} \\
 \hline
@@ -174,7 +227,7 @@ Generation temperature & 0 (deterministic)          & 0 (deterministic) \\
 Hardware and runtime  & local CPU, single venv      & local CPU, single venv \\
 \hline
 \textit{Index structure}  & Unified FAISS (4\,840 chunks) & Three per-source FAISS indexes \\
-\textit{Query resolution} & Fixed 4-step pipeline         & Iterative loop, max 6 steps \\
+\textit{Query resolution} & Fixed 4-step pipeline         & Iterative loop, max 15 steps \\
 \textit{Source routing}   & Implicit (unified index)      & Explicit (LLM tool selection) \\
 \hline
 \end{tabular}

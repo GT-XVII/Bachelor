@@ -1,6 +1,6 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.8.2)  19 AUG 2026 16:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.8.2)  31 AUG 2026 15:50
 entering extended mode
- restricted \write18 enabled.
+ \write18 enabled.
  %&-line parsing enabled.
 **dokumentation.tex
 (./dokumentation.tex
@@ -826,6 +826,156 @@ Package: wrapfig 2003/01/31  v 3.6
 \CommentStream=\write3
 
 Excluding comment 'comment') Special comment 'k')
+(/usr/local/texlive/2026/texmf-dist/tex/latex/pmboxdraw/pmboxdraw.sty
+Package: pmboxdraw 2019/12/05 v1.4 Poor man's box drawing characters (HO)
+Now handling font encoding pmboxdraw ...
+... processing UTF-8 mapping file for font encoding pmboxdraw
+
+(/usr/local/texlive/2026/texmf-dist/tex/latex/pmboxdraw/pmboxdrawenc.dfu
+File: pmboxdrawenc.dfu 2019/12/05 v1.4 UTF-8 support for box drawing characters
+
+   defining Unicode char U+2500 (decimal 9472)
+   defining Unicode char U+2501 (decimal 9473)
+   defining Unicode char U+2502 (decimal 9474)
+   defining Unicode char U+2503 (decimal 9475)
+   defining Unicode char U+250C (decimal 9484)
+   defining Unicode char U+250D (decimal 9485)
+   defining Unicode char U+250E (decimal 9486)
+   defining Unicode char U+250F (decimal 9487)
+   defining Unicode char U+2510 (decimal 9488)
+   defining Unicode char U+2511 (decimal 9489)
+   defining Unicode char U+2512 (decimal 9490)
+   defining Unicode char U+2513 (decimal 9491)
+   defining Unicode char U+2514 (decimal 9492)
+   defining Unicode char U+2515 (decimal 9493)
+   defining Unicode char U+2516 (decimal 9494)
+   defining Unicode char U+2517 (decimal 9495)
+   defining Unicode char U+2518 (decimal 9496)
+   defining Unicode char U+2519 (decimal 9497)
+   defining Unicode char U+251A (decimal 9498)
+   defining Unicode char U+251B (decimal 9499)
+   defining Unicode char U+251C (decimal 9500)
+   defining Unicode char U+251D (decimal 9501)
+   defining Unicode char U+251E (decimal 9502)
+   defining Unicode char U+251F (decimal 9503)
+   defining Unicode char U+2520 (decimal 9504)
+   defining Unicode char U+2521 (decimal 9505)
+   defining Unicode char U+2522 (decimal 9506)
+   defining Unicode char U+2523 (decimal 9507)
+   defining Unicode char U+2524 (decimal 9508)
+   defining Unicode char U+252C (decimal 9516)
+   defining Unicode char U+252D (decimal 9517)
+   defining Unicode char U+252E (decimal 9518)
+   defining Unicode char U+252F (decimal 9519)
+   defining Unicode char U+2530 (decimal 9520)
+   defining Unicode char U+2531 (decimal 9521)
+   defining Unicode char U+2532 (decimal 9522)
+   defining Unicode char U+2533 (decimal 9523)
+   defining Unicode char U+2534 (decimal 9524)
+   defining Unicode char U+2535 (decimal 9525)
+   defining Unicode char U+2536 (decimal 9526)
+   defining Unicode char U+2537 (decimal 9527)
+   defining Unicode char U+2538 (decimal 9528)
+   defining Unicode char U+2539 (decimal 9529)
+   defining Unicode char U+253A (decimal 9530)
+   defining Unicode char U+253B (decimal 9531)
+   defining Unicode char U+253C (decimal 9532)
+   defining Unicode char U+253D (decimal 9533)
+   defining Unicode char U+253E (decimal 9534)
+   defining Unicode char U+253F (decimal 9535)
+   defining Unicode char U+2540 (decimal 9536)
+   defining Unicode char U+2541 (decimal 9537)
+   defining Unicode char U+2542 (decimal 9538)
+   defining Unicode char U+2543 (decimal 9539)
+   defining Unicode char U+2544 (decimal 9540)
+   defining Unicode char U+2545 (decimal 9541)
+   defining Unicode char U+2546 (decimal 9542)
+   defining Unicode char U+2547 (decimal 9543)
+   defining Unicode char U+2548 (decimal 9544)
+   defining Unicode char U+2549 (decimal 9545)
+   defining Unicode char U+254A (decimal 9546)
+   defining Unicode char U+254B (decimal 9547)
+   defining Unicode char U+2550 (decimal 9552)
+   defining Unicode char U+2551 (decimal 9553)
+   defining Unicode char U+2552 (decimal 9554)
+   defining Unicode char U+2553 (decimal 9555)
+   defining Unicode char U+2554 (decimal 9556)
+   defining Unicode char U+2555 (decimal 9557)
+   defining Unicode char U+2556 (decimal 9558)
+   defining Unicode char U+2557 (decimal 9559)
+   defining Unicode char U+2558 (decimal 9560)
+   defining Unicode char U+2559 (decimal 9561)
+   defining Unicode char U+255A (decimal 9562)
+   defining Unicode char U+255B (decimal 9563)
+   defining Unicode char U+255C (decimal 9564)
+   defining Unicode char U+255D (decimal 9565)
+   defining Unicode char U+255E (decimal 9566)
+   defining Unicode char U+255F (decimal 9567)
+   defining Unicode char U+2560 (decimal 9568)
+   defining Unicode char U+2561 (decimal 9569)
+   defining Unicode char U+2562 (decimal 9570)
+   defining Unicode char U+2563 (decimal 9571)
+   defining Unicode char U+2564 (decimal 9572)
+   defining Unicode char U+2565 (decimal 9573)
+   defining Unicode char U+2566 (decimal 9574)
+   defining Unicode char U+2567 (decimal 9575)
+   defining Unicode char U+2568 (decimal 9576)
+   defining Unicode char U+2569 (decimal 9577)
+   defining Unicode char U+256A (decimal 9578)
+   defining Unicode char U+256B (decimal 9579)
+   defining Unicode char U+256C (decimal 9580)
+   defining Unicode char U+2574 (decimal 9588)
+   defining Unicode char U+2575 (decimal 9589)
+   defining Unicode char U+2576 (decimal 9590)
+   defining Unicode char U+2577 (decimal 9591)
+   defining Unicode char U+2578 (decimal 9592)
+   defining Unicode char U+2579 (decimal 9593)
+   defining Unicode char U+257A (decimal 9594)
+   defining Unicode char U+257B (decimal 9595)
+   defining Unicode char U+257C (decimal 9596)
+   defining Unicode char U+257D (decimal 9597)
+   defining Unicode char U+257E (decimal 9598)
+   defining Unicode char U+257F (decimal 9599)
+   defining Unicode char U+2580 (decimal 9600)
+   defining Unicode char U+2581 (decimal 9601)
+   defining Unicode char U+2582 (decimal 9602)
+   defining Unicode char U+2583 (decimal 9603)
+   defining Unicode char U+2584 (decimal 9604)
+   defining Unicode char U+2585 (decimal 9605)
+   defining Unicode char U+2586 (decimal 9606)
+   defining Unicode char U+2587 (decimal 9607)
+   defining Unicode char U+2588 (decimal 9608)
+   defining Unicode char U+2589 (decimal 9609)
+   defining Unicode char U+258A (decimal 9610)
+   defining Unicode char U+258B (decimal 9611)
+   defining Unicode char U+258C (decimal 9612)
+   defining Unicode char U+258D (decimal 9613)
+   defining Unicode char U+258E (decimal 9614)
+   defining Unicode char U+258F (decimal 9615)
+   defining Unicode char U+2590 (decimal 9616)
+   defining Unicode char U+2591 (decimal 9617)
+   defining Unicode char U+2592 (decimal 9618)
+   defining Unicode char U+2593 (decimal 9619)
+   defining Unicode char U+2594 (decimal 9620)
+   defining Unicode char U+2595 (decimal 9621)
+   defining Unicode char U+2596 (decimal 9622)
+   defining Unicode char U+2597 (decimal 9623)
+   defining Unicode char U+2598 (decimal 9624)
+   defining Unicode char U+2599 (decimal 9625)
+   defining Unicode char U+259A (decimal 9626)
+   defining Unicode char U+259B (decimal 9627)
+   defining Unicode char U+259C (decimal 9628)
+   defining Unicode char U+259D (decimal 9629)
+   defining Unicode char U+259E (decimal 9630)
+   defining Unicode char U+259F (decimal 9631)
+)
+\pmbd@W=\dimen268
+\pmbd@H=\dimen269
+\pmbd@L=\dimen270
+\pmbd@Thin=\dimen271
+\pmbd@Thick=\dimen272
+\pmbd@Sep=\dimen273
+)
 (/usr/local/texlive/2026/texmf-dist/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
 
@@ -837,17 +987,460 @@ LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ))
-\glswrite=\write4
-\glo@main@file=\write5
-\openout5 = `dokumentation.glo'.
+(/usr/local/texlive/2026/texmf-dist/tex/latex/svg/svg.sty
+Package: svg 2020/11/26 v2.02k (include SVG pictures)
+
+(/usr/local/texlive/2026/texmf-dist/tex/latex/trimspaces/trimspaces.sty
+Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
+)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/tools/shellesc.sty
+Package: shellesc 2023/07/08 v1.0d unified shell escape interface for LaTeX
+Package shellesc Info: Unrestricted shell escape enabled on input line 75.
+)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/ifplatform/ifplatform.sty
+Package: ifplatform 2017/10/13 v0.4a Testing for the operating system
+
+(/usr/local/texlive/2026/texmf-dist/tex/generic/catchfile/catchfile.sty
+Package: catchfile 2019/12/09 v1.8 Catch the contents of a file (HO)
+
+(/usr/local/texlive/2026/texmf-dist/tex/generic/etexcmds/etexcmds.sty
+Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
+))
+(/usr/local/texlive/2026/texmf-dist/tex/generic/iftex/ifluatex.sty
+Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
+)
+runsystem(uname -s > "dokumentation.w18")...executed.
+
+
+(./dokumentation.w18)
+runsystem(rm -- "dokumentation.w18")...executed.
+
+)
+\c@svg@param@lastpage=\count373
+\svg@box=\box73
+\c@svg@param@currpage=\count374
+)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/transparent/transparent.sty
+Package: transparent 2025-06-23 v1.6 Transparency with color stacks
+
+(/usr/local/texlive/2026/texmf-dist/tex/latex/transparent/transparent-nometadat
+a.sty
+Package: transparent-nometadata 2025-06-23 v1.6 Transparency via pdfTeX's color
+ stack (HO)
+ (/usr/local/texlive/2026/texmf-dist/tex/latex/auxhook/auxhook.sty
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
+)))
+(/usr/local/texlive/2026/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.te
+x
+\pgfutil@everybye=\toks47
+\pgfutil@tempdima=\dimen274
+\pgfutil@tempdimb=\dimen275
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
+\pgfutil@abb=\box74
+) (/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/pgf.revision.tex)
+Package: pgfrcs 2025-08-29 v3.1.11a (3.1.11a)
+))
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
+Package: pgfsys 2025-08-29 v3.1.11a (3.1.11a)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+\pgfkeys@pathtoks=\toks48
+\pgfkeys@temptoks=\toks49
+
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfil
+tered.code.tex
+\pgfkeys@tmptoks=\toks50
+))
+\pgf@x=\dimen276
+\pgf@y=\dimen277
+\pgf@xa=\dimen278
+\pgf@ya=\dimen279
+\pgf@xb=\dimen280
+\pgf@yb=\dimen281
+\pgf@xc=\dimen282
+\pgf@yc=\dimen283
+\pgf@xd=\dimen284
+\pgf@yd=\dimen285
+\w@pgf@writea=\write4
+\r@pgf@reada=\read3
+\c@pgf@counta=\count375
+\c@pgf@countb=\count376
+\c@pgf@countc=\count377
+\c@pgf@countd=\count378
+\t@pgf@toka=\toks51
+\t@pgf@tokb=\toks52
+\t@pgf@tokc=\toks53
+\pgf@sys@id@count=\count379
+
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
+File: pgf.cfg 2025-08-29 v3.1.11a (3.1.11a)
+)
+Driver file for pgf: pgfsys-pdftex.def
+
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.d
+ef
+File: pgfsys-pdftex.def 2025-08-29 v3.1.11a (3.1.11a)
+
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-p
+df.def
+File: pgfsys-common-pdf.def 2025-08-29 v3.1.11a (3.1.11a)
+)))
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.
+code.tex
+File: pgfsyssoftpath.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfsyssoftpath@smallbuffer@items=\count380
+\pgfsyssoftpath@bigbuffer@items=\count381
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.
+code.tex
+File: pgfsysprotocol.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)) (/usr/local/texlive/2026/texmf-dist/tex/latex/pgfplots/pgfplots.sty
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/pgfplots.revision.tex)
+Package: pgfplots 2025/08/14 v1.18.2 Data Visualization (1.18.2)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
+Package: pgf 2025-08-29 v3.1.11a (3.1.11a)
+
+(/usr/local/texlive/2026/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
+Package: pgfcore 2025-08-29 v3.1.11a (3.1.11a)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
+\pgfmath@dimen=\dimen286
+\pgfmath@count=\count382
+\pgfmath@box=\box75
+\pgfmath@toks=\toks54
+\pgfmath@stack@operand=\toks55
+\pgfmath@stack@operation=\toks56
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.
+tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic
+.code.tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigo
+nometric.code.tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.rando
+m.code.tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.compa
+rison.code.tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.
+code.tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round
+.code.tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.
+code.tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integ
+erarithmetics.code.tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count383
+)) (/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfint.code.tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.co
+de.tex
+File: pgfcorepoints.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@picminx=\dimen287
+\pgf@picmaxx=\dimen288
+\pgf@picminy=\dimen289
+\pgf@picmaxy=\dimen290
+\pgf@pathminx=\dimen291
+\pgf@pathmaxx=\dimen292
+\pgf@pathminy=\dimen293
+\pgf@pathmaxy=\dimen294
+\pgf@xx=\dimen295
+\pgf@xy=\dimen296
+\pgf@yx=\dimen297
+\pgf@yy=\dimen298
+\pgf@zx=\dimen299
+\pgf@zy=\dimen300
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconst
+ruct.code.tex
+File: pgfcorepathconstruct.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@path@lastx=\dimen301
+\pgf@path@lasty=\dimen302
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage
+.code.tex
+File: pgfcorepathusage.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@shorten@end@additional=\dimen303
+\pgf@shorten@start@additional=\dimen304
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.co
+de.tex
+File: pgfcorescopes.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfpic=\box76
+\pgf@hbox=\box77
+\pgf@layerbox@main=\box78
+\pgf@picture@serial@count=\count384
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicst
+ate.code.tex
+File: pgfcoregraphicstate.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgflinewidth=\dimen305
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransform
+ations.code.tex
+File: pgfcoretransformations.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@pt@x=\dimen306
+\pgf@pt@y=\dimen307
+\pgf@pt@temp=\dimen308
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.cod
+e.tex
+File: pgfcorequick.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.c
+ode.tex
+File: pgfcoreobjects.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathproce
+ssing.code.tex
+File: pgfcorepathprocessing.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.co
+de.tex
+File: pgfcorearrows.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfarrowsep=\dimen309
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.cod
+e.tex
+File: pgfcoreshade.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@max=\dimen310
+\pgf@sys@shading@range@num=\count385
+\pgf@shadingcount=\count386
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.cod
+e.tex
+File: pgfcoreimage.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.
+code.tex
+File: pgfcoreexternal.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfexternal@startupbox=\box79
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.co
+de.tex
+File: pgfcorelayers.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretranspare
+ncy.code.tex
+File: pgfcoretransparency.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.
+code.tex
+File: pgfcorepatterns.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.
+tex
+File: pgfcorerdf.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)))
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.cod
+e.tex
+File: pgfmoduleshapes.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfnodeparttextbox=\box80
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.
+tex
+File: pgfmoduleplot.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version
+-0-65.sty
+Package: pgfcomp-version-0-65 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@nodesepstart=\dimen311
+\pgf@nodesepend=\dimen312
+)
+(/usr/local/texlive/2026/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version
+-1-18.sty
+Package: pgfcomp-version-1-18 2025-08-29 v3.1.11a (3.1.11a)
+))
+(/usr/local/texlive/2026/texmf-dist/tex/latex/pgf/utilities/pgffor.sty
+(/usr/local/texlive/2026/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)
+) (/usr/local/texlive/2026/texmf-dist/tex/latex/pgf/math/pgfmath.sty
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex))
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
+Package: pgffor 2025-08-29 v3.1.11a (3.1.11a)
+\pgffor@iter=\dimen313
+\pgffor@skip=\dimen314
+\pgffor@stack=\toks57
+\pgffor@toks=\toks58
+))
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.cod
+e.tex
+Package: tikz 2025-08-29 v3.1.11a (3.1.11a)
+
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothan
+dlers.code.tex
+File: pgflibraryplothandlers.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@plot@mark@count=\count387
+\pgfplotmarksize=\dimen315
+)
+\tikz@lastx=\dimen316
+\tikz@lasty=\dimen317
+\tikz@lastxsaved=\dimen318
+\tikz@lastysaved=\dimen319
+\tikz@lastmovetox=\dimen320
+\tikz@lastmovetoy=\dimen321
+\tikzleveldistance=\dimen322
+\tikzsiblingdistance=\dimen323
+\tikz@figbox=\box81
+\tikz@figbox@bg=\box82
+\tikz@tempbox=\box83
+\tikz@tempbox@bg=\box84
+\tikztreelevel=\count388
+\tikznumberofchildren=\count389
+\tikznumberofcurrentchild=\count390
+\tikz@fig@count=\count391
+
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.cod
+e.tex
+File: pgfmodulematrix.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfmatrixcurrentrow=\count392
+\pgfmatrixcurrentcolumn=\count393
+\pgf@matrix@numberofcolumns=\count394
+)
+\tikz@expandcount=\count395
+
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
+s/tikzlibrarytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)))
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/pgfplots.code.tex
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/pgfplotscore.code.tex
+\t@pgfplots@toka=\toks59
+\t@pgfplots@tokb=\toks60
+\t@pgfplots@tokc=\toks61
+\pgfplots@tmpa=\dimen324
+\c@pgfplots@coordindex=\count396
+\c@pgfplots@scanlineindex=\count397
+
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/sys/pgfplotssysgeneric
+.code.tex))
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/libs/pgfplotslibrary.c
+ode.tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplot
+soldpgfsupp_loader.code.tex
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/libraries/pgflibraryfpu.cod
+e.tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pgfplot
+soldpgfsupp_pgfutil-common-lists.tex))
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/util/pgfplotsutil.code
+.tex
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/liststructure/pgfplots
+liststructure.code.tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/liststructure/pgfplots
+liststructureext.code.tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/liststructure/pgfplots
+array.code.tex
+\c@pgfplotsarray@tmp=\count398
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/liststructure/pgfplots
+matrix.code.tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/numtable/pgfplotstable
+shared.code.tex
+\c@pgfplotstable@counta=\count399
+\t@pgfplotstable@a=\toks62
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/liststructure/pgfplots
+deque.code.tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/util/pgfplotsbinary.co
+de.tex
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/util/pgfplotsbinary.da
+ta.code.tex))
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/util/pgfplotsutil.verb
+.code.tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/libs/pgflibrarypgfplot
+s.surfshading.code.tex
+\c@pgfplotslibrarysurf@no=\count400
+
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/sys/pgflibrarypgfplots
+.surfshading.pgfsys-pdftex.def)))
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/util/pgfplotscolormap.
+code.tex
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/util/pgfplotscolor.cod
+e.tex))
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/pgfplotsstackedplots.c
+ode.tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/pgfplotsplothandlers.c
+ode.tex
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/pgfplotsmeshplothandle
+r.code.tex
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/pgfplotsmeshplotimage.
+code.tex)))
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/pgfplots.scaling.code.
+tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/pgfplotscoordprocessin
+g.code.tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/pgfplots.errorbars.cod
+e.tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/pgfplots.markers.code.
+tex)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/pgfplotsticks.code.tex
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/pgfplots.paths.code.te
+x)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
+s/tikzlibrarydecorations.code.tex
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/modules/pgfmoduledecoration
+s.code.tex
+\pgfdecoratedcompleteddistance=\dimen325
+\pgfdecoratedremainingdistance=\dimen326
+\pgfdecoratedinputsegmentcompleteddistance=\dimen327
+\pgfdecoratedinputsegmentremainingdistance=\dimen328
+\pgf@decorate@distancetomove=\dimen329
+\pgf@decorate@repeatstate=\count401
+\pgfdecorationsegmentamplitude=\dimen330
+\pgfdecorationsegmentlength=\dimen331
+)
+\tikz@lib@dec@box=\box85
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
+s/tikzlibrarydecorations.pathmorphing.code.tex
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/libraries/decorations/pgfli
+brarydecorations.pathmorphing.code.tex))
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
+s/tikzlibrarydecorations.pathreplacing.code.tex
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/libraries/decorations/pgfli
+brarydecorations.pathreplacing.code.tex))
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgfplots/libs/tikzlibrarypgfplo
+ts.contourlua.code.tex)
+\pgfplots@numplots=\count402
+\pgfplots@xmin@reg=\dimen332
+\pgfplots@xmax@reg=\dimen333
+\pgfplots@ymin@reg=\dimen334
+\pgfplots@ymax@reg=\dimen335
+\pgfplots@zmin@reg=\dimen336
+\pgfplots@zmax@reg=\dimen337
+)
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
+s/tikzlibraryplotmarks.code.tex
+File: tikzlibraryplotmarks.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+
+(/usr/local/texlive/2026/texmf-dist/tex/generic/pgf/libraries/pgflibraryplotmar
+ks.code.tex
+File: pgflibraryplotmarks.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)))
+(/usr/local/texlive/2026/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2024/10/29 v1.0k Color table columns (DPC)
+\everycr=\toks63
+\minrowclearance=\skip87
+\rownum=\count403
+)
+\glswrite=\write5
+\glo@main@file=\write6
+\openout6 = `dokumentation.glo'.
 
 Package glossaries Info: Writing glossary file dokumentation.glo on input line 
-50.
+56.
 
 (./ads/glossary.tex)
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
-LaTeX Font Info:    Trying to load font information for T1+ppl on input line 53
+LaTeX Font Info:    Trying to load font information for T1+ppl on input line 59
 .
 
 (/usr/local/texlive/2026/texmf-dist/tex/latex/psnfss/t1ppl.fd
@@ -855,54 +1448,53 @@ File: t1ppl.fd 2001/06/04 font definitions for T1/ppl.
 )
 (/usr/local/texlive/2026/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count373
+\l__color_backend_stack_int=\count404
 )
-(./dokumentation.aux
-
-LaTeX Warning: Label `tab:rubric' multiply defined.
-
-)
+(./dokumentation.aux)
 \openout1 = `dokumentation.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-Package scrbase Info: activating english \abstractname on input line 53.
-Package scrbase Info: activating english \partname on input line 53.
-Package scrbase Info: activating english \chaptername on input line 53.
-Package scrbase Info: activating english \appendixname on input line 53.
-Package scrbase Info: activating english \figurename on input line 53.
-Package scrbase Info: activating english \tablename on input line 53.
-Package scrbase Info: activating english \contentsname on input line 53.
-Package scrbase Info: activating english \listfigurename on input line 53.
-Package scrbase Info: activating english \listtablename on input line 53.
-Package scrbase Info: activating english \bibname on input line 53.
-Package scrbase Info: activating english \indexname on input line 53.
-LaTeX Info: Redefining \microtypecontext on input line 53.
-Package microtype Info: Applying patch `item' on input line 53.
-Package microtype Info: Applying patch `toc' on input line 53.
-Package microtype Info: Applying patch `eqnum' on input line 53.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for pmboxdraw/pmboxdraw/m/n on input line
+ 59.
+LaTeX Font Info:    ... okay on input line 59.
+Package scrbase Info: activating english \abstractname on input line 59.
+Package scrbase Info: activating english \partname on input line 59.
+Package scrbase Info: activating english \chaptername on input line 59.
+Package scrbase Info: activating english \appendixname on input line 59.
+Package scrbase Info: activating english \figurename on input line 59.
+Package scrbase Info: activating english \tablename on input line 59.
+Package scrbase Info: activating english \contentsname on input line 59.
+Package scrbase Info: activating english \listfigurename on input line 59.
+Package scrbase Info: activating english \listtablename on input line 59.
+Package scrbase Info: activating english \bibname on input line 59.
+Package scrbase Info: activating english \indexname on input line 59.
+LaTeX Info: Redefining \microtypecontext on input line 59.
+Package microtype Info: Applying patch `item' on input line 59.
+Package microtype Info: Applying patch `toc' on input line 59.
+Package microtype Info: Applying patch `eqnum' on input line 59.
 
 
-Package microtype Warning: Unable to apply patch `footnote' on input line 53.
+Package microtype Warning: Unable to apply patch `footnote' on input line 59.
 
-Package microtype Info: Applying patch `verbatim' on input line 53.
-LaTeX Info: Redefining \microtypesetup on input line 53.
+Package microtype Info: Applying patch `verbatim' on input line 59.
+LaTeX Info: Redefining \microtypesetup on input line 59.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -918,17 +1510,17 @@ File: mt-ppl.cfg 2005/11/16 v1.6 microtype config. file: Palatino (RS)
 )
 (/usr/local/texlive/2026/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count374
-\scratchdimen=\dimen268
-\scratchbox=\box73
-\nofMPsegments=\count375
-\nofMParguments=\count376
-\everyMPshowfont=\toks47
-\MPscratchCnt=\count377
-\MPscratchDim=\dimen269
-\MPnumerator=\count378
-\makeMPintoPDFobject=\count379
-\everyMPtoPDFconversion=\toks48
+\scratchcounter=\count405
+\scratchdimen=\dimen338
+\scratchbox=\box86
+\nofMPsegments=\count406
+\nofMParguments=\count407
+\everyMPshowfont=\toks64
+\MPscratchCnt=\count408
+\MPscratchDim=\dimen339
+\MPnumerator=\count409
+\makeMPintoPDFobject=\count410
+\everyMPtoPDFconversion=\toks65
 ) (/usr/local/texlive/2026/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -938,25 +1530,28 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring ON on input line 53.
-\c@lstlisting=\count380
-Package tocbasic Info: setting babel extension for `lol' on input line 53.
-\scr@dte@lstlisting@maxnumwidth=\skip87
+Package hyperref Info: Link coloring ON on input line 59.
+\c@lstlisting=\count411
+Package tocbasic Info: setting babel extension for `lol' on input line 59.
+\scr@dte@lstlisting@maxnumwidth=\skip88
+
+Package pgfplots notification 'compat/show suggested version=true': document ha
+s been generated with the most recent feature set (\pgfplotsset{compat=1.18}).
 
 (./ads/deckblatt.tex
-<images/logo.png, id=4, 642.4pt x 481.8pt>
+<images/logo.png, id=7, 642.4pt x 481.8pt>
 File: images/logo.png Graphic file (type png)
 <use images/logo.png>
 Package pdftex.def Info: images/logo.png  used on input line 5.
 (pdftex.def)             Requested size: 98.62996pt x 73.97733pt.
-<images/dhbw.png, id=5, 710.655pt x 299.1175pt>
+<images/dhbw.png, id=8, 710.655pt x 299.1175pt>
 File: images/dhbw.png Graphic file (type png)
 <use images/dhbw.png>
 Package pdftex.def Info: images/dhbw.png  used on input line 6.
 (pdftex.def)             Requested size: 175.75482pt x 73.97733pt.
  [1
 
-\openout4 = `dokumentation.ist'.
+\openout5 = `dokumentation.ist'.
 
 
 
@@ -974,18 +1569,12 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 ) [1]
-(./ads/erklaerung.tex) [2] (./ads/abstract.tex [3
-
-
-])
-Package tocbasic Info: character protrusion at toc deactivated on input line 82
-.
- (./dokumentation.toc
+(./ads/erklaerung.tex) [2] (./ads/abstract.tex
 (/usr/local/texlive/2026/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 3.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 9.
 
 (/usr/local/texlive/2026/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -993,19 +1582,25 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 (/usr/local/texlive/2026/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 3.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 9.
 
 (/usr/local/texlive/2026/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 (/usr/local/texlive/2026/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
-) [4
+) [3
 
-]
-[5])
-\tf@toc=\write6
-\openout6 = `dokumentation.toc'.
+
+])
+Package tocbasic Info: character protrusion at toc deactivated on input line 88
+.
+
+(./dokumentation.toc [4
+
+] [5])
+\tf@toc=\write7
+\openout7 = `dokumentation.toc'.
 
  [6] (./content/01Introduction.tex
 chapter 1.
@@ -1014,28 +1609,21 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.15 \section
-             {Motivation for a Fresh Implementation} [1
+l.18 
+      [1
 
-] [2] [3] [4])
-(./content/02TheoreticalFoundations.tex [5]
+] [2] [3] [4]) (./content/02TheoreticalFoundations.tex [5] [6]
 chapter 2.
+[7
 
-Overfull \hbox (0.8687pt too wide) in paragraph at lines 8--9
-\T1/ppl/m/n/12 (-20) Enterprise knowl-edge re-trieval en-com-passes the chal-le
-nge of sur-fac-ing rel-e-vant, context-
- []
-
-[6
-
-] [7] [8] [9] [10] [11] [12] [13] [14] [15] [16])
-(./content/03SystemDesign.tex [17
+] [8] [9] [10] [11] [12] [13] [14] [15] [16] [17] [18])
+(./content/03SystemDesign.tex [19
 pdfTeX warning (ext4): destination with the same identifier (name{table.2.1}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.3 \chapter
-            {System Design}]
+l.2 
+    ] [20]
 chapter 3.
 LaTeX Font Info:    Trying to load font information for T1+pcr on input line 14
 .
@@ -1046,1530 +1634,360 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `pcr' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [18
+ [21
 
 ]
-Overfull \hbox (61.83447pt too wide) in paragraph at lines 16--17
-\T1/pcr/m/n/12 kubernetes/website \T1/ppl/m/n/12 (-20) (En-glish doc-u-men-ta-t
-ion sub-tree), \T1/pcr/m/n/12 ansible/ansible-documentation
+Underfull \hbox (badness 1852) in paragraph at lines 16--17
+[]\T1/ppl/b/n/12 (+20) Markdown and RST doc-u-men-ta-tion as a Con-flu-ence pro
+xy. \T1/ppl/m/n/12 (+20) Col-lab-o-ra-tive
  []
 
 
-Overfull \hbox (32.02762pt too wide) in paragraph at lines 18--19
-\T1/ppl/m/n/12 (-20) loaded from the \T1/pcr/m/n/12 cncf/tag-security\T1/ppl/m/
-n/12 (-20) , \T1/pcr/m/n/12 cncf/tag-storage\T1/ppl/m/n/12 (-20) , \T1/pcr/m/n/
-12 cncf/tag-app-delivery\T1/ppl/m/n/12 (-20) ,
+Underfull \hbox (badness 3138) in paragraph at lines 16--17
+\T1/ppl/m/n/12 (+20) wiki pages are dis-cur-sive, medium-length doc-u-ments or-
+gan-ised by human-
  []
 
 
-Overfull \hbox (2.48813pt too wide) in paragraph at lines 18--19
-\T1/pcr/m/n/12 cncf/foundation\T1/ppl/m/n/12 (-20) , and \T1/pcr/m/n/12 cncf/wg
--serverless \T1/ppl/m/n/12 (-20) repos-i-to-ries, yield-ing 140 ex-tractable
+Underfull \hbox (badness 1867) in paragraph at lines 16--17
+\T1/ppl/m/n/12 (+20) authored head-ings. Three repos-i-to-ries are cloned us-in
+g sparse check-out to
  []
 
 
-Overfull \hbox (30.58812pt too wide) in paragraph at lines 26--37
- [][] 
+Underfull \hbox (badness 10000) in paragraph at lines 18--19
+\T1/pcr/m/n/12 cncf/tag-app-delivery\T1/ppl/m/n/12 (+20) , \T1/pcr/m/n/12 cncf/
+foundation\T1/ppl/m/n/12 (+20) , and \T1/pcr/m/n/12 cncf/wg-serverless
  []
 
-[19
+
+Underfull \hbox (badness 10000) in paragraph at lines 34--34
+[]|\T1/ppl/m/n/10.95 (+20) SharePoint doc-u-
+ []
+
+[22
 pdfTeX warning (ext4): destination with the same identifier (name{table.3.1}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.42 
+l.44 
      ]
-Overfull \hbox (66.98611pt too wide) in paragraph at lines 49--63
- [][] 
+Underfull \hbox (badness 10000) in paragraph at lines 57--58
+[]|\T1/pcr/m/n/10.95 github_issue $\OMS/cmsy/m/n/10.95 j$ \T1/pcr/m/n/10.95 mar
+kdown_doc $\OMS/cmsy/m/n/10.95 j$
  []
 
-[20
+[23
 pdfTeX warning (ext4): destination with the same identifier (name{table.3.2}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.67 \subsection
+l.71 \subsection
                 {Ingestion Data Flow}]
-
-LaTeX Warning: Reference `fig:dataflow' on page 21 undefined on input line 69.
-
-
-Overfull \hbox (29.63237pt too wide) in paragraph at lines 73--74
-[]\T1/ppl/b/n/12 (-20) Markdown and RST doc-u-men-ta-tion. \T1/ppl/m/n/12 (-20)
- Repos-i-to-ries are cloned with \T1/pcr/m/n/12 git clone --depth=1
+<images/ingestion_flow.pdf, id=323, 963.35912pt x 542.025pt>
+File: images/ingestion_flow.pdf Graphic file (type pdf)
+<use images/ingestion_flow.pdf>
+Package pdftex.def Info: images/ingestion_flow.pdf  used on input line 77.
+(pdftex.def)             Requested size: 452.96796pt x 254.8593pt.
+ [24
+pdfTeX warning (ext4): destination with the same identifier (name{figure.3.1}) 
+has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.85 
+      <./images/ingestion_flow.pdf>] [25] [26]
+Underfull \hbox (badness 1515) in paragraph at lines 118--119
+\T1/ppl/m/n/12 (+20) Retrieval pro-ceeds in two stages to ex-ploit the com-ple-
+men-tary prop-er-ties of
  []
 
 
-LaTeX Warning: Reference `fig:rag_pipeline' on page 21 undefined on input line 
-81.
-
-[21] [22] [23]
-Overfull \hbox (31.21733pt too wide) in paragraph at lines 107--108
-\T1/ppl/m/n/12 (-20) These twenty can-di-dates are then passed to \T1/pcr/m/n/1
-2 cross-encoder/ms-marco-MiniLM-L-6-v2\T1/ppl/m/n/12 (-20) ,
+Underfull \hbox (badness 1681) in paragraph at lines 118--119
+\T1/ppl/m/n/12 (+20) bi-encoders and cross-encoders. In the first stage, the FA
+ISS in-dex re-turns
  []
 
 
-LaTeX Warning: Reference `ch:eval' on page 24 undefined on input line 111.
-
-[24]
-Overfull \hbox (8.74416pt too wide) in paragraph at lines 119--120
-\T1/ppl/m/n/12 (-20) ter-nates be-tween gen-er-at-ing a \T1/ppl/m/it/12 (-20) T
-hought\T1/ppl/m/n/12 (-20) ^^Van ex-plicit natural-language rea-son-ing step^^V
-and
+Underfull \hbox (badness 1072) in paragraph at lines 118--119
+\T1/ppl/m/n/12 (+20) i-lar-ity to the em-bed-ded query. These twenty can-di-dat
+es are then passed to
  []
 
-
-Overfull \hbox (1.46709pt too wide) in paragraph at lines 121--122
-\T1/ppl/m/n/12 (-20) per-a-ture set-tings. A max-i-mum it-er-a-tion count of si
-x is en-forced by the \T1/pcr/m/n/12 AgentExecutor\T1/ppl/m/n/12 (-20) ;
- []
-
-[25]
-Overfull \hbox (0.83385pt too wide) in paragraph at lines 131--140
- [][] 
- []
-
-[26
+[27] [28] [29] [30
 pdfTeX warning (ext4): destination with the same identifier (name{table.3.3}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.147 
+l.162 
       ]
-Overfull \hbox (20.8046pt too wide) in paragraph at lines 150--151
-[]\T1/ppl/m/n/12 (-20) All tool calls, their in-puts, and their ob-ser-va-tions
- are recorded in a struc-tured \T1/pcr/m/n/12 agent_trace
+Underfull \hbox (badness 10000) in paragraph at lines 171--172
+[]\T1/ppl/m/n/12 (+20) The de-sign is a two-node Lang-Graph \T1/pcr/m/n/12 Stat
+eGraph\T1/ppl/m/n/12 (+20) . The first node,
  []
 
-[27]
-Overfull \hbox (119.8472pt too wide) in paragraph at lines 164--181
- [][] 
+
+Underfull \hbox (badness 2503) in paragraph at lines 171--172
+\T1/pcr/m/n/12 retrieve_all_sources\T1/ppl/m/n/12 (+20) , queries all three sou
+rce-specific FAISS in-dexes se-
  []
 
-[28
+[31]
+Overfull \hbox (3.94508pt too wide) in paragraph at lines 176--177
+[]\T1/ppl/m/n/12 (-20) The multi-agent reuses the per-source FAISS in-dexes con
+-structed by \T1/pcr/m/n/12 agent/ingest.py
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 201--201
+[]|\T1/ppl/m/n/10.95 (+20) Generation tem-per-a-
+ []
+
+
+Underfull \hbox (badness 7558) in paragraph at lines 202--202
+[]|\T1/ppl/m/n/10.95 (+20) Hardware and run-
+ []
+
+[32] [33
 pdfTeX warning (ext4): destination with the same identifier (name{table.3.4}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.184 
-      ]) (./content/04DataAndEvaluation.tex [29]
+l.217 L
+       ines of non-blank, non-comment code are counted per component for fou...
+]) (./content/04DataAndEvaluation.tex [34]
 chapter 4.
 
-Overfull \hbox (32.83574pt too wide) in paragraph at lines 9--10
-\T1/ppl/m/n/12 (-20) three Python scripts ^^V \T1/pcr/m/n/12 01_fetch_github_is
-sues.py\T1/ppl/m/n/12 (-20) , \T1/pcr/m/n/12 02_fetch_markdown_docs.py\T1/ppl/m
-/n/12 (-20) ,
+Underfull \hbox (badness 1924) in paragraph at lines 13--14
+\T1/ppl/b/n/12 (+20) GitHub Is-sues. \T1/ppl/m/n/12 (+20) Is-sues were re-triev
+ed from \T1/pcr/m/n/12 kubernetes/kubernetes \T1/ppl/m/n/12 (+20) and
  []
 
-
-Overfull \hbox (60.17795pt too wide) in paragraph at lines 13--14
-\T1/ppl/b/n/12 (-20) GitHub Is-sues. \T1/ppl/m/n/12 (-20) Is-sues were re-triev
-ed from \T1/pcr/m/n/12 kubernetes/kubernetes \T1/ppl/m/n/12 (-20) and \T1/pcr/m
-/n/12 microsoft/vscode
- []
-
-[30
+[35
 
 ]
-Overfull \hbox (18.9619pt too wide) in paragraph at lines 17--18
-\T1/ppl/m/n/12 (-20) repos-i-to-ries: \T1/pcr/m/n/12 cncf/tag-security \T1/ppl/
-m/n/12 (-20) (five doc-u-ments, \T1/pcr/m/n/12 main \T1/ppl/m/n/12 (-20) branch
-), \T1/pcr/m/n/12 cncf/tag-storage
- []
-
-[31]
-Overfull \hbox (30.64432pt too wide) in paragraph at lines 33--44
- [][] 
+Underfull \hbox (badness 1533) in paragraph at lines 17--18
+\T1/ppl/m/n/12 (+20) from five repos-i-to-ries: \T1/pcr/m/n/12 cncf/tag-securit
+y \T1/ppl/m/n/12 (+20) (five doc-u-ments, \T1/pcr/m/n/12 main \T1/ppl/m/n/12 (+
+20) branch),
  []
 
 
-Overfull \hbox (1.67761pt too wide) in paragraph at lines 46--47
+Overfull \hbox (1.2929pt too wide) in paragraph at lines 17--18
+\T1/ppl/m/n/12 (-20) (three doc-u-ments), \T1/pcr/m/n/12 cncf/foundation \T1/pp
+l/m/n/12 (-20) (two doc-u-ments), and \T1/pcr/m/n/12 cncf/wg-serverless
+ []
+
+[36]
+Overfull \hbox (1.67761pt too wide) in paragraph at lines 48--49
 \T1/ppl/m/n/12 (-20) at 8000 characters, are the most length-uniform source: 88
  of 140 sections fall in the 1000--
  []
 
-[32
+[37
 pdfTeX warning (ext4): destination with the same identifier (name{table.4.1}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.47 
-     ] [33]
-Overfull \hbox (119.24258pt too wide) in paragraph at lines 64--76
- [][] 
- []
-
-[34
+l.49 
+     ] [38] [39
 pdfTeX warning (ext4): destination with the same identifier (name{table.4.2}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.83 
+l.87 
      ]
-Overfull \hbox (156.10301pt too wide) in paragraph at lines 98--111
- [][] 
+Underfull \hbox (badness 10000) in paragraph at lines 111--112
+[]|\T1/pcr/m/n/10.95 factual\T1/ppl/m/n/10.95 (+20) , \T1/pcr/m/n/10.95 synthes
+is\T1/ppl/m/n/10.95 (+20) , \T1/pcr/m/n/10.95 ambiguous\T1/ppl/m/n/10.95 (+20) 
+,
  []
 
-[35] [36
+
+Underfull \hbox (badness 10000) in paragraph at lines 112--113
+[]|\T1/pcr/m/n/10.95 github_issue\T1/ppl/m/n/10.95 (+20) , \T1/pcr/m/n/10.95 ma
+rkdown_doc\T1/ppl/m/n/10.95 (+20) ,
+ []
+
+[40] [41
 pdfTeX warning (ext4): destination with the same identifier (name{table.4.3}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.121 
-      ] [37]
-Overfull \hbox (30.55156pt too wide) in paragraph at lines 132--133
-[]\T1/ppl/m/n/12 (-20) Both met-rics are ap-plied to the \T1/pcr/m/n/12 answer 
-\T1/ppl/m/n/12 (-20) field from the pipeline log against the \T1/pcr/m/n/12 gro
-und_truth
- []
-
-[38] [39]
-Underfull \hbox (badness 10000) in paragraph at lines 162--162
+l.127 
+      ] [42] [43] [44]
+Underfull \hbox (badness 10000) in paragraph at lines 169--169
 []|\T1/ppl/m/n/12 (+20) Implementation
  []
 
 
-Underfull \hbox (badness 3954) in paragraph at lines 162--162
+Underfull \hbox (badness 3954) in paragraph at lines 169--169
 []|\T1/ppl/m/n/12 (+20) Code vol-ume and time
  []
 
 
-Underfull \hbox (badness 6220) in paragraph at lines 162--162
+Underfull \hbox (badness 6220) in paragraph at lines 169--169
 \T1/ppl/m/n/12 (+20) re-quired to build from
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 163--163
+Underfull \hbox (badness 10000) in paragraph at lines 170--170
 []|\T1/ppl/m/n/12 (+20) Parameters re-quired to
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 163--164
+Underfull \hbox (badness 10000) in paragraph at lines 170--171
 []|\T1/ppl/m/n/12 (+20) Parameter count in
  []
 
 
-Underfull \hbox (badness 2142) in paragraph at lines 164--165
+Underfull \hbox (badness 2142) in paragraph at lines 171--172
 []|\T1/ppl/m/n/12 (+20) Failure modes iden-ti-fied
  []
 
-) (./content/05Implementation.tex [40
+) (./content/05Implementation.tex [45
 pdfTeX warning (ext4): destination with the same identifier (name{table.4.4}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.3 \chapter
-            {Implementation}]
+            {Implementation}] [46]
 chapter 5.
 
-Underfull \hbox (badness 10000) in paragraph at lines 22--23
-[]|\T1/ppl/m/n/12 (+20) RAG LLM client (OpenAI-
+Underfull \hbox (badness 4927) in paragraph at lines 31--32
+[]|\T1/ppl/m/n/10.95 (+20) Agent loop (\T1/pcr/m/n/10.95 create_react_agent\T1/
+ppl/m/n/10.95 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 23--24
-[]|\T1/ppl/m/n/12 (+20) BGE-base-en-v1.5 em-bed-dings;
+Underfull \hbox (badness 10000) in paragraph at lines 34--35
+[]|\T1/pcr/m/n/10.95 @tool \T1/ppl/m/n/10.95 (+20) dec-o-ra-tor; \T1/pcr/m/n/10
+.95 AIMessage\T1/ppl/m/n/10.95 (+20) ;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 29--30
-[]|\T1/ppl/m/n/12 (+20) Agent loop
+Underfull \hbox (badness 1442) in paragraph at lines 35--36
+[]|\T1/pcr/m/n/10.95 get_openai_callback() \T1/ppl/m/n/10.95 (+20) for to-ken
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 29--30
-\T1/ppl/m/n/12 (+20) (\T1/pcr/m/n/12 create_react_agent\T1/ppl/m/n/12 (+20) , S
-tate-
+Underfull \hbox (badness 2401) in paragraph at lines 40--41
+[]|\T1/ppl/m/n/10.95 (+20) GitHub REST API calls (ac-qui-si-tion
  []
 
 
-Underfull \hbox (badness 7221) in paragraph at lines 32--33
-[]|\T1/pcr/m/n/12 @tool \T1/ppl/m/n/12 (+20) dec-o-ra-tor; \T1/pcr/m/n/12 AIMes
-sage\T1/ppl/m/n/12 (+20) ;
+LaTeX Warning: Float too large for page by 10.54257pt on input line 50.
+
+[47
+
+] [48] [49] [50]
+Underfull \hbox (badness 10000) in paragraph at lines 118--119
+[]\T1/ppl/b/n/12 (+20) Cross-encoder rerank-ing. \T1/ppl/m/n/12 (+20) The cross
+-encoder ($\T1/pcr/m/n/12 cross-[]encoder /
+ []
+
+[51]
+Underfull \hbox (badness 1264) in paragraph at lines 135--136
+[]\T1/ppl/b/n/12 (+20) Unnormalised vec-tors in In-dexFlatIP. \T1/ppl/m/n/12 (+
+20) A pro-to-type built be-fore nor-mal-i-sa-tion
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 33--34
-[]|\T1/pcr/m/n/12 get_openai_callback() \T1/ppl/m/n/12 (+20) for
+Underfull \hbox (badness 1502) in paragraph at lines 135--136
+\T1/ppl/m/n/12 (+20) in-dex. Inner-product scores for un-nor-malised vec-tors d
+o not cor-re-spond to
  []
 
-
-Underfull \hbox (badness 1043) in paragraph at lines 39--40
-[]|\T1/ppl/m/n/12 (+20) PDF text ex-trac-tion (ac-qui-si-tion
- []
-
-
-Underfull \hbox (badness 4967) in paragraph at lines 43--44
-[]|\T1/ppl/m/n/12 (+20) BERTScore F1 against ground-
- []
-
-
-LaTeX Warning: Float too large for page by 59.64232pt on input line 47.
-
-
-! LaTeX Error: Unicode character ├ (U+251C)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ├ (U+251C)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ├ (U+251C)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ├ (U+251C)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ├ (U+251C)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character │ (U+2502)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ├ (U+251C)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-[41
-
-]
-
-! LaTeX Error: Unicode character │ (U+2502)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ├ (U+251C)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character │ (U+2502)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character └ (U+2514)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ├ (U+251C)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character │ (U+2502)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ├ (U+251C)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character │ (U+2502)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ├ (U+251C)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character │ (U+2502)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ├ (U+251C)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character │ (U+2502)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ├ (U+251C)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character │ (U+2502)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ├ (U+251C)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character │ (U+2502)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character └ (U+2514)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ├ (U+251C)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character │ (U+2502)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ├ (U+251C)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character │ (U+2502)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ├ (U+251C)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character │ (U+2502)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ├ (U+251C)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character │ (U+2502)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ├ (U+251C)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character │ (U+2502)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ├ (U+251C)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character │ (U+2502)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character └ (U+2514)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character └ (U+2514)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ├ (U+251C)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character │ (U+2502)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character │ (U+2502)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character └ (U+2514)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! LaTeX Error: Unicode character ─ (U+2500)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end{verbatim}
-                   
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-Overfull \hbox (9.14357pt too wide) in paragraph at lines 84--85
-\T1/pcr/m/n/12 AI_REFINERY_BASE_URL\T1/ppl/m/n/12 (-20) , \T1/pcr/m/n/12 AI_REF
-INERY_API_KEY\T1/ppl/m/n/12 (-20) , and \T1/pcr/m/n/12 LLM_MODEL\T1/ppl/m/n/12 
-(-20) . Third, the RAG
- []
-
-
-Overfull \hbox (8.45811pt too wide) in paragraph at lines 84--85
-\T1/ppl/m/n/12 (-20) all records, com-putes em-bed-dings, and writes the uni-fi
-ed FAISS in-dex to \T1/pcr/m/n/12 rag/indexes/\T1/ppl/m/n/12 (-20) ;
- []
-
-[42] [43]
-Overfull \hbox (4.62166pt too wide) in paragraph at lines 107--108
-[]\T1/ppl/m/n/12 (-20) The cross-encoder model (\T1/pcr/m/n/12 cross-encoder/ms
--marco-MiniLM-L-6-v2\T1/ppl/m/n/12 (-20) ) scores each
- []
-
-[44] [45]
-Overfull \hbox (7.66478pt too wide) in paragraph at lines 121--122
-\T1/ppl/m/n/12 (-20) trieval rank-ings were mean-ing-less. The fix was to pass 
-\T1/pcr/m/n/12 normalize_embeddings=True
- []
-
-[46]
-Overfull \hbox (9.28102pt too wide) in paragraph at lines 136--137
-\T1/pcr/m/n/12 ToolMessage \T1/ppl/m/n/12 (-20) ob-ser-va-tion. At run-time, ea
-ch func-tion del-e-gates to a \T1/pcr/m/n/12 SourceRetriever
- []
-
-
-Overfull \hbox (6.58562pt too wide) in paragraph at lines 140--141
+[52] [53]
+Overfull \hbox (6.58562pt too wide) in paragraph at lines 154--155
 \T1/ppl/m/n/12 (-20) full 1,283-record mark-down cor-pus, spec-i-fied by \T1/pc
 r/m/n/12 SOURCE_LIMITS["markdown_doc"]
  []
 
-[47]
+[54]
 LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 1
-51.
+65.
  (/usr/local/texlive/2026/texmf-dist/tex/latex/psnfss/ts1ppl.fd
 File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
-) [48]
-Underfull \hbox (badness 10000) in paragraph at lines 178--179
-[]|\T1/pcr/m/n/12 "stop" \T1/ppl/m/n/12 (+20) or
+) [55]
+Underfull \hbox (badness 1735) in paragraph at lines 178--179
+\T1/ppl/m/n/12 (+20) typed block list ^^V for ex-am-ple, \T1/pcr/m/n/12 [{"type
+": "text", "text": "..."}]
  []
 
 
-Underfull \hbox (badness 2165) in paragraph at lines 179--180
-[]|\T1/ppl/m/n/12 (+20) Chunk meta-data: chunk_id,
+Underfull \hbox (badness 1460) in paragraph at lines 180--181
+\T1/ppl/m/n/12 (+20) and its coun-ters are pop-u-lated by the time the con-text
+ ex-its ^^V even when
+ []
+
+[56]
+Overfull \hbox (9.69183pt too wide) in paragraph at lines 188--189
+[]\T1/ppl/m/n/12 (-20) The multi-agent graph is a two-node \T1/pcr/m/n/12 State
+Graph \T1/ppl/m/n/12 (-20) de-fined in \T1/pcr/m/n/12 multi_agent/graph.py\T1/p
+pl/m/n/12 (-20) .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 179--180
-\T1/ppl/m/n/12 (+20) source_type, doc_id, ti-tle,
+Underfull \hbox (badness 1430) in paragraph at lines 188--189
+\T1/ppl/m/n/12 (+20) call-ing the \T1/pcr/m/n/12 SourceRetriever._retrieve() \T
+1/ppl/m/n/12 (+20) method from \T1/pcr/m/n/12 agent/tools.py
  []
 
-[49]) (./content/06Results.tex [50] [51
+
+Underfull \hbox (badness 1097) in paragraph at lines 188--189
+\T1/ppl/m/n/12 (+20) for each and ac-cu-mu-lat-ing the re-turned chunk lists. A
+n ini-tial de-sign used
+ []
+
+
+Underfull \hbox (badness 1264) in paragraph at lines 188--189
+\T1/ppl/m/n/12 (+20) Lang-Graph's \T1/pcr/m/n/12 Send() \T1/ppl/m/n/12 (+20) AP
+I to dis-patch these re-trieval calls as par-al-lel fan-out
+ []
+
+
+Underfull \hbox (badness 1077) in paragraph at lines 192--193
+[]\T1/ppl/m/n/12 (+20) The multi-agent im-ple-men-ta-tion reuses the per-source
+ FAISS in-dexes built by
+ []
+
+
+Underfull \hbox (badness 1596) in paragraph at lines 192--193
+\T1/pcr/m/n/12 agent/ingest.py \T1/ppl/m/n/12 (+20) and the \T1/pcr/m/n/12 Sour
+ceRetriever \T1/ppl/m/n/12 (+20) class from \T1/pcr/m/n/12 agent/tools.py\T1/pp
+l/m/n/12 (+20) ,
+ []
+
+[57]
+Underfull \hbox (badness 2334) in paragraph at lines 215--216
+[]|\T1/ppl/m/n/10.95 (+20) Chunk meta-data: chunk_id, source_type,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 229--230
+[]|\T1/ppl/m/n/10.95 (+20) Number of com-pleted tool calls
+ []
+
+
+Underfull \hbox (badness 1515) in paragraph at lines 235--236
+\T1/ppl/m/n/12 (+20) the \T1/pcr/m/n/12 Generator.generate_hypothesis() \T1/ppl
+/m/n/12 (+20) call and is recorded as 0.0 when
+ []
+
+
+Underfull \hbox (badness 1102) in paragraph at lines 235--236
+\T1/ppl/m/n/12 (+20) and \T1/pcr/m/n/12 latency.generate_s \T1/ppl/m/n/12 (+20)
+ wraps the \T1/pcr/m/n/12 Generator.generate() \T1/ppl/m/n/12 (+20) call cov-er
+-ing
+ []
+
+[58]) (./content/06Results.tex [59] [60
 pdfTeX warning (ext4): destination with the same identifier (name{table.5.1}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.3 \chapter
-            {Evaluation Results}] [52
+            {Evaluation Results}] [61
 pdfTeX warning (ext4): destination with the same identifier (name{table.5.2}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
@@ -2578,138 +1996,72 @@ l.3 \chapter
             {Evaluation Results}]
 chapter 6.
 
-Overfull \hbox (55.73346pt too wide) in paragraph at lines 15--25
- [][] 
+Underfull \hbox (badness 10000) in paragraph at lines 15--15
+[][][]\T1/ppl/m/n/12 (+20) Quality met-rics by sys-tem and query type. BERTScor
+e uses
  []
 
-[53
+
+Underfull \hbox (badness 2846) in paragraph at lines 15--15
+\T1/pcr/m/n/12 microsoft/deberta-xlarge-mnli \T1/ppl/m/n/12 (+20) with base-lin
+e rescal-ing; val-ues
+ []
+
+[62
 
 
 pdfTeX warning (ext4): destination with the same identifier (name{table.6.1}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.30 
-     ] [54
+l.34 
+     ] [63] [64
 pdfTeX warning (ext4): destination with the same identifier (name{table.6.2}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.50 T
-      able~\ref{tab:routing} reports agent-specific metrics. The agent selec...
-] [55
+l.92 
+     ] [65
 pdfTeX warning (ext4): destination with the same identifier (name{table.6.3}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.90 
-     ]
-Overfull \hbox (51.74066pt too wide) in paragraph at lines 115--125
- [][] 
- []
-
-[56
+l.112 
+      
 pdfTeX warning (ext4): destination with the same identifier (name{table.6.4}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.125 \end{table}
-                 
+l.112 
+      ] [66
 pdfTeX warning (ext4): destination with the same identifier (name{table.6.5}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.125 \end{table}
-                 ]
-Underfull \hbox (badness 10000) in paragraph at lines 147--147
-\T1/ppl/m/n/12 (+20) 12 tun-able pa-ram-e-ters.
+l.150 
+      ]
+Overfull \hbox (1.35771pt too wide) in paragraph at lines 169--169
+ []|\T1/ppl/b/n/10.95 (-20) Agent| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 147--147
-\T1/ppl/m/n/12 (+20) Agent \T1/pcr/m/n/12 config.py \T1/ppl/m/n/12 (+20) ex-
+Underfull \hbox (badness 2818) in paragraph at lines 240--240
+ \T1/ppl/m/n/10 (+20) ef-fort
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 147--147
-\T1/ppl/m/n/12 (+20) re-quir-ing source-aware
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 150--150
-\T1/ppl/m/n/12 (+20) an-swer is trace-able
- []
-
-
-Underfull \hbox (badness 8056) in paragraph at lines 150--150
-\T1/ppl/m/n/12 (+20) to a sin-gle stage via
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 150--150
-\T1/ppl/m/n/12 (+20) FAISS scores, rerank
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 150--150
-\T1/ppl/m/n/12 (+20) Agent fail-ures in-volve
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 150--150
-\T1/ppl/m/n/12 (+20) non-deterministic tool
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 150--150
-\T1/ppl/m/n/12 (+20) se-lec-tion, multi-step
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 150--150
-\T1/ppl/m/n/12 (+20) con-text ac-cu-mu-la-tion,
- []
-
-
-Underfull \hbox (badness 6708) in paragraph at lines 150--150
-\T1/ppl/m/n/12 (+20) and the max-iterations
- []
-
-
-Underfull \hbox (badness 1946) in paragraph at lines 150--150
-\T1/ppl/m/n/12 (+20) fail-ure mode, re-quir-ing
- []
-
-
-Underfull \hbox (badness 1048) in paragraph at lines 153--153
-\T1/ppl/m/n/12 (+20) and re-build the uni-fied
- []
-
-
-Underfull \hbox (badness 3590) in paragraph at lines 153--153
-\T1/ppl/m/n/12 (+20) steps: ex-tend the cor-
- []
-
-
-Underfull \hbox (badness 3068) in paragraph at lines 153--153
-\T1/ppl/m/n/12 (+20) pus, build a new per-
- []
-
-
-Underfull \hbox (badness 3954) in paragraph at lines 156--156
-\T1/ppl/m/n/12 (+20) ser-vice (the LLM API)
- []
-
-
-LaTeX Warning: Float too large for page by 211.09279pt on input line 162.
-
-[57
+[67
 pdfTeX warning (ext4): destination with the same identifier (name{table.6.6}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.165 
-      ] [58]) (./content/07Discussion.tex [59] [60] [61
+l.247 
+      ] [68
+pdfTeX warning (ext4): destination with the same identifier (name{figure.6.1}) 
+has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.257 
+      ] [69]) (./content/07Discussion.tex [70] [71
 pdfTeX warning (ext4): destination with the same identifier (name{table.6.7}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
@@ -2717,43 +2069,31 @@ as been already used, duplicate ignored
 l.3 \chapter
             {Discussion}]
 chapter 7.
-[62
+[72
 
-] [63]
-Overfull \hbox (77.73946pt too wide) in paragraph at lines 35--46
- [][] 
- []
-
-[64
+] [73] [74] [75
 pdfTeX warning (ext4): destination with the same identifier (name{table.7.1}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.51 
-     ] [65]
-Overfull \hbox (0.62639pt too wide) in paragraph at lines 62--63
-[]\T1/ppl/b/n/12 (-20) Agent max-iterations fail-ures. \T1/ppl/m/n/12 (-20) The
- 37-query fail-ure rate (41%) at \T1/pcr/m/n/12 MAX_ITERATIONS\T1/ppl/m/n/12 (-
-20) =15
+l.87 T
+      he remaining trade-off between the multi-agent and improved RAG is con...
+] [76]
+Underfull \hbox (badness 4505) in paragraph at lines 101--102
+[]\T1/ppl/b/n/12 (+20) Single-agent max-iterations fail-ures. \T1/ppl/m/n/12 (+
+20) The 37-query fail-ure rate (41%) at
  []
 
-[66] [67]) (./content/08Conclusion.tex [68]
+[77] [78] [79]) (./content/08Conclusion.tex [80]
 chapter 8.
-[69
+[81
 
-] [70]
-Overfull \hbox (68.41843pt too wide) in paragraph at lines 32--33
-[]\T1/ppl/b/n/12 (-20) Agent it-er-a-tion bud-get and query clas-si-fi-ca-tion.
- \T1/ppl/m/n/12 (-20) The 41% agent fail-ure rate at \T1/pcr/m/n/12 MAX_ITERATI
-ONS\T1/ppl/m/n/12 (-20) =15
- []
-
-) [71]
-Package tocbasic Info: character protrusion at lof deactivated on input line 10
-8.
+] [82] [83]) [84]
+Package tocbasic Info: character protrusion at lof deactivated on input line 11
+4.
  (./dokumentation.lof)
-\tf@lof=\write7
-\openout7 = `dokumentation.lof'.
+\tf@lof=\write8
+\openout8 = `dokumentation.lof'.
 
  [1
 
@@ -2761,12 +2101,18 @@ Package tocbasic Info: character protrusion at lof deactivated on input line 10
 
 
 ]
-Package tocbasic Info: character protrusion at lot deactivated on input line 11
-5.
+Package tocbasic Info: character protrusion at lot deactivated on input line 12
+1.
  (./dokumentation.lot
-Overfull \hbox (11.87965pt too wide) in paragraph at lines 19--19
- \T1/ppl/m/n/12 (-20) rately in Ta-ble [][]6.2[][]. BERTScore uses \T1/pcr/m/n/
-12 microsoft/deberta-xlarge-mnli 
+Underfull \hbox (badness 3260) in paragraph at lines 19--19
+ [][] [][][]\T1/ppl/m/n/12 (+20) Quality met-rics by sys-tem and query type. BE
+RTScore uses 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--19
+ \T1/pcr/m/n/12 microsoft/deberta-xlarge-mnli \T1/ppl/m/n/12 (+20) with base-li
+ne rescal-ing; 
  []
 
 [2
@@ -2774,15 +2120,15 @@ Overfull \hbox (11.87965pt too wide) in paragraph at lines 19--19
 
 
 ])
-\tf@lot=\write8
-\openout8 = `dokumentation.lot'.
+\tf@lot=\write9
+\openout9 = `dokumentation.lot'.
 
  [3]
 Package tocbasic Info: character protrusion at lol deactivated on input line 12
-1.
+7.
  (./dokumentation.lol)
-\tf@lol=\write9
-\openout9 = `dokumentation.lol'.
+\tf@lol=\write10
+\openout10 = `dokumentation.lol'.
 
  [4
 
@@ -2792,45 +2138,41 @@ Package tocbasic Info: character protrusion at lol deactivated on input line 12
 
 
 
-])
-(./dokumentation.gls) [6] [7] (./dokumentation.aux)
+] [6])
+(./dokumentation.gls) [7] (./dokumentation.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
  ) 
 Here is how much of TeX's memory you used:
- 29133 strings out of 467525
- 547823 string characters out of 5418983
- 1251279 words of memory out of 5000000
- 57132 multiletter control sequences out of 15000+600000
- 674068 words of font info for 267 fonts, out of 8000000 for 9000
+ 50904 strings out of 467525
+ 1144218 string characters out of 5418983
+ 1947843 words of memory out of 5000000
+ 78414 multiletter control sequences out of 15000+600000
+ 687579 words of font info for 338 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 108i,12n,107p,11216b,925s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 108i,19n,108p,11216b,2260s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 ></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
-</usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><
-/usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></u
-sr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr
-/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/lo
-cal/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loc
-al/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local
-/texlive/2026/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive
-/2026/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2026/t
-exmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2026/texmf-di
-st/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2026/texmf-dist/font
-s/type1/urw/palatino/uplri8a.pfb>
-Output written on dokumentation.pdf (85 pages, 398370 bytes).
+</usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
+/usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></
+usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></us
+r/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/
+local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/lo
+cal/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/loca
+l/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/t
+exlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/te
+xlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texl
+ive/2026/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2026
+/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2026/texmf-
+dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2026/texmf-dist/fo
+nts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/typ
+e1/urw/palatino/uplri8a.pfb>
+Output written on dokumentation.pdf (98 pages, 788793 bytes).
 PDF statistics:
- 961 PDF objects out of 1000 (max. 8388607)
- 834 compressed objects within 9 object streams
- 193 named destinations out of 1000 (max. 500000)
- 59987 words of extra memory for PDF output out of 61914 (max. 10000000)
+ 1130 PDF objects out of 1200 (max. 8388607)
+ 961 compressed objects within 10 object streams
+ 212 named destinations out of 1000 (max. 500000)
+ 78972 words of extra memory for PDF output out of 89155 (max. 10000000)
 

@@ -1,0 +1,177 @@
+%% Creator: Inkscape 1.4.4 (dcaf3e7, 2026-05-05), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'ingestion_flow_svg-tex.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{1110bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.55405405)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.50006757,0.52837838){\color[rgb]{0.10196078,0.10196078,0.10196078}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{Ingestion Data Flow: Three Source Pipelines Converging at Shared JSONL Files, then Diverging into System-Specific Indexes}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.02027027,0.44324324){\color[rgb]{0.22745098,0.43137255,0.62745098}\transparent{0.80000001}\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textit{GitHub Issues}\end{tabular}}}}}%
+    \put(0.02027027,0.29256757){\color[rgb]{0.18039216,0.47843137,0.23529412}\transparent{0.80000001}\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textit{Markdown / RST Docs}\end{tabular}}}}}%
+    \put(0.02027027,0.14189189){\color[rgb]{0.54509804,0.35294118,0.10196078}\transparent{0.80000001}\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textit{PDF Whitepapers}\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.18614865,0.5222973){\color[rgb]{0.33333333,0.33333333,0.33333333}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Source / Acquisition\end{tabular}}}}%
+    \put(0.54763514,0.5222973){\color[rgb]{0.33333333,0.33333333,0.33333333}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Normalisation\end{tabular}}}}%
+    \put(0.68952703,0.5222973){\color[rgb]{0.33333333,0.33333333,0.33333333}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}JSONL Files\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.88412162,0.50472973){\color[rgb]{0.2,0.2,0.2}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Output Indexes\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.83260135,0.48851351){\color[rgb]{0.10196078,0.29019608,0.47843137}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{RAG System}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.83260135,0.23310811){\color[rgb]{0.47843137,0.29019608,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{Agent System}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.08108108,0.49932432){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{GitHub REST API v3}\end{tabular}}}}%
+    \put(0.08108108,0.48716216){\color[rgb]{0.2,0.2,0.2}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Authenticated PAT\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.08108108,0.47432432){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Fetch closed issues\end{tabular}}}}%
+    \put(0.08108108,0.46621622){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}paginated (100/page)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.08108108,0.4527027){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Client-side filter:\end{tabular}}}}%
+    \put(0.08108108,0.44459459){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}body > 200 chars,\end{tabular}}}}%
+    \put(0.08108108,0.43648649){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}≥1 comment,\end{tabular}}}}%
+    \put(0.08108108,0.42837838){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}no dup/invalid labels\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.08108108,0.41486486){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Fetch comment thread\end{tabular}}}}%
+    \put(0.08108108,0.40675676){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}→ body + comments\end{tabular}}}}%
+    \put(0.08108108,0.39864865){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}→ content field\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.08108108,0.34797297){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{Markdown / RST Docs}\end{tabular}}}}%
+    \put(0.08108108,0.33445946){\color[rgb]{0.2,0.2,0.2}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}git clone --depth=1\end{tabular}}}}%
+    \put(0.08108108,0.32635135){\color[rgb]{0.2,0.2,0.2}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}--sparse (docs subtree)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.08108108,0.31283784){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}RST/Markdown\end{tabular}}}}%
+    \put(0.08108108,0.30472973){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Strip headings,\end{tabular}}}}%
+    \put(0.08108108,0.29662162){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}code blocks, links,\end{tabular}}}}%
+    \put(0.08108108,0.28851351){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}front matter\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=13]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.08108108,0.275){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Plain text prose\end{tabular}}}}%
+    \put(0.08108108,0.26689189){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}+ lists\end{tabular}}}}%
+    \put(0.08108108,0.25878378){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}→ content field\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=14]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.08108108,0.1972973){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{PDF Whitepapers}\end{tabular}}}}%
+    \put(0.08108108,0.18445946){\color[rgb]{0.2,0.2,0.2}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}HTTPS download\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=15]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.08108108,0.17094595){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}pdfplumber\end{tabular}}}}%
+    \put(0.08108108,0.16283784){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}page-by-page extraction\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=16]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.08108108,0.14932432){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Discard: <100 chars\end{tabular}}}}%
+    \put(0.08108108,0.14121622){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}or >70\% short lines\end{tabular}}}}%
+    \put(0.08108108,0.13310811){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}(TOC pages)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=17]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.08108108,0.11959459){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}4-page sliding window\end{tabular}}}}%
+    \put(0.08108108,0.11148649){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}1-page overlap\end{tabular}}}}%
+    \put(0.08108108,0.10337838){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}300–1200 word sections\end{tabular}}}}%
+    \put(0.08108108,0.09527027){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}→ content field\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=18]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.56554054,0.4777027){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{Normalise}\end{tabular}}}}%
+    \put(0.56554054,0.3277027){\color[rgb]{0.2,0.2,0.2}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textit{Unified JSON Schema}\end{tabular}}}}%
+    \put(0.56554054,0.31554054){\color[rgb]{0.33333333,0.33333333,0.33333333}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}{source_type,\end{tabular}}}}%
+    \put(0.56554054,0.30675676){\color[rgb]{0.33333333,0.33333333,0.33333333}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}id,\end{tabular}}}}%
+    \put(0.56554054,0.29797297){\color[rgb]{0.33333333,0.33333333,0.33333333}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}title,\end{tabular}}}}%
+    \put(0.56554054,0.28918919){\color[rgb]{0.33333333,0.33333333,0.33333333}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}content,\end{tabular}}}}%
+    \put(0.56554054,0.28040541){\color[rgb]{0.33333333,0.33333333,0.33333333}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}metadata}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=19]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.56554054,0.26013514){\color[rgb]{0.22745098,0.43137255,0.62745098}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textit{→}\textit{ github_issues.jsonl}\end{tabular}}}}%
+    \put(0.56554054,0.25){\color[rgb]{0.18039216,0.47843137,0.23529412}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textit{→}\textit{ markdown_docs.jsonl}\end{tabular}}}}%
+    \put(0.56554054,0.23986486){\color[rgb]{0.54509804,0.35294118,0.10196078}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textit{→}\textit{ pdf_whitepapers.jsonl}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=20]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.67702703,0.45878378){\color[rgb]{0.22745098,0.43137255,0.62745098}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{github_issues.jsonl}\end{tabular}}}}%
+    \put(0.67702703,0.44864865){\color[rgb]{0.33333333,0.33333333,0.33333333}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}200 records\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=21]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.67702703,0.29459459){\color[rgb]{0.18039216,0.47843137,0.23529412}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{markdown_docs.jsonl}\end{tabular}}}}%
+    \put(0.67702703,0.28445946){\color[rgb]{0.33333333,0.33333333,0.33333333}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}1,283 records\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=22]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.67702703,0.13513514){\color[rgb]{0.54509804,0.35294118,0.10196078}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{pdf_whitepapers.jsonl}\end{tabular}}}}%
+    \put(0.67702703,0.125){\color[rgb]{0.33333333,0.33333333,0.33333333}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}140 records\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=23]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.87972973,0.46891892){\color[rgb]{1,1,1}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{Unified Chunking + Embedding}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=24]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.87972973,0.44256757){\color[rgb]{0.10196078,0.22745098,0.41568627}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Sliding window: 400 words\end{tabular}}}}%
+    \put(0.87972973,0.43310811){\color[rgb]{0.10196078,0.22745098,0.41568627}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Overlap: 60 words\end{tabular}}}}%
+    \put(0.87972973,0.42364865){\color[rgb]{0.10196078,0.22745098,0.41568627}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Encoder: BGE-base-en-v1.5\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=25]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.87972973,0.40675676){\color[rgb]{0.10196078,0.22745098,0.41568627}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}All three sources merged\end{tabular}}}}%
+    \put(0.87972973,0.3972973){\color[rgb]{0.10196078,0.22745098,0.41568627}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}→ single index\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=26]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.87972973,0.33783784){\color[rgb]{0.03921569,0.16470588,0.35294118}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{unified.faiss}\end{tabular}}}}%
+    \put(0.87972973,0.32702703){\color[rgb]{0.10196078,0.22745098,0.41568627}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}4,840 chunks\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=27]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.88783784,0.23108108){\color[rgb]{0.35294118,0.22745098,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Chunking + Embedding (400w / 60w / BGE)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=28]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.88783784,0.21756757){\color[rgb]{0.35294118,0.22745098,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{github_issues.faiss}\end{tabular}}}}%
+    \put(0.88783784,0.20743243){\color[rgb]{0.41568627,0.29019608,0.0627451}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}~1,400 chunks\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=29]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.88783784,0.17162162){\color[rgb]{0.35294118,0.22745098,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Chunking + Embedding (400w / 60w / BGE)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=30]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.88783784,0.15810811){\color[rgb]{0.35294118,0.22745098,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{markdown_docs.faiss}\end{tabular}}}}%
+    \put(0.88783784,0.14797297){\color[rgb]{0.41568627,0.29019608,0.0627451}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}~2,350 chunks\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=31]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.88783784,0.11216216){\color[rgb]{0.35294118,0.22745098,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Chunking + Embedding (400w / 60w / BGE)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=32]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.88783784,0.09864865){\color[rgb]{0.35294118,0.22745098,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{pdf_whitepapers.faiss}\end{tabular}}}}%
+    \put(0.88783784,0.08851351){\color[rgb]{0.41568627,0.29019608,0.0627451}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}~380 chunks\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=33]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.04054054,0.04054054){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{Legend}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=34]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.05135135,0.02837838){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}GitHub Issues\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=35]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.12567568,0.02837838){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Markdown / RST\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=36]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.20675676,0.02837838){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}PDF Whitepapers\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=37]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.31486486,0.02837838){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Pipeline step\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=38]{ingestion_flow_svg-tex.pdf}}%
+    \put(0.40405405,0.02837838){\color[rgb]{0.26666667,0.26666667,0.26666667}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Merge / diverge\end{tabular}}}}%
+    \put(0.5,0.01351351){\color[rgb]{0.4,0.4,0.4}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textit{Figure~\ref{fig:ingestion-flow}: Ingestion data flow with three source pipelines, shared normalisation, and diverging RAG/Agent indexes.}\end{tabular}}}}%
+  \end{picture}%
+\endgroup%

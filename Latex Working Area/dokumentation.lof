@@ -2,9 +2,11 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Ingestion data flow: three source pipelines converging at shared JSONL files, then diverging into system-specific indexes. Chunking parameters (400-word sliding window, 60-word overlap) and the BGE-base-en-v1.5 embedding model are shared across both systems; the sole architectural difference is a single unified index for RAG versus three per-source indexes for the agent.}}{24}{figure.3.1}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Per-criterion complexity scores from Table~\ref {tab:rubric}. Higher score indicates lower complexity or simpler maintainability. RAG leads on four of five criteria; the multi-agent occupies the intermediate position on all five; the single agent scores lowest on four of five.}}{68}{figure.6.1}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
