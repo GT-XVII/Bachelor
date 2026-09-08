@@ -132,180 +132,193 @@
 \BKM@entry{id=21,dest={73756273656374696F6E2E332E322E34},srcline={116}}{5C3337365C3337375C303030335C3030302E5C303030325C3030302E5C303030345C3030305C3034305C303030525C303030655C303030745C303030725C303030695C303030655C303030765C303030615C3030306C5C3030305C3034305C303030615C3030306E5C303030645C3030305C3034305C303030525C303030655C303030725C303030615C3030306E5C3030306B5C303030695C3030306E5C30303067}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2.3}Embedding Model and Vector Store}{27}{subsection.3.2.3}\protected@file@percent }
 \citation{gao2023ragsurvey}
-\BKM@entry{id=22,dest={73656374696F6E2E332E33},srcline={124}}{5C3337365C3337375C303030335C3030302E5C303030335C3030305C3034305C303030415C303030675C303030655C3030306E5C303030745C3030302D5C303030425C303030615C303030735C303030655C303030645C3030305C3034305C303030535C303030795C303030735C303030745C303030655C3030306D5C3030305C3034305C303030415C303030725C303030635C303030685C303030695C303030745C303030655C303030635C303030745C303030755C303030725C30303065}
-\citation{yao2023react}
+\citation{gao2023hyde}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2.4}Retrieval and Reranking}{28}{subsection.3.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.3}Agent-Based System Architecture}{28}{section.3.3}\protected@file@percent }
-\BKM@entry{id=23,dest={73756273656374696F6E2E332E332E31},srcline={128}}{5C3337365C3337375C303030335C3030302E5C303030335C3030302E5C303030315C3030305C3034305C303030545C303030685C303030655C3030305C3034305C303030415C303030675C303030655C3030306E5C303030745C3030305C3034305C3030304C5C3030306F5C3030306F5C30303070}
+\citation{carbonell1998mmr}
+\BKM@entry{id=22,dest={73656374696F6E2E332E33},srcline={135}}{5C3337365C3337375C303030335C3030302E5C303030335C3030305C3034305C303030415C303030675C303030655C3030306E5C303030745C3030302D5C303030425C303030615C303030735C303030655C303030645C3030305C3034305C303030535C303030795C303030735C303030745C303030655C3030306D5C3030305C3034305C303030415C303030725C303030635C303030685C303030695C303030745C303030655C303030635C303030745C303030755C303030725C30303065}
 \citation{yao2023react}
-\BKM@entry{id=24,dest={73756273656374696F6E2E332E332E32},srcline={134}}{5C3337365C3337375C303030335C3030302E5C303030335C3030302E5C303030325C3030305C3034305C303030545C3030306F5C3030306F5C3030306C5C303030735C3030305C3034305C303030615C3030306E5C303030645C3030305C3034305C303030535C3030306F5C303030755C303030725C303030635C303030655C3030305C3034305C303030525C3030306F5C303030755C303030745C303030695C3030306E5C30303067}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces RAG pipeline query phase. The original query is passed to the LLM to generate a hypothetical passage (HyDE), whose embedding is used as the FAISS search vector. The original query is preserved for cross-encoder reranking, ensuring relevance scoring remains grounded in the actual question. MMR diversification ($\lambda = 0.7$) then selects the final five passages from the reranked pool before synthesis.}}{29}{figure.3.2}\protected@file@percent }
+\newlabel{fig:rag_pipeline}{{3.2}{29}{RAG pipeline query phase. The original query is passed to the LLM to generate a hypothetical passage (HyDE), whose embedding is used as the FAISS search vector. The original query is preserved for cross-encoder reranking, ensuring relevance scoring remains grounded in the actual question. MMR diversification ($\lambda = 0.7$) then selects the final five passages from the reranked pool before synthesis}{figure.3.2}{}}
+\BKM@entry{id=23,dest={73756273656374696F6E2E332E332E31},srcline={139}}{5C3337365C3337375C303030335C3030302E5C303030335C3030302E5C303030315C3030305C3034305C303030545C303030685C303030655C3030305C3034305C303030415C303030675C303030655C3030306E5C303030745C3030305C3034305C3030304C5C3030306F5C3030306F5C30303070}
+\citation{yao2023react}
+\BKM@entry{id=24,dest={73756273656374696F6E2E332E332E32},srcline={145}}{5C3337365C3337375C303030335C3030302E5C303030335C3030302E5C303030325C3030305C3034305C303030545C3030306F5C3030306F5C3030306C5C303030735C3030305C3034305C303030615C3030306E5C303030645C3030305C3034305C303030535C3030306F5C303030755C303030725C303030635C303030655C3030305C3034305C303030525C3030306F5C303030755C303030745C303030695C3030306E5C30303067}
 \citation{ferrazzi2026agenticrag}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}The Agent Loop}{29}{subsection.3.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Tools and Source Routing}{29}{subsection.3.3.2}\protected@file@percent }
-\BKM@entry{id=25,dest={73756273656374696F6E2E332E332E33},srcline={157}}{5C3337365C3337375C303030335C3030302E5C303030335C3030302E5C303030335C3030305C3034305C3030304F5C303030725C303030635C303030685C303030655C303030735C303030745C303030725C303030615C303030745C303030695C3030306F5C3030306E5C3030305C3034305C3030304C5C3030306F5C303030675C303030695C30303063}
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Agent-Based System Architecture}{30}{section.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}The Agent Loop}{30}{subsection.3.3.1}\protected@file@percent }
+\BKM@entry{id=25,dest={73756273656374696F6E2E332E332E33},srcline={168}}{5C3337365C3337375C303030335C3030302E5C303030335C3030302E5C303030335C3030305C3034305C3030304F5C303030725C303030635C303030685C303030655C303030735C303030745C303030725C303030615C303030745C303030695C3030306F5C3030306E5C3030305C3034305C3030304C5C3030306F5C303030675C303030695C30303063}
 \citation{yao2023react}
-\@writefile{lot}{\contentsline {table}{\numberline {3.3}{\ignorespaces Agent retrieval tools and their source-type scope.}}{30}{table.3.3}\protected@file@percent }
-\newlabel{tab:agent_tools}{{3.3}{30}{Agent retrieval tools and their source-type scope}{table.3.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.3}Orchestration Logic}{30}{subsection.3.3.3}\protected@file@percent }
-\BKM@entry{id=26,dest={73756273656374696F6E2E332E332E34},srcline={165}}{5C3337365C3337375C303030335C3030302E5C303030335C3030302E5C303030345C3030305C3034305C3030304D5C303030755C3030306C5C303030745C303030695C3030302D5C303030415C303030675C303030655C3030306E5C303030745C3030305C3034305C303030435C3030306F5C3030306F5C303030725C303030645C303030695C3030306E5C303030615C303030745C303030695C3030306F5C3030306E5C3030305C3034305C303030415C303030725C303030635C303030685C303030695C303030745C303030655C303030635C303030745C303030755C303030725C30303065}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Tools and Source Routing}{31}{subsection.3.3.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.3}{\ignorespaces Agent retrieval tools and their source-type scope.}}{31}{table.3.3}\protected@file@percent }
+\newlabel{tab:agent_tools}{{3.3}{31}{Agent retrieval tools and their source-type scope}{table.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.3}Orchestration Logic}{31}{subsection.3.3.3}\protected@file@percent }
+\BKM@entry{id=26,dest={73756273656374696F6E2E332E332E34},srcline={183}}{5C3337365C3337375C303030335C3030302E5C303030335C3030302E5C303030345C3030305C3034305C3030304D5C303030755C3030306C5C303030745C303030695C3030302D5C303030415C303030675C303030655C3030306E5C303030745C3030305C3034305C303030435C3030306F5C3030306F5C303030725C303030645C303030695C3030306E5C303030615C303030745C303030695C3030306F5C3030306E5C3030305C3034305C303030415C303030725C303030635C303030685C303030695C303030745C303030655C303030635C303030745C303030755C303030725C30303065}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.4}Multi-Agent Coordination Architecture}{32}{subsection.3.3.4}\protected@file@percent }
+\newlabel{subsec:multi-agent-design}{{3.3.4}{32}{Multi-Agent Coordination Architecture}{subsection.3.3.4}{}}
 \citation{xi2023rise}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.4}Multi-Agent Coordination Architecture}{31}{subsection.3.3.4}\protected@file@percent }
-\newlabel{subsec:multi-agent-design}{{3.3.4}{31}{Multi-Agent Coordination Architecture}{subsection.3.3.4}{}}
-\BKM@entry{id=27,dest={73656374696F6E2E332E34},srcline={178}}{5C3337365C3337375C303030335C3030302E5C303030345C3030305C3034305C303030435C3030306F5C3030306D5C303030705C303030615C303030725C303030615C303030625C303030695C3030306C5C303030695C303030745C303030795C3030305C3034305C303030445C303030655C303030735C303030695C303030675C3030306E5C3030305C3034305C303030445C303030655C303030635C303030695C303030735C303030695C3030306F5C3030306E5C30303073}
-\BKM@entry{id=28,dest={73756273656374696F6E2E332E342E31},srcline={182}}{5C3337365C3337375C303030335C3030302E5C303030345C3030302E5C303030315C3030305C3034305C303030535C303030685C303030615C303030725C303030655C303030645C3030305C3034305C303030455C303030785C303030705C303030655C303030725C303030695C3030306D5C303030655C3030306E5C303030745C303030615C3030306C5C3030305C3034305C303030505C303030615C303030725C303030615C3030306D5C303030655C303030745C303030655C303030725C30303073}
-\@writefile{toc}{\contentsline {section}{\numberline {3.4}Comparability Design Decisions}{32}{section.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}Shared Experimental Parameters}{32}{subsection.3.4.1}\protected@file@percent }
-\BKM@entry{id=29,dest={73756273656374696F6E2E332E342E32},srcline={213}}{5C3337365C3337375C303030335C3030302E5C303030345C3030302E5C303030325C3030305C3034305C303030445C303030655C303030665C303030695C3030306E5C303030695C3030306E5C303030675C3030305C3034305C303030455C303030715C303030755C303030695C303030765C303030615C3030306C5C303030655C3030306E5C303030745C3030305C3034305C303030455C303030665C303030665C3030306F5C303030725C30303074}
-\@writefile{lot}{\contentsline {table}{\numberline {3.4}{\ignorespaces Controlled and varied parameters across both systems.}}{33}{table.3.4}\protected@file@percent }
-\newlabel{tab:comparability}{{3.4}{33}{Controlled and varied parameters across both systems}{table.3.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Defining Equivalent Effort}{33}{subsection.3.4.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Single-agent ReAct loop. The language model alternates between Thought (reasoning) and Action (tool call) steps; each tool observation is appended to the growing context window and the cycle repeats until the model emits a final answer without a tool call, or the 15-iteration ceiling is reached.}}{33}{figure.3.3}\protected@file@percent }
+\newlabel{fig:single_agent}{{3.3}{33}{Single-agent ReAct loop. The language model alternates between Thought (reasoning) and Action (tool call) steps; each tool observation is appended to the growing context window and the cycle repeats until the model emits a final answer without a tool call, or the 15-iteration ceiling is reached}{figure.3.3}{}}
+\BKM@entry{id=27,dest={73656374696F6E2E332E34},srcline={203}}{5C3337365C3337375C303030335C3030302E5C303030345C3030305C3034305C303030435C3030306F5C3030306D5C303030705C303030615C303030725C303030615C303030625C303030695C3030306C5C303030695C303030745C303030795C3030305C3034305C303030445C303030655C303030735C303030695C303030675C3030306E5C3030305C3034305C303030445C303030655C303030635C303030695C303030735C303030695C3030306F5C3030306E5C30303073}
+\BKM@entry{id=28,dest={73756273656374696F6E2E332E342E31},srcline={207}}{5C3337365C3337375C303030335C3030302E5C303030345C3030302E5C303030315C3030305C3034305C303030535C303030685C303030615C303030725C303030655C303030645C3030305C3034305C303030455C303030785C303030705C303030655C303030725C303030695C3030306D5C303030655C3030306E5C303030745C303030615C3030306C5C3030305C3034305C303030505C303030615C303030725C303030615C3030306D5C303030655C303030745C303030655C303030725C30303073}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Multi-agent coordination architecture. A single \texttt  {retrieve\_all\_sources} node queries all three per-source FAISS indexes sequentially, accumulating five chunks per source. The \texttt  {synthesize} node then issues exactly one LLM call over the pooled fifteen-chunk context. There is no reasoning loop and no iteration limit.}}{34}{figure.3.4}\protected@file@percent }
+\newlabel{fig:multi_agent}{{3.4}{34}{Multi-agent coordination architecture. A single \texttt {retrieve\_all\_sources} node queries all three per-source FAISS indexes sequentially, accumulating five chunks per source. The \texttt {synthesize} node then issues exactly one LLM call over the pooled fifteen-chunk context. There is no reasoning loop and no iteration limit}{figure.3.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Comparability Design Decisions}{34}{section.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}Shared Experimental Parameters}{35}{subsection.3.4.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.4}{\ignorespaces Controlled and varied parameters across both systems.}}{35}{table.3.4}\protected@file@percent }
+\newlabel{tab:comparability}{{3.4}{35}{Controlled and varied parameters across both systems}{table.3.4}{}}
+\BKM@entry{id=29,dest={73756273656374696F6E2E332E342E32},srcline={238}}{5C3337365C3337375C303030335C3030302E5C303030345C3030302E5C303030325C3030305C3034305C303030445C303030655C303030665C303030695C3030306E5C303030695C3030306E5C303030675C3030305C3034305C303030455C303030715C303030755C303030695C303030765C303030615C3030306C5C303030655C3030306E5C303030745C3030305C3034305C303030455C303030665C303030665C3030306F5C303030725C30303074}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Defining Equivalent Effort}{36}{subsection.3.4.2}\protected@file@percent }
 \BKM@entry{id=30,dest={636861707465722E34},srcline={3}}{5C3337365C3337375C303030345C3030305C3034305C303030445C303030615C303030745C303030615C3030305C3034305C303030615C3030306E5C303030645C3030305C3034305C303030455C303030765C303030615C3030306C5C303030755C303030615C303030745C303030695C3030306F5C3030306E5C3030305C3034305C303030535C303030655C303030745C303030755C30303070}
 \BKM@entry{id=31,dest={73656374696F6E2E342E31},srcline={6}}{5C3337365C3337375C303030345C3030302E5C303030315C3030305C3034305C303030445C303030615C303030745C303030615C303030735C303030655C303030745C3030305C3034305C303030435C3030306F5C3030306E5C303030735C303030745C303030725C303030755C303030635C303030745C303030695C3030306F5C3030306E}
 \BKM@entry{id=32,dest={73756273656374696F6E2E342E312E31},srcline={11}}{5C3337365C3337375C303030345C3030302E5C303030315C3030302E5C303030315C3030305C3034305C303030445C303030615C303030745C303030615C3030305C3034305C303030435C3030306F5C3030306C5C3030306C5C303030655C303030635C303030745C303030695C3030306F5C3030306E5C3030305C3034305C303030705C303030655C303030725C3030305C3034305C303030535C3030306F5C303030755C303030725C303030635C303030655C3030305C3034305C303030545C303030795C303030705C30303065}
-\pp@pagectr{footnote}{4}{42}{35}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Data and Evaluation Setup}{35}{chapter.4}\protected@file@percent }
+\pp@pagectr{footnote}{4}{44}{37}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Data and Evaluation Setup}{37}{chapter.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{lol}{\addvspace {10\p@ }}
-\newlabel{ch:data}{{4}{35}{Data and Evaluation Setup}{chapter.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Dataset Construction}{35}{section.4.1}\protected@file@percent }
-\newlabel{sec:dataset}{{4.1}{35}{Dataset Construction}{section.4.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Data Collection per Source Type}{35}{subsection.4.1.1}\protected@file@percent }
+\newlabel{ch:data}{{4}{37}{Data and Evaluation Setup}{chapter.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Dataset Construction}{37}{section.4.1}\protected@file@percent }
+\newlabel{sec:dataset}{{4.1}{37}{Dataset Construction}{section.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Data Collection per Source Type}{37}{subsection.4.1.1}\protected@file@percent }
 \BKM@entry{id=33,dest={73756273656374696F6E2E342E312E32},srcline={19}}{5C3337365C3337375C303030345C3030302E5C303030315C3030302E5C303030325C3030305C3034305C303030505C303030725C303030655C303030705C303030725C3030306F5C303030635C303030655C303030735C303030735C303030695C3030306E5C303030675C3030305C3034305C303030615C3030306E5C303030645C3030305C3034305C3030304E5C3030306F5C303030725C3030306D5C303030615C3030306C5C303030695C303030735C303030615C303030745C303030695C3030306F5C3030306E}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Preprocessing and Normalisation}{36}{subsection.4.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Preprocessing and Normalisation}{38}{subsection.4.1.2}\protected@file@percent }
 \BKM@entry{id=34,dest={73756273656374696F6E2E342E312E33},srcline={25}}{5C3337365C3337375C303030345C3030302E5C303030315C3030302E5C303030335C3030305C3034305C303030435C3030306F5C303030725C303030705C303030755C303030735C3030305C3034305C303030535C303030745C303030615C303030745C303030695C303030735C303030745C303030695C303030635C30303073}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Corpus Statistics}{37}{subsection.4.1.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Corpus statistics after acquisition, filtering, and normalisation.}}{37}{table.4.1}\protected@file@percent }
-\newlabel{tab:corpus_stats}{{4.1}{37}{Corpus statistics after acquisition, filtering, and normalisation}{table.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Corpus Statistics}{39}{subsection.4.1.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Corpus statistics after acquisition, filtering, and normalisation.}}{39}{table.4.1}\protected@file@percent }
+\newlabel{tab:corpus_stats}{{4.1}{39}{Corpus statistics after acquisition, filtering, and normalisation}{table.4.1}{}}
 \BKM@entry{id=35,dest={73656374696F6E2E342E32},srcline={50}}{5C3337365C3337375C303030345C3030302E5C303030325C3030305C3034305C303030455C303030765C303030615C3030306C5C303030755C303030615C303030745C303030695C3030306F5C3030306E5C3030305C3034305C303030515C303030755C303030655C303030725C303030795C3030305C3034305C303030535C303030655C30303074}
 \BKM@entry{id=36,dest={73756273656374696F6E2E342E322E31},srcline={52}}{5C3337365C3337375C303030345C3030302E5C303030325C3030302E5C303030315C3030305C3034305C303030535C303030795C3030306E5C303030745C303030685C303030655C303030745C303030695C303030635C3030305C3034305C303030515C303030415C3030305C3034305C303030475C303030655C3030306E5C303030655C303030725C303030615C303030745C303030695C3030306F5C3030306E}
 \citation{es2023ragas}
 \BKM@entry{id=37,dest={73756273656374696F6E2E342E322E32},srcline={58}}{5C3337365C3337375C303030345C3030302E5C303030325C3030302E5C303030325C3030305C3034305C303030515C303030755C303030655C303030725C303030795C3030305C3034305C303030545C303030615C303030785C3030306F5C3030306E5C3030306F5C3030306D5C30303079}
 \citation{gao2023ragsurvey}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Evaluation Query Set}{38}{section.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Synthetic QA Generation}{38}{subsection.4.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Query Taxonomy}{39}{subsection.4.2.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Evaluation query taxonomy: four types mapping to Gao et al.'s RAG capability dimensions.}}{39}{table.4.2}\protected@file@percent }
-\newlabel{tab:query_taxonomy}{{4.2}{39}{Evaluation query taxonomy: four types mapping to Gao et al.'s RAG capability dimensions}{table.4.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Evaluation Query Set}{40}{section.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Synthetic QA Generation}{40}{subsection.4.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Query Taxonomy}{41}{subsection.4.2.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Evaluation query taxonomy: four types mapping to Gao et al.'s RAG capability dimensions.}}{41}{table.4.2}\protected@file@percent }
+\newlabel{tab:query_taxonomy}{{4.2}{41}{Evaluation query taxonomy: four types mapping to Gao et al.'s RAG capability dimensions}{table.4.2}{}}
 \BKM@entry{id=38,dest={73756273656374696F6E2E342E322E33},srcline={90}}{5C3337365C3337375C303030345C3030302E5C303030325C3030302E5C303030335C3030305C3034305C3030304D5C303030615C3030306E5C303030755C303030615C3030306C5C3030305C3034305C303030525C303030655C303030765C303030695C303030655C303030775C3030305C3034305C303030615C3030306E5C303030645C3030305C3034305C303030465C303030695C3030306C5C303030745C303030655C303030725C303030695C3030306E5C30303067}
 \BKM@entry{id=39,dest={73756273656374696F6E2E342E322E34},srcline={96}}{5C3337365C3337375C303030345C3030302E5C303030325C3030302E5C303030345C3030305C3034305C303030465C303030695C3030306E5C303030615C3030306C5C3030305C3034305C303030515C303030755C303030655C303030725C303030795C3030305C3034305C303030535C303030655C303030745C3030305C3034305C303030535C303030745C303030615C303030745C303030695C303030735C303030745C303030695C303030635C30303073}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}Manual Review and Filtering}{40}{subsection.4.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}Manual Review and Filtering}{42}{subsection.4.2.3}\protected@file@percent }
 \BKM@entry{id=40,dest={73656374696F6E2E342E33},srcline={121}}{5C3337365C3337375C303030345C3030302E5C303030335C3030305C3034305C303030455C303030765C303030615C3030306C5C303030755C303030615C303030745C303030695C3030306F5C3030306E5C3030305C3034305C3030304D5C303030655C303030745C303030725C303030695C303030635C303030735C3030305C3034305C303030445C303030655C303030665C303030695C3030306E5C303030695C303030745C303030695C3030306F5C3030306E}
 \BKM@entry{id=41,dest={73756273656374696F6E2E342E332E31},srcline={124}}{5C3337365C3337375C303030345C3030302E5C303030335C3030302E5C303030315C3030305C3034305C303030525C303030415C303030475C303030415C303030535C3030305C3034305C303030535C303030635C3030306F5C303030725C303030655C30303073}
 \citation{es2023ragas}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.4}Final Query Set Statistics}{41}{subsection.4.2.4}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces Query set schema for \texttt  {data/eval/queries.jsonl}.}}{41}{table.4.3}\protected@file@percent }
-\newlabel{tab:query_schema}{{4.3}{41}{Query set schema for \texttt {data/eval/queries.jsonl}}{table.4.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Evaluation Metrics Definition}{41}{section.4.3}\protected@file@percent }
-\newlabel{sec:metrics}{{4.3}{41}{Evaluation Metrics Definition}{section.4.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}RAGAS Scores}{41}{subsection.4.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.4}Final Query Set Statistics}{43}{subsection.4.2.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces Query set schema for \texttt  {data/eval/queries.jsonl}.}}{43}{table.4.3}\protected@file@percent }
+\newlabel{tab:query_schema}{{4.3}{43}{Query set schema for \texttt {data/eval/queries.jsonl}}{table.4.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Evaluation Metrics Definition}{43}{section.4.3}\protected@file@percent }
+\newlabel{sec:metrics}{{4.3}{43}{Evaluation Metrics Definition}{section.4.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}RAGAS Scores}{43}{subsection.4.3.1}\protected@file@percent }
 \BKM@entry{id=42,dest={73756273656374696F6E2E342E332E32},srcline={132}}{5C3337365C3337375C303030345C3030302E5C303030335C3030302E5C303030325C3030305C3034305C303030425C303030455C303030525C303030545C303030535C303030635C3030306F5C303030725C303030655C3030305C3034305C303030615C3030306E5C303030645C3030305C3034305C303030525C3030304F5C303030555C303030475C303030455C3030302D5C3030304C}
 \citation{zhang2020bertscore}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.2}BERTScore and ROUGE-L}{42}{subsection.4.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.2}BERTScore and ROUGE-L}{44}{subsection.4.3.2}\protected@file@percent }
 \BKM@entry{id=43,dest={73756273656374696F6E2E342E332E33},srcline={140}}{5C3337365C3337375C303030345C3030302E5C303030335C3030302E5C303030335C3030305C3034305C3030304C5C303030615C303030745C303030655C3030306E5C303030635C303030795C3030305C3034305C303030615C3030306E5C303030645C3030305C3034305C303030545C3030306F5C3030306B5C303030655C3030306E5C3030305C3034305C303030435C3030306F5C303030735C30303074}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.3}Latency and Token Cost}{43}{subsection.4.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.3}Latency and Token Cost}{45}{subsection.4.3.3}\protected@file@percent }
 \BKM@entry{id=44,dest={73756273656374696F6E2E342E332E34},srcline={148}}{5C3337365C3337375C303030345C3030302E5C303030335C3030302E5C303030345C3030305C3034305C303030415C303030675C303030655C3030306E5C303030745C3030302D5C303030535C303030705C303030655C303030635C303030695C303030665C303030695C303030635C3030305C3034305C3030304D5C303030655C303030745C303030725C303030695C303030635C30303073}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.4}Agent-Specific Metrics}{44}{subsection.4.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.4}Agent-Specific Metrics}{46}{subsection.4.3.4}\protected@file@percent }
 \BKM@entry{id=45,dest={73756273656374696F6E2E342E332E35},srcline={156}}{5C3337365C3337375C303030345C3030302E5C303030335C3030302E5C303030355C3030305C3034305C303030435C3030306F5C3030306D5C303030705C3030306C5C303030655C303030785C303030695C303030745C303030795C3030305C3034305C303030615C3030306E5C303030645C3030305C3034305C3030304D5C303030615C303030695C3030306E5C303030745C303030615C303030695C3030306E5C303030615C303030625C303030695C3030306C5C303030695C303030745C303030795C3030305C3034305C303030525C303030755C303030625C303030725C303030695C30303063}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.5}Complexity and Maintainability Rubric}{45}{subsection.4.3.5}\protected@file@percent }
-\newlabel{subsec:rubric}{{4.3.5}{45}{Complexity and Maintainability Rubric}{subsection.4.3.5}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces Complexity and maintainability rubric: five criteria scored 1--5 (5 = simpler / lower complexity).}}{45}{table.4.4}\protected@file@percent }
-\newlabel{tab:rubric-criteria}{{4.4}{45}{Complexity and maintainability rubric: five criteria scored 1--5 (5 = simpler / lower complexity)}{table.4.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.5}Complexity and Maintainability Rubric}{47}{subsection.4.3.5}\protected@file@percent }
+\newlabel{subsec:rubric}{{4.3.5}{47}{Complexity and Maintainability Rubric}{subsection.4.3.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces Complexity and maintainability rubric: five criteria scored 1--5 (5 = simpler / lower complexity).}}{47}{table.4.4}\protected@file@percent }
+\newlabel{tab:rubric-criteria}{{4.4}{47}{Complexity and maintainability rubric: five criteria scored 1--5 (5 = simpler / lower complexity)}{table.4.4}{}}
 \BKM@entry{id=46,dest={636861707465722E35},srcline={3}}{5C3337365C3337375C303030355C3030305C3034305C303030495C3030306D5C303030705C3030306C5C303030655C3030306D5C303030655C3030306E5C303030745C303030615C303030745C303030695C3030306F5C3030306E}
 \BKM@entry{id=47,dest={73656374696F6E2E352E31},srcline={6}}{5C3337365C3337375C303030355C3030302E5C303030315C3030305C3034305C303030445C303030655C303030765C303030655C3030306C5C3030306F5C303030705C3030306D5C303030655C3030306E5C303030745C3030305C3034305C303030455C3030306E5C303030765C303030695C303030725C3030306F5C3030306E5C3030306D5C303030655C3030306E5C303030745C3030305C3034305C303030615C3030306E5C303030645C3030305C3034305C303030545C3030306F5C3030306F5C3030306C5C303030695C3030306E5C30303067}
-\pp@pagectr{footnote}{5}{54}{47}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Implementation}{47}{chapter.5}\protected@file@percent }
+\pp@pagectr{footnote}{5}{56}{49}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Implementation}{49}{chapter.5}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{lol}{\addvspace {10\p@ }}
-\newlabel{ch:implementation}{{5}{47}{Implementation}{chapter.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Development Environment and Tooling}{47}{section.5.1}\protected@file@percent }
-\newlabel{sec:devenv}{{5.1}{47}{Development Environment and Tooling}{section.5.1}{}}
+\newlabel{ch:implementation}{{5}{49}{Implementation}{chapter.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Development Environment and Tooling}{49}{section.5.1}\protected@file@percent }
+\newlabel{sec:devenv}{{5.1}{49}{Development Environment and Tooling}{section.5.1}{}}
 \BKM@entry{id=48,dest={73656374696F6E2E352E32},srcline={96}}{5C3337365C3337375C303030355C3030302E5C303030325C3030305C3034305C303030525C303030415C303030475C3030305C3034305C303030505C303030695C303030705C303030655C3030306C5C303030695C3030306E5C303030655C3030305C3034305C303030495C3030306D5C303030705C3030306C5C303030655C3030306D5C303030655C3030306E5C303030745C303030615C303030745C303030695C3030306F5C3030306E}
 \BKM@entry{id=49,dest={73756273656374696F6E2E352E322E31},srcline={99}}{5C3337365C3337375C303030355C3030302E5C303030325C3030302E5C303030315C3030305C3034305C303030435C303030685C303030755C3030306E5C3030306B5C303030695C3030306E5C303030675C3030305C3034305C303030615C3030306E5C303030645C3030305C3034305C303030455C3030306D5C303030625C303030655C303030645C303030645C303030695C3030306E5C30303067}
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}RAG Pipeline Implementation}{49}{section.5.2}\protected@file@percent }
-\newlabel{sec:rag-impl}{{5.2}{49}{RAG Pipeline Implementation}{section.5.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}Chunking and Embedding}{49}{subsection.5.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}RAG Pipeline Implementation}{51}{section.5.2}\protected@file@percent }
+\newlabel{sec:rag-impl}{{5.2}{51}{RAG Pipeline Implementation}{section.5.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}Chunking and Embedding}{51}{subsection.5.2.1}\protected@file@percent }
 \BKM@entry{id=50,dest={73756273656374696F6E2E352E322E32},srcline={109}}{5C3337365C3337375C303030355C3030302E5C303030325C3030302E5C303030325C3030305C3034305C303030525C303030655C303030745C303030725C303030695C303030655C303030765C303030615C3030306C5C3030305C3034305C303030615C3030306E5C303030645C3030305C3034305C303030525C303030655C303030725C303030615C3030306E5C3030306B5C303030695C3030306E5C30303067}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}Retrieval and Reranking}{50}{subsection.5.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}Retrieval and Reranking}{52}{subsection.5.2.2}\protected@file@percent }
 \BKM@entry{id=51,dest={73756273656374696F6E2E352E322E33},srcline={125}}{5C3337365C3337375C303030355C3030302E5C303030325C3030302E5C303030335C3030305C3034305C303030465C303030615C303030695C3030306C5C303030755C303030725C303030655C3030305C3034305C3030304D5C3030306F5C303030645C303030655C303030735C3030305C3034305C303030615C3030306E5C303030645C3030305C3034305C303030525C303030655C303030735C3030306F5C3030306C5C303030755C303030745C303030695C3030306F5C3030306E5C30303073}
 \BKM@entry{id=52,dest={73656374696F6E2E352E33},srcline={137}}{5C3337365C3337375C303030355C3030302E5C303030335C3030305C3034305C303030415C303030675C303030655C3030306E5C303030745C3030305C3034305C303030495C3030306D5C303030705C3030306C5C303030655C3030306D5C303030655C3030306E5C303030745C303030615C303030745C303030695C3030306F5C3030306E}
 \BKM@entry{id=53,dest={73756273656374696F6E2E352E332E31},srcline={140}}{5C3337365C3337375C303030355C3030302E5C303030335C3030302E5C303030315C3030305C3034305C303030415C303030675C303030655C3030306E5C303030745C3030305C3034305C3030304C5C3030306F5C3030306F5C30303070}
 \citation{yao2023react}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}Failure Modes and Resolutions}{52}{subsection.5.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}Failure Modes and Resolutions}{54}{subsection.5.2.3}\protected@file@percent }
 \BKM@entry{id=54,dest={73756273656374696F6E2E352E332E32},srcline={148}}{5C3337365C3337375C303030355C3030302E5C303030335C3030302E5C303030325C3030305C3034305C303030545C3030306F5C3030306F5C3030306C5C3030305C3034305C303030495C3030306D5C303030705C3030306C5C303030655C3030306D5C303030655C3030306E5C303030745C303030615C303030745C303030695C3030306F5C3030306E5C30303073}
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Agent Implementation}{53}{section.5.3}\protected@file@percent }
-\newlabel{sec:agent-impl}{{5.3}{53}{Agent Implementation}{section.5.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.1}Agent Loop}{53}{subsection.5.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Agent Implementation}{55}{section.5.3}\protected@file@percent }
+\newlabel{sec:agent-impl}{{5.3}{55}{Agent Implementation}{section.5.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.1}Agent Loop}{55}{subsection.5.3.1}\protected@file@percent }
 \BKM@entry{id=55,dest={73756273656374696F6E2E352E332E33},srcline={158}}{5C3337365C3337375C303030355C3030302E5C303030335C3030302E5C303030335C3030305C3034305C303030535C303030795C303030735C303030745C303030655C3030306D5C3030305C3034305C303030505C303030725C3030306F5C3030306D5C303030705C303030745C3030305C3034305C303030615C3030306E5C303030645C3030305C3034305C303030525C3030306F5C303030755C303030745C303030695C3030306E5C303030675C3030305C3034305C303030425C303030655C303030685C303030615C303030765C303030695C3030306F5C303030755C30303072}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.2}Tool Implementations}{54}{subsection.5.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.2}Tool Implementations}{56}{subsection.5.3.2}\protected@file@percent }
 \citation{yao2023react}
 \BKM@entry{id=56,dest={73756273656374696F6E2E352E332E34},srcline={174}}{5C3337365C3337375C303030355C3030302E5C303030335C3030302E5C303030345C3030305C3034305C303030525C303030755C3030306E5C303030745C303030695C3030306D5C303030655C3030305C3034305C303030465C303030615C303030695C3030306C5C303030755C303030725C303030655C303030735C3030305C3034305C303030615C3030306E5C303030645C3030305C3034305C303030525C303030655C303030735C3030306F5C3030306C5C303030755C303030745C303030695C3030306F5C3030306E5C30303073}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.3}System Prompt and Routing Behaviour}{55}{subsection.5.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.3}System Prompt and Routing Behaviour}{57}{subsection.5.3.3}\protected@file@percent }
 \BKM@entry{id=57,dest={73756273656374696F6E2E352E332E35},srcline={184}}{5C3337365C3337375C303030355C3030302E5C303030335C3030302E5C303030355C3030305C3034305C3030304D5C303030755C3030306C5C303030745C303030695C3030302D5C303030415C303030675C303030655C3030306E5C303030745C3030305C3034305C303030435C3030306F5C3030306F5C303030725C303030645C303030695C3030306E5C303030615C303030745C303030695C3030306F5C3030306E5C3030305C3034305C303030415C303030725C303030635C303030685C303030695C303030745C303030655C303030635C303030745C303030755C303030725C30303065}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.4}Runtime Failures and Resolutions}{56}{subsection.5.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.5}Multi-Agent Coordination Architecture}{57}{subsection.5.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.4}Runtime Failures and Resolutions}{58}{subsection.5.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.5}Multi-Agent Coordination Architecture}{59}{subsection.5.3.5}\protected@file@percent }
 \BKM@entry{id=58,dest={73656374696F6E2E352E34},srcline={194}}{5C3337365C3337375C303030355C3030302E5C303030345C3030305C3034305C3030304C5C3030306F5C303030675C303030675C303030695C3030306E5C303030675C3030305C3034305C303030615C3030306E5C303030645C3030305C3034305C303030495C3030306E5C303030735C303030745C303030725C303030755C3030306D5C303030655C3030306E5C303030745C303030615C303030745C303030695C3030306F5C3030306E}
-\@writefile{toc}{\contentsline {section}{\numberline {5.4}Logging and Instrumentation}{58}{section.5.4}\protected@file@percent }
-\newlabel{sec:logging}{{5.4}{58}{Logging and Instrumentation}{section.5.4}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces Project dependencies with confirmed installed versions (verified 2026-08-17).}}{60}{table.5.1}\protected@file@percent }
-\newlabel{tab:libraries}{{5.1}{60}{Project dependencies with confirmed installed versions (verified 2026-08-17)}{table.5.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.2}{\ignorespaces Log record schema. Shared fields are produced identically by both pipelines; agent-only fields have no equivalent in the RAG log.}}{61}{table.5.2}\protected@file@percent }
-\newlabel{tab:log_schema}{{5.2}{61}{Log record schema. Shared fields are produced identically by both pipelines; agent-only fields have no equivalent in the RAG log}{table.5.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Logging and Instrumentation}{60}{section.5.4}\protected@file@percent }
+\newlabel{sec:logging}{{5.4}{60}{Logging and Instrumentation}{section.5.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces Project dependencies with confirmed installed versions (verified 2026-08-17).}}{62}{table.5.1}\protected@file@percent }
+\newlabel{tab:libraries}{{5.1}{62}{Project dependencies with confirmed installed versions (verified 2026-08-17)}{table.5.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.2}{\ignorespaces Log record schema. Shared fields are produced identically by both pipelines; agent-only fields have no equivalent in the RAG log.}}{63}{table.5.2}\protected@file@percent }
+\newlabel{tab:log_schema}{{5.2}{63}{Log record schema. Shared fields are produced identically by both pipelines; agent-only fields have no equivalent in the RAG log}{table.5.2}{}}
 \BKM@entry{id=59,dest={636861707465722E36},srcline={3}}{5C3337365C3337375C303030365C3030305C3034305C303030455C303030765C303030615C3030306C5C303030755C303030615C303030745C303030695C3030306F5C3030306E5C3030305C3034305C303030525C303030655C303030735C303030755C3030306C5C303030745C30303073}
 \BKM@entry{id=60,dest={73656374696F6E2E362E31},srcline={6}}{5C3337365C3337375C303030365C3030302E5C303030315C3030305C3034305C303030525C303030655C303030745C303030725C303030695C303030655C303030765C303030615C3030306C5C3030305C3034305C303030615C3030306E5C303030645C3030305C3034305C303030475C303030655C3030306E5C303030655C303030725C303030615C303030745C303030695C3030306F5C3030306E5C3030305C3034305C303030515C303030755C303030615C3030306C5C303030695C303030745C30303079}
-\pp@pagectr{footnote}{6}{69}{62}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Evaluation Results}{62}{chapter.6}\protected@file@percent }
+\citation{es2023ragas}
+\pp@pagectr{footnote}{6}{71}{64}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Evaluation Results}{64}{chapter.6}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{lol}{\addvspace {10\p@ }}
-\newlabel{ch:results}{{6}{62}{Evaluation Results}{chapter.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.1}Retrieval and Generation Quality}{62}{section.6.1}\protected@file@percent }
-\newlabel{sec:quality}{{6.1}{62}{Retrieval and Generation Quality}{section.6.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.1}{\ignorespaces Quality metrics by system and query type. BERTScore uses \texttt  {microsoft/deberta-xlarge-mnli} with baseline rescaling; values above zero indicate performance above the baseline model. $\dagger $~Multi-agent factual context precision is unavailable: RAGAS timed out on that subset.}}{62}{table.6.1}\protected@file@percent }
-\newlabel{tab:quality-main}{{6.1}{62}{Quality metrics by system and query type. BERTScore uses \texttt {microsoft/deberta-xlarge-mnli} with baseline rescaling; values above zero indicate performance above the baseline model. $\dagger $~Multi-agent factual context precision is unavailable: RAGAS timed out on that subset}{table.6.1}{}}
-\BKM@entry{id=61,dest={73656374696F6E2E362E32},srcline={88}}{5C3337365C3337375C303030365C3030302E5C303030325C3030305C3034305C3030304C5C303030615C303030745C303030655C3030306E5C303030635C303030795C3030305C3034305C303030615C3030306E5C303030645C3030305C3034305C303030435C3030306F5C303030735C30303074}
-\@writefile{lot}{\contentsline {table}{\numberline {6.2}{\ignorespaces Faithfulness by system and query type. Unavailability is due to RAGAS LLM judge timeout on long responses.}}{64}{table.6.2}\protected@file@percent }
-\newlabel{tab:faithfulness}{{6.2}{64}{Faithfulness by system and query type. Unavailability is due to RAGAS LLM judge timeout on long responses}{table.6.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.3}{\ignorespaces Source routing accuracy by system and query type. Unanswerable queries are excluded because no source type is expected. Multi-agent routing is 100\,\% by architectural design.}}{65}{table.6.3}\protected@file@percent }
-\newlabel{tab:routing}{{6.3}{65}{Source routing accuracy by system and query type. Unanswerable queries are excluded because no source type is expected. Multi-agent routing is 100\,\% by architectural design}{table.6.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.2}Latency and Cost}{65}{section.6.2}\protected@file@percent }
-\newlabel{sec:latency}{{6.2}{65}{Latency and Cost}{section.6.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.4}{\ignorespaces Response latency (seconds) across all 90 queries per system. Failed queries (empty answers) are included in latency statistics — they consumed the full iteration budget before failing.}}{65}{table.6.4}\protected@file@percent }
-\newlabel{tab:latency}{{6.4}{65}{Response latency (seconds) across all 90 queries per system. Failed queries (empty answers) are included in latency statistics — they consumed the full iteration budget before failing}{table.6.4}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.5}{\ignorespaces Mean latency (seconds) by query type and system.}}{66}{table.6.5}\protected@file@percent }
-\newlabel{tab:latency-by-type}{{6.5}{66}{Mean latency (seconds) by query type and system}{table.6.5}{}}
-\BKM@entry{id=62,dest={73656374696F6E2E362E33},srcline={152}}{5C3337365C3337375C303030365C3030302E5C303030335C3030305C3034305C303030495C3030306D5C303030705C3030306C5C303030655C3030306D5C303030655C3030306E5C303030745C303030615C303030745C303030695C3030306F5C3030306E5C3030305C3034305C303030435C3030306F5C3030306D5C303030705C3030306C5C303030655C303030785C303030695C303030745C303030795C3030305C3034305C303030615C3030306E5C303030645C3030305C3034305C3030304D5C303030615C303030695C3030306E5C303030745C303030615C303030695C3030306E5C303030615C303030625C303030695C3030306C5C303030695C303030745C30303079}
-\@writefile{lot}{\contentsline {table}{\numberline {6.6}{\ignorespaces Token consumption and estimated cost for 90 queries. Cost estimates use GPT-4o proxy pricing (\$2.50/M input, \$10.00/M output). $\dagger $~Single-agent input is understated; estimated true total is approximately 8.2M tokens (\$21).}}{67}{table.6.6}\protected@file@percent }
-\newlabel{tab:cost}{{6.6}{67}{Token consumption and estimated cost for 90 queries. Cost estimates use GPT-4o proxy pricing (\$2.50/M input, \$10.00/M output). $\dagger $~Single-agent input is understated; estimated true total is approximately 8.2M tokens (\$21)}{table.6.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.3}Implementation Complexity and Maintainability}{67}{section.6.3}\protected@file@percent }
-\newlabel{sec:complexity}{{6.3}{67}{Implementation Complexity and Maintainability}{section.6.3}{}}
-\BKM@entry{id=63,dest={73656374696F6E2E362E34},srcline={251}}{5C3337365C3337375C303030365C3030302E5C303030345C3030305C3034305C303030525C3030306F5C303030625C303030755C303030735C303030745C3030306E5C303030655C303030735C303030735C3030305C3034305C3030304F5C303030625C303030735C303030655C303030725C303030765C303030615C303030745C303030695C3030306F5C3030306E5C30303073}
+\newlabel{ch:results}{{6}{64}{Evaluation Results}{chapter.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Retrieval and Generation Quality}{64}{section.6.1}\protected@file@percent }
+\newlabel{sec:quality}{{6.1}{64}{Retrieval and Generation Quality}{section.6.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.1}{\ignorespaces Quality metrics by system and query type. BERTScore uses \texttt  {microsoft/deberta-xlarge-mnli} with baseline rescaling; values above zero indicate performance above the baseline model. $\dagger $~Multi-agent factual context precision is unavailable: RAGAS timed out on that subset.}}{64}{table.6.1}\protected@file@percent }
+\newlabel{tab:quality-main}{{6.1}{64}{Quality metrics by system and query type. BERTScore uses \texttt {microsoft/deberta-xlarge-mnli} with baseline rescaling; values above zero indicate performance above the baseline model. $\dagger $~Multi-agent factual context precision is unavailable: RAGAS timed out on that subset}{table.6.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces Answer relevancy (RAGAS) by system and query type. Error bars show 95\,\% bootstrap confidence intervals (percentile method, 10\,000 resamples; $n = 30$ factual/synthesis, $n = 15$ ambiguous). Intervals overlap substantially across the three systems without empty-answer failures; no significance testing was performed.}}{66}{figure.6.1}\protected@file@percent }
+\newlabel{fig:answer-relevancy}{{6.1}{66}{Answer relevancy (RAGAS) by system and query type. Error bars show 95\,\% bootstrap confidence intervals (percentile method, 10\,000 resamples; $n = 30$ factual/synthesis, $n = 15$ ambiguous). Intervals overlap substantially across the three systems without empty-answer failures; no significance testing was performed}{figure.6.1}{}}
+\BKM@entry{id=61,dest={73656374696F6E2E362E32},srcline={95}}{5C3337365C3337375C303030365C3030302E5C303030325C3030305C3034305C3030304C5C303030615C303030745C303030655C3030306E5C303030635C303030795C3030305C3034305C303030615C3030306E5C303030645C3030305C3034305C303030435C3030306F5C303030735C30303074}
+\@writefile{lot}{\contentsline {table}{\numberline {6.2}{\ignorespaces Faithfulness by system and query type. Unavailability is due to RAGAS LLM judge timeout on long responses.}}{67}{table.6.2}\protected@file@percent }
+\newlabel{tab:faithfulness}{{6.2}{67}{Faithfulness by system and query type. Unavailability is due to RAGAS LLM judge timeout on long responses}{table.6.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}Latency and Cost}{67}{section.6.2}\protected@file@percent }
+\newlabel{sec:latency}{{6.2}{67}{Latency and Cost}{section.6.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.3}{\ignorespaces Source routing accuracy by system and query type. Unanswerable queries are excluded because no source type is expected. Multi-agent routing is 100\,\% by architectural design.}}{68}{table.6.3}\protected@file@percent }
+\newlabel{tab:routing}{{6.3}{68}{Source routing accuracy by system and query type. Unanswerable queries are excluded because no source type is expected. Multi-agent routing is 100\,\% by architectural design}{table.6.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.4}{\ignorespaces Response latency (seconds) across all 90 queries per system. Failed queries (empty answers) are included in latency statistics — they consumed the full iteration budget before failing.}}{68}{table.6.4}\protected@file@percent }
+\newlabel{tab:latency}{{6.4}{68}{Response latency (seconds) across all 90 queries per system. Failed queries (empty answers) are included in latency statistics — they consumed the full iteration budget before failing}{table.6.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.5}{\ignorespaces Mean latency (seconds) by query type and system.}}{69}{table.6.5}\protected@file@percent }
+\newlabel{tab:latency-by-type}{{6.5}{69}{Mean latency (seconds) by query type and system}{table.6.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.2}{\ignorespaces Mean latency by query type and system. The single agent's unanswerable latency of 22.9\,s — fifteen times the original RAG baseline — is the most pronounced divergence across all systems and query types, resulting from exhaustive search up to the iteration ceiling on all 15 unanswerable queries. Synthesis queries are the slowest category for every system except the single agent.}}{69}{figure.6.2}\protected@file@percent }
+\newlabel{fig:latency-by-type}{{6.2}{69}{Mean latency by query type and system. The single agent's unanswerable latency of 22.9\,s — fifteen times the original RAG baseline — is the most pronounced divergence across all systems and query types, resulting from exhaustive search up to the iteration ceiling on all 15 unanswerable queries. Synthesis queries are the slowest category for every system except the single agent}{figure.6.2}{}}
+\BKM@entry{id=62,dest={73656374696F6E2E362E33},srcline={166}}{5C3337365C3337375C303030365C3030302E5C303030335C3030305C3034305C303030495C3030306D5C303030705C3030306C5C303030655C3030306D5C303030655C3030306E5C303030745C303030615C303030745C303030695C3030306F5C3030306E5C3030305C3034305C303030435C3030306F5C3030306D5C303030705C3030306C5C303030655C303030785C303030695C303030745C303030795C3030305C3034305C303030615C3030306E5C303030645C3030305C3034305C3030304D5C303030615C303030695C3030306E5C303030745C303030615C303030695C3030306E5C303030615C303030625C303030695C3030306C5C303030695C303030745C30303079}
+\@writefile{lot}{\contentsline {table}{\numberline {6.6}{\ignorespaces Token consumption and estimated cost for 90 queries. Cost estimates use GPT-4o proxy pricing (\$2.50/M input, \$10.00/M output). $\dagger $~Single-agent input is understated; estimated true total is approximately 8.2M tokens (\$21).}}{70}{table.6.6}\protected@file@percent }
+\newlabel{tab:cost}{{6.6}{70}{Token consumption and estimated cost for 90 queries. Cost estimates use GPT-4o proxy pricing (\$2.50/M input, \$10.00/M output). $\dagger $~Single-agent input is understated; estimated true total is approximately 8.2M tokens (\$21)}{table.6.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.3}Implementation Complexity and Maintainability}{70}{section.6.3}\protected@file@percent }
+\newlabel{sec:complexity}{{6.3}{70}{Implementation Complexity and Maintainability}{section.6.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.3}{\ignorespaces Complexity ratings by system and criterion. Higher ratings indicate lower implementation, operational, or maintenance complexity. The author assigned the ratings using the rubric in Section~\ref {subsec:rubric}. Quantitative proxies, including lines of code and source-onboarding step counts, informed the ratings where available; the remaining ratings reflect the author's documented implementation observations. As these are single-evaluator assessments, they should be interpreted descriptively.}}{71}{figure.6.3}\protected@file@percent }
+\newlabel{fig:rubric-chart}{{6.3}{71}{Complexity ratings by system and criterion. Higher ratings indicate lower implementation, operational, or maintenance complexity. The author assigned the ratings using the rubric in Section~\ref {subsec:rubric}. Quantitative proxies, including lines of code and source-onboarding step counts, informed the ratings where available; the remaining ratings reflect the author's documented implementation observations. As these are single-evaluator assessments, they should be interpreted descriptively}{figure.6.3}{}}
+\BKM@entry{id=63,dest={73656374696F6E2E362E34},srcline={229}}{5C3337365C3337375C303030365C3030302E5C303030345C3030305C3034305C303030525C3030306F5C303030625C303030755C303030735C303030745C3030306E5C303030655C303030735C303030735C3030305C3034305C3030304F5C303030625C303030735C303030655C303030725C303030765C303030615C303030745C303030695C3030306F5C3030306E5C30303073}
 \citation{gao2023ragsurvey}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces Per-criterion complexity scores from Table~\ref {tab:rubric}. Higher score indicates lower complexity or simpler maintainability. RAG leads on four of five criteria; the multi-agent occupies the intermediate position on all five; the single agent scores lowest on four of five.}}{68}{figure.6.1}\protected@file@percent }
-\newlabel{fig:rubric-chart}{{6.1}{68}{Per-criterion complexity scores from Table~\ref {tab:rubric}. Higher score indicates lower complexity or simpler maintainability. RAG leads on four of five criteria; the multi-agent occupies the intermediate position on all five; the single agent scores lowest on four of five}{figure.6.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.4}Robustness Observations}{69}{section.6.4}\protected@file@percent }
-\newlabel{sec:robustness}{{6.4}{69}{Robustness Observations}{section.6.4}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.7}{\ignorespaces Complexity and maintainability rubric scores (1\,=\,most complex, 5\,=\,least complex). Improved RAG shares the RAG codebase with two additional configuration flags and receives identical scores.}}{71}{table.6.7}\protected@file@percent }
-\newlabel{tab:rubric}{{6.7}{71}{Complexity and maintainability rubric scores (1\,=\,most complex, 5\,=\,least complex). Improved RAG shares the RAG codebase with two additional configuration flags and receives identical scores}{table.6.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.4}Robustness Observations}{72}{section.6.4}\protected@file@percent }
+\newlabel{sec:robustness}{{6.4}{72}{Robustness Observations}{section.6.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.7}{\ignorespaces Complexity and maintainability rubric scores (1\,=\,most complex, 5\,=\,least complex). Improved RAG shares the RAG codebase with two additional configuration flags and receives identical scores.}}{75}{table.6.7}\protected@file@percent }
+\newlabel{tab:rubric}{{6.7}{75}{Complexity and maintainability rubric scores (1\,=\,most complex, 5\,=\,least complex). Improved RAG shares the RAG codebase with two additional configuration flags and receives identical scores}{table.6.7}{}}
 \BKM@entry{id=64,dest={636861707465722E37},srcline={3}}{5C3337365C3337375C303030375C3030305C3034305C303030445C303030695C303030735C303030635C303030755C303030735C303030735C303030695C3030306F5C3030306E}
 \BKM@entry{id=65,dest={73656374696F6E2E372E31},srcline={6}}{5C3337365C3337375C303030375C3030302E5C303030315C3030305C3034305C303030415C3030306E5C303030735C303030775C303030655C303030725C303030695C3030306E5C303030675C3030305C3034305C303030745C303030685C303030655C3030305C3034305C303030525C303030655C303030735C303030655C303030615C303030725C303030635C303030685C3030305C3034305C303030515C303030755C303030655C303030735C303030745C303030695C3030306F5C3030306E5C30303073}
-\pp@pagectr{footnote}{7}{79}{72}
-\@writefile{toc}{\contentsline {chapter}{\numberline {7}Discussion}{72}{chapter.7}\protected@file@percent }
+\pp@pagectr{footnote}{7}{83}{76}
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}Discussion}{76}{chapter.7}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{lol}{\addvspace {10\p@ }}
-\newlabel{ch:discussion}{{7}{72}{Discussion}{chapter.7}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {7.1}Answering the Research Questions}{72}{section.7.1}\protected@file@percent }
-\newlabel{sec:rqs}{{7.1}{72}{Answering the Research Questions}{section.7.1}{}}
+\newlabel{ch:discussion}{{7}{76}{Discussion}{chapter.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.1}Answering the Research Questions}{76}{section.7.1}\protected@file@percent }
+\newlabel{sec:rqs}{{7.1}{76}{Answering the Research Questions}{section.7.1}{}}
 \BKM@entry{id=66,dest={73656374696F6E2E372E32},srcline={40}}{5C3337365C3337375C303030375C3030302E5C303030325C3030305C3034305C303030545C303030725C303030615C303030645C303030655C3030302D5C3030304F5C303030665C303030665C3030305C3034305C303030415C3030306E5C303030615C3030306C5C303030795C303030735C303030695C30303073}
-\@writefile{toc}{\contentsline {section}{\numberline {7.2}Trade-Off Analysis}{75}{section.7.2}\protected@file@percent }
-\newlabel{sec:tradeoffs}{{7.2}{75}{Trade-Off Analysis}{section.7.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {7.1}{\ignorespaces System-level trade-off comparison across five evaluation dimensions. CP = context precision; AR = answer relevancy.}}{75}{table.7.1}\protected@file@percent }
-\newlabel{tab:tradeoff}{{7.1}{75}{System-level trade-off comparison across five evaluation dimensions. CP = context precision; AR = answer relevancy}{table.7.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.2}Trade-Off Analysis}{79}{section.7.2}\protected@file@percent }
+\newlabel{sec:tradeoffs}{{7.2}{79}{Trade-Off Analysis}{section.7.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7.1}{\ignorespaces System-level trade-off comparison across five evaluation dimensions. CP = context precision; AR = answer relevancy.}}{79}{table.7.1}\protected@file@percent }
+\newlabel{tab:tradeoff}{{7.1}{79}{System-level trade-off comparison across five evaluation dimensions. CP = context precision; AR = answer relevancy}{table.7.1}{}}
 \BKM@entry{id=67,dest={73656374696F6E2E372E33},srcline={92}}{5C3337365C3337375C303030375C3030302E5C303030335C3030305C3034305C3030304C5C303030695C3030306D5C303030695C303030745C303030615C303030745C303030695C3030306F5C3030306E5C30303073}
-\@writefile{toc}{\contentsline {section}{\numberline {7.3}Limitations}{76}{section.7.3}\protected@file@percent }
-\newlabel{sec:limitations}{{7.3}{76}{Limitations}{section.7.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.3}Limitations}{80}{section.7.3}\protected@file@percent }
+\newlabel{sec:limitations}{{7.3}{80}{Limitations}{section.7.3}{}}
 \BKM@entry{id=68,dest={73656374696F6E2E372E34},srcline={112}}{5C3337365C3337375C303030375C3030302E5C303030345C3030305C3034305C303030435C3030306F5C3030306E5C3030306E5C303030655C303030635C303030745C303030695C3030306F5C3030306E5C3030305C3034305C303030745C3030306F5C3030305C3034305C303030505C303030725C303030695C3030306F5C303030725C3030305C3034305C303030575C3030306F5C303030725C3030306B}
 \citation{gao2023ragsurvey}
 \citation{gao2023hyde}
@@ -315,43 +328,40 @@
 \citation{xi2023rise}
 \citation{agenticrag2025enterprise}
 \citation{ferrazzi2026agenticrag}
-\@writefile{toc}{\contentsline {section}{\numberline {7.4}Connection to Prior Work}{79}{section.7.4}\protected@file@percent }
-\newlabel{sec:priorwork}{{7.4}{79}{Connection to Prior Work}{section.7.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.4}Connection to Prior Work}{83}{section.7.4}\protected@file@percent }
+\newlabel{sec:priorwork}{{7.4}{83}{Connection to Prior Work}{section.7.4}{}}
 \citation{agenticrag2025enterprise}
 \BKM@entry{id=69,dest={636861707465722E38},srcline={3}}{5C3337365C3337375C303030385C3030305C3034305C303030435C3030306F5C3030306E5C303030635C3030306C5C303030755C303030735C303030695C3030306F5C3030306E}
 \BKM@entry{id=70,dest={73656374696F6E2E382E31},srcline={6}}{5C3337365C3337375C303030385C3030302E5C303030315C3030305C3034305C303030535C303030755C3030306D5C3030306D5C303030615C303030725C303030795C3030305C3034305C3030306F5C303030665C3030305C3034305C303030465C303030695C3030306E5C303030645C303030695C3030306E5C303030675C30303073}
-\pp@pagectr{footnote}{8}{88}{81}
-\@writefile{toc}{\contentsline {chapter}{\numberline {8}Conclusion}{81}{chapter.8}\protected@file@percent }
+\pp@pagectr{footnote}{8}{92}{85}
+\@writefile{toc}{\contentsline {chapter}{\numberline {8}Conclusion}{85}{chapter.8}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{lol}{\addvspace {10\p@ }}
-\newlabel{ch:conclusion}{{8}{81}{Conclusion}{chapter.8}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {8.1}Summary of Findings}{81}{section.8.1}\protected@file@percent }
+\newlabel{ch:conclusion}{{8}{85}{Conclusion}{chapter.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8.1}Summary of Findings}{85}{section.8.1}\protected@file@percent }
 \BKM@entry{id=71,dest={73656374696F6E2E382E32},srcline={19}}{5C3337365C3337375C303030385C3030302E5C303030325C3030305C3034305C303030505C303030725C303030615C303030635C303030745C303030695C303030635C303030615C3030306C5C3030305C3034305C303030525C303030655C303030635C3030306F5C3030306D5C3030306D5C303030655C3030306E5C303030645C303030615C303030745C303030695C3030306F5C3030306E}
-\@writefile{toc}{\contentsline {section}{\numberline {8.2}Practical Recommendation}{82}{section.8.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8.2}Practical Recommendation}{86}{section.8.2}\protected@file@percent }
 \BKM@entry{id=72,dest={73656374696F6E2E382E33},srcline={34}}{5C3337365C3337375C303030385C3030302E5C303030335C3030305C3034305C303030465C303030755C303030745C303030755C303030725C303030655C3030305C3034305C303030575C3030306F5C303030725C3030306B}
-\@writefile{toc}{\contentsline {section}{\numberline {8.3}Future Work}{83}{section.8.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8.3}Future Work}{87}{section.8.3}\protected@file@percent }
 \BKM@entry{id=73,dest={73656374696F6E2A2E32},srcline={112}}{5C3337365C3337375C303030465C303030695C303030675C303030755C303030725C303030655C30303073}
 \newlabel{listoffig}{{8.3}{i}{Future Work}{section*.2}{}}
 \@writefile{toc}{\contentsline {chapter}{Figures}{i}{section*.2}\protected@file@percent }
 \BKM@entry{id=74,dest={73656374696F6E2A2E34},srcline={119}}{5C3337365C3337375C303030545C303030615C303030625C3030306C5C303030655C30303073}
-\newlabel{listoftab}{{8.3}{ii}{Future Work}{section*.4}{}}
-\@writefile{toc}{\contentsline {chapter}{Tables}{ii}{section*.4}\protected@file@percent }
-\BKM@entry{id=75,dest={73656374696F6E2A2E36},srcline={126}}{5C3337365C3337375C3030304C5C303030695C303030735C303030745C303030695C3030306E5C303030675C30303073}
-\newlabel{listoflist}{{8.3}{iv}{Future Work}{section*.6}{}}
-\@writefile{toc}{\contentsline {chapter}{Listings}{iv}{section*.6}\protected@file@percent }
-\BKM@entry{id=76,dest={73656374696F6E2A2E38},srcline={133}}{5C3337365C3337375C303030525C303030655C303030665C303030655C303030725C303030655C3030306E5C303030635C303030655C30303073}
+\newlabel{listoftab}{{8.3}{iii}{Future Work}{section*.4}{}}
+\@writefile{toc}{\contentsline {chapter}{Tables}{iii}{section*.4}\protected@file@percent }
+\BKM@entry{id=75,dest={73656374696F6E2A2E36},srcline={127}}{5C3337365C3337375C303030525C303030655C303030665C303030655C303030725C303030655C3030306E5C303030635C303030655C30303073}
 \bibstyle{agsm}
 \bibdata{ArbeitBib}
-\harvardcite{agenticrag2025enterprise}{{}}{{}}{2025}
+\harvardcite{agenticrag2025enterprise}{{AgenticRAG: Agentic Retrieval for Enterprise Knowledge Bases}}{{AgenticRAG: Agentic Retrieval for Enterprise Knowledge Bases}}{2025}
 \harvardcite{asai2023selfrag}{Asai, Wu, Wang, Sil \harvardand \^^MHajishirzi}{Asai et~al.}{2023}
 \harvardcite{carbonell1998mmr}{Carbonell \harvardand \ Goldstein}{Carbonell \harvardand \ Goldstein}{1998}
 \harvardcite{es2023ragas}{Es, James, Anke \harvardand \^^MSchockaert}{Es et~al.}{2023}
 \harvardcite{ferrazzi2026agenticrag}{Ferrazzi, Cvjeticanin, Piraccini \harvardand \^^MGiannuzzi}{Ferrazzi et~al.}{2026}
 \harvardcite{gao2023hyde}{Gao, Ma, Lin \harvardand \ Callan}{Gao, Ma, Lin \harvardand \ Callan}{2023}
 \harvardcite{gao2023ragsurvey}{Gao, Xiong, Gao, Jia, Pan, Bi, Dai, Sun \harvardand \^^MWang}{Gao, Xiong, Gao, Jia, Pan, Bi, Dai, Sun \harvardand \^^MWang}{2023}
-\newlabel{listoflit}{{8.3}{v}{Future Work}{section*.8}{}}
-\@writefile{toc}{\contentsline {chapter}{References}{v}{section*.8}\protected@file@percent }
+\newlabel{listoflit}{{8.3}{v}{Future Work}{section*.6}{}}
+\@writefile{toc}{\contentsline {chapter}{References}{v}{section*.6}\protected@file@percent }
 \harvardcite{jiang2023flare}{Jiang, Xu, Gao, Sun, Liu, Dwivedi-Yu, Yang, Callan \harvardand \ Neubig}{Jiang et~al.}{2023}
 \harvardcite{lewis2020rag}{Lewis, Perez, Piktus, Petroni, Karpukhin, Goyal, K{\"u}ttler, Lewis, Yih, Rockt{\"a}schel, Riedel \harvardand \^^MKiela}{Lewis et~al.}{2020}
 \harvardcite{schick2023toolformer}{Schick, Dwivedi-Yu, Dess{\`i}, Raileanu, Lomeli, Zettlemoyer, Cancedda \harvardand \ Scialom}{Schick et~al.}{2023}
@@ -370,5 +380,4 @@
 \@writefile{toc}{\providecommand\tocbasic@end@toc@file{}\tocbasic@end@toc@file}
 \@writefile{lof}{\providecommand\tocbasic@end@toc@file{}\tocbasic@end@toc@file}
 \@writefile{lot}{\providecommand\tocbasic@end@toc@file{}\tocbasic@end@toc@file}
-\@writefile{lol}{\providecommand\tocbasic@end@toc@file{}\tocbasic@end@toc@file}
-\gdef \@abspage@last{98}
+\gdef \@abspage@last{102}

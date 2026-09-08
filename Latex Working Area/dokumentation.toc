@@ -20,59 +20,58 @@
 \contentsline {subsection}{\numberline {3.2.2}Chunking Strategy}{26}{subsection.3.2.2}%
 \contentsline {subsection}{\numberline {3.2.3}Embedding Model and Vector Store}{27}{subsection.3.2.3}%
 \contentsline {subsection}{\numberline {3.2.4}Retrieval and Reranking}{28}{subsection.3.2.4}%
-\contentsline {section}{\numberline {3.3}Agent-Based System Architecture}{28}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}The Agent Loop}{29}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Tools and Source Routing}{29}{subsection.3.3.2}%
-\contentsline {subsection}{\numberline {3.3.3}Orchestration Logic}{30}{subsection.3.3.3}%
-\contentsline {subsection}{\numberline {3.3.4}Multi-Agent Coordination Architecture}{31}{subsection.3.3.4}%
-\contentsline {section}{\numberline {3.4}Comparability Design Decisions}{32}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Shared Experimental Parameters}{32}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}Defining Equivalent Effort}{33}{subsection.3.4.2}%
-\contentsline {chapter}{\numberline {4}Data and Evaluation Setup}{35}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Dataset Construction}{35}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Data Collection per Source Type}{35}{subsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.1.2}Preprocessing and Normalisation}{36}{subsection.4.1.2}%
-\contentsline {subsection}{\numberline {4.1.3}Corpus Statistics}{37}{subsection.4.1.3}%
-\contentsline {section}{\numberline {4.2}Evaluation Query Set}{38}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Synthetic QA Generation}{38}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Query Taxonomy}{39}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Manual Review and Filtering}{40}{subsection.4.2.3}%
-\contentsline {subsection}{\numberline {4.2.4}Final Query Set Statistics}{41}{subsection.4.2.4}%
-\contentsline {section}{\numberline {4.3}Evaluation Metrics Definition}{41}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}RAGAS Scores}{41}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}BERTScore and ROUGE-L}{42}{subsection.4.3.2}%
-\contentsline {subsection}{\numberline {4.3.3}Latency and Token Cost}{43}{subsection.4.3.3}%
-\contentsline {subsection}{\numberline {4.3.4}Agent-Specific Metrics}{44}{subsection.4.3.4}%
-\contentsline {subsection}{\numberline {4.3.5}Complexity and Maintainability Rubric}{45}{subsection.4.3.5}%
-\contentsline {chapter}{\numberline {5}Implementation}{47}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Development Environment and Tooling}{47}{section.5.1}%
-\contentsline {section}{\numberline {5.2}RAG Pipeline Implementation}{49}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Chunking and Embedding}{49}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Retrieval and Reranking}{50}{subsection.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}Failure Modes and Resolutions}{52}{subsection.5.2.3}%
-\contentsline {section}{\numberline {5.3}Agent Implementation}{53}{section.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}Agent Loop}{53}{subsection.5.3.1}%
-\contentsline {subsection}{\numberline {5.3.2}Tool Implementations}{54}{subsection.5.3.2}%
-\contentsline {subsection}{\numberline {5.3.3}System Prompt and Routing Behaviour}{55}{subsection.5.3.3}%
-\contentsline {subsection}{\numberline {5.3.4}Runtime Failures and Resolutions}{56}{subsection.5.3.4}%
-\contentsline {subsection}{\numberline {5.3.5}Multi-Agent Coordination Architecture}{57}{subsection.5.3.5}%
-\contentsline {section}{\numberline {5.4}Logging and Instrumentation}{58}{section.5.4}%
-\contentsline {chapter}{\numberline {6}Evaluation Results}{62}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Retrieval and Generation Quality}{62}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Latency and Cost}{65}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Implementation Complexity and Maintainability}{67}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Robustness Observations}{69}{section.6.4}%
-\contentsline {chapter}{\numberline {7}Discussion}{72}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Answering the Research Questions}{72}{section.7.1}%
-\contentsline {section}{\numberline {7.2}Trade-Off Analysis}{75}{section.7.2}%
-\contentsline {section}{\numberline {7.3}Limitations}{76}{section.7.3}%
-\contentsline {section}{\numberline {7.4}Connection to Prior Work}{79}{section.7.4}%
-\contentsline {chapter}{\numberline {8}Conclusion}{81}{chapter.8}%
-\contentsline {section}{\numberline {8.1}Summary of Findings}{81}{section.8.1}%
-\contentsline {section}{\numberline {8.2}Practical Recommendation}{82}{section.8.2}%
-\contentsline {section}{\numberline {8.3}Future Work}{83}{section.8.3}%
+\contentsline {section}{\numberline {3.3}Agent-Based System Architecture}{30}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}The Agent Loop}{30}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Tools and Source Routing}{31}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Orchestration Logic}{31}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}Multi-Agent Coordination Architecture}{32}{subsection.3.3.4}%
+\contentsline {section}{\numberline {3.4}Comparability Design Decisions}{34}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Shared Experimental Parameters}{35}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Defining Equivalent Effort}{36}{subsection.3.4.2}%
+\contentsline {chapter}{\numberline {4}Data and Evaluation Setup}{37}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Dataset Construction}{37}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Data Collection per Source Type}{37}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Preprocessing and Normalisation}{38}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}Corpus Statistics}{39}{subsection.4.1.3}%
+\contentsline {section}{\numberline {4.2}Evaluation Query Set}{40}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Synthetic QA Generation}{40}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Query Taxonomy}{41}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Manual Review and Filtering}{42}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Final Query Set Statistics}{43}{subsection.4.2.4}%
+\contentsline {section}{\numberline {4.3}Evaluation Metrics Definition}{43}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}RAGAS Scores}{43}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}BERTScore and ROUGE-L}{44}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Latency and Token Cost}{45}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Agent-Specific Metrics}{46}{subsection.4.3.4}%
+\contentsline {subsection}{\numberline {4.3.5}Complexity and Maintainability Rubric}{47}{subsection.4.3.5}%
+\contentsline {chapter}{\numberline {5}Implementation}{49}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Development Environment and Tooling}{49}{section.5.1}%
+\contentsline {section}{\numberline {5.2}RAG Pipeline Implementation}{51}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Chunking and Embedding}{51}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Retrieval and Reranking}{52}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Failure Modes and Resolutions}{54}{subsection.5.2.3}%
+\contentsline {section}{\numberline {5.3}Agent Implementation}{55}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Agent Loop}{55}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Tool Implementations}{56}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}System Prompt and Routing Behaviour}{57}{subsection.5.3.3}%
+\contentsline {subsection}{\numberline {5.3.4}Runtime Failures and Resolutions}{58}{subsection.5.3.4}%
+\contentsline {subsection}{\numberline {5.3.5}Multi-Agent Coordination Architecture}{59}{subsection.5.3.5}%
+\contentsline {section}{\numberline {5.4}Logging and Instrumentation}{60}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Evaluation Results}{64}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Retrieval and Generation Quality}{64}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Latency and Cost}{67}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Implementation Complexity and Maintainability}{70}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Robustness Observations}{72}{section.6.4}%
+\contentsline {chapter}{\numberline {7}Discussion}{76}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Answering the Research Questions}{76}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Trade-Off Analysis}{79}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Limitations}{80}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Connection to Prior Work}{83}{section.7.4}%
+\contentsline {chapter}{\numberline {8}Conclusion}{85}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Summary of Findings}{85}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Practical Recommendation}{86}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Future Work}{87}{section.8.3}%
 \contentsline {chapter}{Figures}{i}{section*.2}%
-\contentsline {chapter}{Tables}{ii}{section*.4}%
-\contentsline {chapter}{Listings}{iv}{section*.6}%
-\contentsline {chapter}{References}{v}{section*.8}%
+\contentsline {chapter}{Tables}{iii}{section*.4}%
+\contentsline {chapter}{References}{v}{section*.6}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

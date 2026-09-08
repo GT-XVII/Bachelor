@@ -1,8 +1,10 @@
 \begin{thebibliography}{xx}
 
-\harvarditem{{}}{2025}{agenticrag2025enterprise}
-{}  \harvardyearleft 2025\harvardyearright , `{AgenticRAG}: Agentic retrieval
-  for enterprise knowledge bases', {\em arXiv preprint arXiv:2605.05538} .
+\harvarditem{{AgenticRAG: Agentic Retrieval for Enterprise Knowledge
+  Bases}}{2025}{agenticrag2025enterprise}
+{AgenticRAG: Agentic Retrieval for Enterprise Knowledge Bases}
+  \harvardyearleft 2025\harvardyearright , `{AgenticRAG}: Agentic retrieval for
+  enterprise knowledge bases', {\em arXiv preprint arXiv:2605.05538} .
 \newline\harvardurl{https://arxiv.org/abs/2605.05538}
 
 \harvarditem[Asai et~al.]{Asai, Wu, Wang, Sil \harvardand\

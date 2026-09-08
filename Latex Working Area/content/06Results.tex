@@ -30,11 +30,18 @@ Improved RAG & Synthesis & 0.708 & 0.742 & 0.133  & 0.165 \\
 \end{tabular}
 \end{table}
 
-The multi-agent system achieves the highest answer relevancy on both factual queries (0.818) and synthesis queries (0.770), exceeding all other systems on the metric most directly associated with response usefulness. The improved RAG pipeline ranks second on both query types, at 0.804 on factual and 0.742 on synthesis, with the synthesis improvement of 0.063 points over original RAG representing the primary benefit of HyDE and MMR: better evidence selection on multi-document queries. The original RAG achieves higher factual answer relevancy than the single agent (0.792 versus 0.663), and the gap is present but smaller on synthesis queries (0.679 versus 0.547).
+Answer relevancy is the RAGAS embedding-based score measuring how well the generated answer addresses the original question \cite{es2023ragas}; it is computed per query and averaged over 30 factual, 30 synthesis, and 15 ambiguous queries per system. No significance testing was performed, and as Figure~\ref{fig:answer-relevancy} shows, the 95\,\% bootstrap confidence intervals across the three systems without empty-answer failures overlap substantially; the differences discussed below are therefore descriptive rather than inferential. The multi-agent records the highest mean answer relevancy on factual queries (0.818) and synthesis queries (0.770). The improved RAG pipeline follows closely on both query types (factual 0.804, synthesis 0.742); the synthesis difference of 0.063 points relative to original RAG is the largest pairwise gap among these three systems and is consistent with HyDE and MMR providing better evidence selection on multi-document queries. Original RAG scores higher on average than the single agent on both factual (0.792 versus 0.663) and synthesis queries (0.679 versus 0.547); this gap is partly structural, as the single agent's 41\,\% empty-answer failure rate contributes zero-scored records to its system mean.
 
 Context precision presents a more nuanced pattern. Original RAG achieves the highest context precision on both factual queries (0.546) and synthesis queries (0.730), while improved RAG is marginally lower on both (factual 0.518, synthesis 0.708). This counter-intuitive result is consistent with MMR's function: by selecting contextually distinct passages over the most similar ones, MMR may introduce some passages that are topically related but not strictly necessary for the query, depressing the RAGAS precision score while enriching the evidence available for synthesis. The single agent's low context precision (0.315--0.338) is substantially explained by the 41\,\% empty-answer failure rate, which contributes zero precision scores across those 37 records.
 
-BERTScore and ROUGE-L follow the same directional pattern as answer relevancy. Both RAG variants score above the DeBERTa rescaling baseline on factual and synthesis queries; the multi-agent is marginally above baseline (0.034--0.060); the single agent scores well below baseline across both query types due to empty answers. The lexical and semantic similarity metrics are insensitive to the HyDE and MMR improvements: original RAG ROUGE-L factual is 0.346 and improved RAG is 0.349 — a negligible difference. This confirms that the retrieval improvements change the relevance and coherence of answers without substantially shifting their surface form. The multi-agent's relatively low BERTScore and ROUGE-L despite leading on answer relevancy reflects a structural property: the synthesiser receives fifteen chunks from three sources and produces longer, integrative answers that diverge in surface form from the concise ground-truth strings used as reference texts.
+BERTScore and ROUGE-L follow the same directional pattern as answer relevancy. Both RAG variants score above the DeBERTa rescaling baseline on factual and synthesis queries; the multi-agent is marginally above baseline (0.034--0.060); the single agent scores well below baseline across both query types due to empty answers. The lexical and semantic similarity metrics are insensitive to the HyDE and MMR improvements: original RAG ROUGE-L factual is 0.346 and improved RAG is 0.349 — a negligible difference. This confirms that the retrieval improvements change the relevance and coherence of answers without substantially shifting their surface form. The multi-agent's relatively low BERTScore and ROUGE-L despite recording the highest mean answer relevancy reflects a structural property: the synthesiser receives fifteen chunks from three sources and produces longer, integrative answers that diverge in surface form from the concise ground-truth strings used as reference texts. Figure~\ref{fig:answer-relevancy} summarises answer relevancy across all four systems and query types.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{images/chart_answer_relevancy}
+  \caption{Answer relevancy (RAGAS) by system and query type. Error bars show 95\,\% bootstrap confidence intervals (percentile method, 10\,000 resamples; $n = 30$ factual/synthesis, $n = 15$ ambiguous). Intervals overlap substantially across the three systems without empty-answer failures; no significance testing was performed.}
+  \label{fig:answer-relevancy}
+\end{figure}
 
 Table~\ref{tab:faithfulness} reports faithfulness where the RAGAS evaluation completed within the available time budget. The single agent's answers could not be evaluated on any query type; the multi-agent's faithfulness is available only for unanswerable queries; both systems produce longer reasoning-enriched responses that exhausted the RAGAS LLM judge's per-query time allocation.
 
@@ -128,6 +135,13 @@ Unanswerable & 1.518  & 22.850 & 2.141 & 2.978 \\
 \end{tabular}
 \end{table}
 
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{images/chart_latency_by_type}
+  \caption{Mean latency by query type and system. The single agent's unanswerable latency of 22.9\,s — fifteen times the original RAG baseline — is the most pronounced divergence across all systems and query types, resulting from exhaustive search up to the iteration ceiling on all 15 unanswerable queries. Synthesis queries are the slowest category for every system except the single agent.}
+  \label{fig:latency-by-type}
+\end{figure}
+
 Table~\ref{tab:cost} reports total token consumption and estimated cost for the full 90-query evaluation run. Cost estimates use GPT-4o proxy pricing of \$2.50 per million input tokens and \$10.00 per million output tokens, applied uniformly; AI Refinery pricing is not published externally. The single-agent input token count is understated: 33 queries that raised \texttt{GraphRecursionError} recorded zero tokens due to a pipeline instrumentation gap corrected after the evaluation run; the estimated true agent input total is approximately 8.2 million tokens and the estimated true cost approximately \$21.
 
 \begin{table}[ht]
@@ -202,48 +216,12 @@ Operational overhead &
 
 \begin{figure}[ht]
 \centering
-\begin{tikzpicture}
-\begin{axis}[
-  xbar,
-  bar width=6pt,
-  width=10.5cm, height=7.5cm,
-  xmin=0, xmax=5.8,
-  ymin=-0.55, ymax=4.55,
-  xtick={1,2,3,4,5},
-  ytick={0,1,2,3,4},
-  yticklabels={%
-    {Implementation effort},%
-    {Configurability},%
-    {Debuggability},%
-    {Extensibility},%
-    {Operational overhead}%
-  },
-  yticklabel style={font=\footnotesize, text width=3.0cm, align=right},
-  x tick label style={font=\footnotesize},
-  xlabel={Score (5\,=\,least complex)},
-  xlabel style={font=\footnotesize},
-  ymajorgrids=true, grid style={dashed, gray!20},
-  legend pos=south east,
-  legend style={font=\footnotesize, draw=gray!40, fill=white},
-  legend cell align=left,
-]
-% RAG bars: y shifted +0.22 from group centre
-\addplot[xbar, fill=blue!50, draw=blue!65]
-  coordinates {(4,0.22)(4,1.22)(5,2.22)(3,3.22)(4,4.22)};
-% Single Agent bars: y at group centre
-\addplot[xbar, fill=orange!65, draw=orange!80]
-  coordinates {(2,0)(3,1)(2,2)(2,3)(2,4)};
-% Multi-Agent bars: y shifted -0.22 from group centre
-\addplot[xbar, fill=green!50, draw=green!65]
-  coordinates {(3,-0.22)(4,0.78)(4,1.78)(3,2.78)(2,3.78)};
-\legend{RAG\,(mean 4.0), Single Agent\,(mean 2.2), Multi-Agent\,(mean 3.2)}
-\end{axis}
-\end{tikzpicture}
-\caption{Per-criterion complexity scores from Table~\ref{tab:rubric}. Higher score indicates lower complexity or simpler maintainability. RAG leads on four of five criteria; the multi-agent occupies the intermediate position on all five; the single agent scores lowest on four of five.}
+\includegraphics[width=\linewidth]{images/fig6_3_complexity_heatmap}
+\caption{Complexity ratings by system and criterion. Higher ratings indicate lower implementation, operational, or maintenance complexity. The author assigned the ratings using the rubric in Section~\ref{subsec:rubric}. Quantitative proxies, including lines of code and source-onboarding step counts, informed the ratings where available; the remaining ratings reflect the author's documented implementation observations. As these are single-evaluator assessments, they should be interpreted descriptively.}
 \label{fig:rubric-chart}
 \end{figure}
 
-The multi-agent architecture occupies a consistent intermediate position between RAG and the single agent on every criterion; Figure~\ref{fig:rubric-chart} shows this pattern across all five criteria simultaneously. The most pronounced difference between multi-agent and single-agent scores is debuggability: replacing the non-deterministic ReAct loop with a fixed two-node graph eliminates the routing failure mode and the max-iterations boundary as distinct diagnostic categories. A wrong multi-agent answer is attributable either to poor retrieval from one or more sources — diagnosable by inspecting FAISS and cross-encoder scores in the log — or to synthesis quality, diagnosable by inspecting the pooled context passed to the LLM. The single agent encountered three failure modes during evaluation not present in either RAG variant: routing errors, hallucinated tool names, and the max-iterations ceiling — each requiring different diagnostic procedures.
+Original RAG achieves the highest or joint-highest rating on all five criteria; the single-agent system receives the lowest or joint-lowest rating on all five. The multi-agent architecture does not occupy a uniform intermediate position across the criteria: on configurability and extensibility it ties Original RAG, on implementation effort and debuggability it falls between the two, and on operational overhead it ties the single agent. The unweighted descriptive means reported in Table~\ref{tab:rubric} (Original RAG 4.0, Multi-Agent 3.2, Single Agent 2.2) aggregate these five conceptually distinct ordinal criteria with equal weights; no inferential interpretation is intended, and the criterion-level scores in Figure~\ref{fig:rubric-chart} are the primary basis for comparison. The most pronounced difference between multi-agent and single-agent scores is debuggability: replacing the non-deterministic ReAct loop with a fixed two-node graph eliminates the routing failure mode and the max-iterations boundary as distinct diagnostic categories. A wrong multi-agent answer is attributable either to poor retrieval from one or more sources — diagnosable by inspecting FAISS and cross-encoder scores in the log — or to synthesis quality, diagnosable by inspecting the pooled context passed to the LLM. The single agent encountered three failure modes during evaluation not present in either RAG variant: routing errors, hallucinated tool names, and the max-iterations ceiling — each requiring different diagnostic procedures.
 
 The extensibility scores are equal for RAG and multi-agent (both 3), but the steps involved differ in kind. RAG requires extending the corpus and rebuilding a single unified index; the multi-agent requires adding a new \texttt{SourceRetriever} instance without touching the synthesis logic. The single agent's extensibility score of 2 reflects the additional step of re-evaluating routing behaviour after adding a tool, since the new docstring description may alter how the model distributes queries across existing tools.
 
