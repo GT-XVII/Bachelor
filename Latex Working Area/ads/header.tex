@@ -8,11 +8,17 @@
 \usepackage{fullpage}
 
 % Zeilenumbruch und mehr
-\usepackage[activate]{microtype}
+\usepackage{microtype}
 
 % Zeichencodierung
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{iftex}
+\ifXeTeX
+  \usepackage{newunicodechar}
+  \newunicodechar{–}{\textendash}
+  \newunicodechar{—}{\textemdash}
+\fi
 
 % Zeilenabstand
 \usepackage[onehalfspacing]{setspace}

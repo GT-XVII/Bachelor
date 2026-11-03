@@ -13,6 +13,7 @@ Table~\ref{tab:libraries} lists all dependencies with confirmed installed versio
 \begin{table}[ht]
 \centering
 \small
+\renewcommand{\arraystretch}{1.2}
 \setlength{\tabcolsep}{4pt}
 \caption{Project dependencies with confirmed installed versions (verified 2026-08-17).}
 \label{tab:libraries}
@@ -54,37 +55,37 @@ The repository is organised into four top-level directories — \texttt{rag/}, \
 \begin{footnotesize}
 \begin{verbatim}
 .
-├── .env                    API keys and model name (not committed)
-├── .env.example            Template with placeholder values
-├── requirements_rag.txt    RAG pipeline dependencies
-├── requirements_agent.txt  Agent dependencies (superset of RAG)
-├── data/
-│   ├── corpus/             Three JSONL files, one per source type
-│   ├── eval/               queries.jsonl; candidates.jsonl
-│   └── raw/                Downloaded PDFs; cloned doc repositories
-├── rag/
-│   ├── config.py           Models, chunk size, top-k, prompts
-│   ├── ingest.py           Builds unified FAISS index from corpus
-│   ├── retrieve.py         FAISS search + CrossEncoder reranking
-│   ├── generate.py         AI Refinery LLM call
-│   ├── pipeline.py         Orchestrate retrieve + generate; log
-│   └── indexes/            unified.faiss + unified_chunks.jsonl
-├── agent/
-│   ├── config.py           LLM, top-k, iterations, system prompt
-│   ├── ingest.py           Builds three per-source FAISS indexes
-│   ├── tools.py            @tool functions; per-source retrieval
-│   ├── agent.py            create_react_agent construction
-│   ├── pipeline.py         Run ReAct loop; log
-│   └── indexes/            Per-source .faiss + _chunks.jsonl
-├── multi_agent/
-│   ├── config.py           LLM settings, synthesis prompt, log dir
-│   ├── graph.py            LangGraph StateGraph (retrieve + synthesize)
-│   └── pipeline.py         MultiAgentPipeline; log
-└── scripts/
-    ├── acquisition/        01_fetch_github_issues.py
-    │                       02_fetch_markdown_docs.py
-    │                       03_fetch_pdfs.py
-    └── evaluation/         generate_queries.py
++-- .env                    API keys and model name (not committed)
++-- .env.example            Template with placeholder values
++-- requirements_rag.txt    RAG pipeline dependencies
++-- requirements_agent.txt  Agent dependencies (superset of RAG)
++-- data/
+|   +-- corpus/             Three JSONL files, one per source type
+|   +-- eval/               queries.jsonl; candidates.jsonl
+|   +-- raw/                Downloaded PDFs; cloned doc repositories
++-- rag/
+|   +-- config.py           Models, chunk size, top-k, prompts
+|   +-- ingest.py           Builds unified FAISS index from corpus
+|   +-- retrieve.py         FAISS search + CrossEncoder reranking
+|   +-- generate.py         AI Refinery LLM call
+|   +-- pipeline.py         Orchestrate retrieve + generate; log
+|   +-- indexes/            unified.faiss + unified_chunks.jsonl
++-- agent/
+|   +-- config.py           LLM, top-k, iterations, system prompt
+|   +-- ingest.py           Builds three per-source FAISS indexes
+|   +-- tools.py            @tool functions; per-source retrieval
+|   +-- agent.py            create_react_agent construction
+|   +-- pipeline.py         Run ReAct loop; log
+|   +-- indexes/            Per-source .faiss + _chunks.jsonl
++-- multi_agent/
+|   +-- config.py           LLM settings, synthesis prompt, log dir
+|   +-- graph.py            LangGraph StateGraph (retrieve + synthesize)
+|   +-- pipeline.py         MultiAgentPipeline; log
++-- scripts/
+    +-- acquisition/        01_fetch_github_issues.py
+    |                       02_fetch_markdown_docs.py
+    |                       03_fetch_pdfs.py
+    +-- evaluation/         generate_queries.py
                             check_queries.py
 \end{verbatim}
 \end{footnotesize}

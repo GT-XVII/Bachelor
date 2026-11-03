@@ -1,0 +1,58 @@
+%!TEX root = ../dokumentation.tex
+
+\chapter{Code and Prompt Documentation}
+\label{app:materials}
+
+\section{Source Code}
+
+The source code accompanying this thesis is available in the public Git repository:
+\begin{center}
+\url{https://github.com/GT-XVII/Bachelor}
+\end{center}
+The code snapshot referenced in this appendix is commit
+\begin{center}
+\nolinkurl{e4533fe83ba6d8ba19cbe6903b33e9b895ade7b3}.
+\end{center}
+This identifier fixes the accompanying code independently of later repository updates. The repository contains the classical RAG implementation in \path{rag/}, the single-agent implementation in \path{agent/}, the multi-agent implementation in \path{multi_agent/}, and the acquisition and evaluation scripts in \path{scripts/}. Dependency lists are provided in \path{requirements_rag.txt} and \path{requirements_agent.txt}; the corpus, evaluation queries, and computed metrics are stored under \path{data/}. Credentials are not supplied and must be configured separately.
+
+The snapshot includes post-evaluation corrections, particularly to the single-agent prompt and token budget, as discussed in Chapter~5. Its current settings must therefore not be treated as an unchanged copy of every configuration used for the reported experiments. No missing historical configuration or prompt is reconstructed here as an original record.
+
+\section{Experimental Prompt Templates}
+
+The following prompts are transcribed from the accompanying code snapshot. They are instructions used by the experimental systems, rather than records of conversations used to develop the code or polish the thesis. Line wrapping is editorial.
+
+\subsection*{Improved RAG: system instruction}
+Source: \path{rag/config.py}, \texttt{SYSTEM\_PROMPT}.
+\begin{quote}\small
+You are a precise enterprise knowledge assistant. Answer the question using only the provided context passages. If the context contains information from multiple passages, synthesise across all of them rather than drawing from a single passage. If the context does not contain enough information to answer, say so explicitly rather than guessing.
+\end{quote}
+The user-message template and passage formatting are defined in \path{rag/generate.py}, in \texttt{\_build\_messages()} and \texttt{\_build\_context()}. The template supplies the retrieved passages and question and requests citations using passage numbers.
+
+\subsection*{HyDE: hypothesis instruction}
+Source: \path{rag/generate.py}, \texttt{generate\_hypothesis()}.
+\begin{quote}\small
+Write a short factual passage (2--3 sentences) that directly answers the question. Do not restate the question. Be specific and informative.
+\end{quote}
+The question is supplied as the user message.
+
+\clearpage
+\subsection*{Single agent: current system instruction}
+Source: \path{agent/config.py}, \texttt{SYSTEM\_PROMPT}.
+\begin{quote}\small
+You are a precise enterprise knowledge assistant with access to three document sources: GitHub issue tracker records, technical documentation, and CNCF whitepapers. Use the available tools to search for relevant information before answering. If a question spans multiple sources, search each relevant source. Base your final answer only on retrieved evidence and cite source titles where relevant. If after searching the available sources you cannot find relevant information, state clearly that the answer is not available in the knowledge base --- do not continue searching.
+\end{quote}
+The final decline instruction was added after the reported single-agent evaluation. The tool descriptions used for source selection are provided with the three tool definitions in \path{agent/tools.py}.
+
+\subsection*{Multi-agent system: synthesis instruction}
+Source: \path{multi_agent/config.py}, \texttt{SYNTHESIS\_SYSTEM\_PROMPT}.
+\begin{quote}\small
+You are a precise enterprise knowledge assistant. You have been provided with retrieved excerpts from three document sources: GitHub issue tracker records, technical documentation, and CNCF whitepapers. Synthesise the evidence from all provided excerpts into a single coherent answer. Base your answer only on the retrieved text and cite source titles where relevant. If the retrieved excerpts do not contain sufficient information to answer the question, state clearly that the answer is not available in the knowledge base.
+\end{quote}
+The question and retrieved-evidence message are assembled in \path{multi_agent/graph.py}, in \texttt{synthesize()}.
+
+\subsection*{Evaluation prompts}
+The complete system and user templates for factual, synthesis, and ambiguous query generation are preserved in \path{scripts/evaluation/generate_queries.py}, under the constants \texttt{FACTUAL\_SYSTEM}, \texttt{FACTUAL\_USER}, \texttt{SYNTHESIS\_SYSTEM}, \texttt{SYNTHESIS\_USER}, \texttt{AMBIGUOUS\_SYSTEM}, and \texttt{AMBIGUOUS\_USER}. These templates identify the inserted document excerpts or original question and specify the expected JSON output. The metric setup and RAGAS integration are defined in \path{scripts/evaluation/compute_metrics.py}; the library's internal judge prompts are not an archived interaction log in this repository.
+
+\section{Unavailable Development and Editing Records}
+
+I used ChatGPT and Claude through the IDE terminal during script development and thesis polishing. I did not retain conversation transcripts from these terminal sessions and cannot recover the exact prompts, responses, interaction dates, or model-version identifiers from the available project materials. My account in the AI declaration is retrospective and applies generally across the chapters and code; it is not a prompt-by-prompt record. I have not presented invented or reconstructed conversations as historical evidence. The experimental templates above remain available because they are embedded in the source code.
